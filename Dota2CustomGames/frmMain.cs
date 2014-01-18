@@ -84,7 +84,6 @@ namespace Dota2CustomRealms
         
         Player SelectedPlayer = null;
 
-        Dota2ConfigModder Dota2ConfigModder;
 
         volatile bool ServerReady = false;
 
@@ -833,8 +832,6 @@ namespace Dota2CustomRealms
 
             ircListener.Enabled = true;
             ircListener.Interval = 50;
-            timerPlayers.Enabled = true;
-            timerPlayers.Interval = 2000;
 
             gbxChat.Visible = true;
 
@@ -861,14 +858,6 @@ namespace Dota2CustomRealms
             if (Game != null)
             {
                 Game.CheckTime();
-                if (Game.Stage == Dota2CustomRealms.Game.GameStage.HeroDraft)
-                {
-                    lblDraftHeroPickTimeRemaining.Text = "0:" + Game.HeroDraft.GetTimeRemaining().ToString("00");
-                }
-                else if (Game.Stage == Dota2CustomRealms.Game.GameStage.SkillDraft)
-                {
-                    lblSkillDraftTimeRemaining.Text = "0:" + Game.SkillDraft.GetTimeRemaining().ToString("00");
-                }
 
                 Game.CheckCustomModStatus();
             }
@@ -934,17 +923,9 @@ namespace Dota2CustomRealms
                 {
                     tabUISections.SelectedTab = tabHostLobby;
                     tbxGameName.Clear();
-                    string app = Path.GetDirectoryName(Application.ExecutablePath) + "\\data\\custom";
-                    tbxCustomMod.Items.Clear();
-                    foreach (string dir in Directory.GetDirectories(app))
-                    {
-                        string namedir = dir.Remove(0, dir.LastIndexOf('\\') + 1);
-                        tbxCustomMod.Items.Add(namedir);
-                    }
+                    
                     tbxGamePassword.Clear();
                     cbxGameSize.SelectedIndex = 9;
-                    cbxGameMode.SelectedIndex = 0;
-                    cbxMap.SelectedIndex = 0;
                     chkLobbyPlayerReady.CheckedChanged -= chkLobbyPlayerReady_CheckedChanged;
                     chkLobbyPlayerReady.Checked = false;
                     chkLobbyPlayerReady.CheckedChanged += chkLobbyPlayerReady_CheckedChanged;
@@ -952,12 +933,7 @@ namespace Dota2CustomRealms
                 else
                 {
                     tabUISections.SelectedTab = tabHostLobby;
-                    string app = Path.GetDirectoryName(Application.ExecutablePath) + "\\data\\custom";
-                    foreach (string dir in Directory.GetDirectories(app))
-                    {
-                        string namedir = dir.Remove(0, dir.LastIndexOf('\\') + 1);
-                        tbxCustomMod.Items.Add(namedir);
-                    }
+
                     chkLobbyPlayerReady.CheckedChanged -= chkLobbyPlayerReady_CheckedChanged;
                     chkLobbyPlayerReady.Checked = false;
                     chkLobbyPlayerReady.CheckedChanged += chkLobbyPlayerReady_CheckedChanged;
@@ -1089,202 +1065,18 @@ namespace Dota2CustomRealms
 
             chkLobbyPlayerReady.Checked = false;
 
-            HeroMode HeroMode;
-            SkillMode SkillMode;
-            GameMode GameMode;
-            List<String> Modes = new List<String>();
 
-            if (cbxGameMode.Text == "OMG")
-            {
-                GameMode = GameMode.OMG;
-            }
-            else if (cbxGameMode.Text == "All Pick")
-            {
-                GameMode = GameMode.All_Pick;
-            }
-            else if (cbxGameMode.Text == "Captain's Mode")
-            {
-                GameMode = GameMode.Captains_Mode;
-            }
-            else if (cbxGameMode.Text == "Random Draft")
-            {
-                GameMode = GameMode.Random_Draft;
-            }
-            else if (cbxGameMode.Text == "Single Draft")
-            {
-                GameMode = GameMode.Single_Draft;
-            }
-            else if (cbxGameMode.Text == "All Random")
-            {
-                GameMode = GameMode.All_Random;
-            }
-            else if (cbxGameMode.Text == "Diretide")
-            {
-                GameMode = GameMode.Diretide;
-            }
-            else if (cbxGameMode.Text == "Reverse Captain's Mode")
-            {
-                GameMode = GameMode.Reverse_Captains_Mode;
-            }
-            else if (cbxGameMode.Text == "Greevilings")
-            {
-                GameMode = GameMode.Greevilings;
-            }
-            else if (cbxGameMode.Text == "Mid Only")
-            {
-                GameMode = GameMode.Mid_Only;
-            }
-            else if (cbxGameMode.Text == "New Player Pool")
-            {
-                GameMode = GameMode.New_Player_Pool;
-            }
-            else if (cbxGameMode.Text == "OMG Diretide")
-            {
-                GameMode = GameMode.OMG_Diretide;
-            }
-            else if (cbxGameMode.Text == "OMG Greevilings")
-            {
-                GameMode = GameMode.OMG_Greevilings;
-            }
-            else if (cbxGameMode.Text == "OMG Mid Only")
-            {
-                GameMode = GameMode.OMG_Mid_Only;
-            }
-            else
-            {
-                MessageBox.Show("ERROR - Game mode unknown.\nPlease contact the developers about this error, it should never occur outside of development builds");
-                return;
-            }
-            if (cbxGameMode.Text == "OMG" || cbxGameMode.Text == "LOD" || cbxGameMode.Text == "OMG Greevilings" || cbxGameMode.Text == "OMG Diretide" || cbxGameMode.Text == "OMG Mid Only")
-            {
-                if (radHeroDraft.Checked)
-                {
-                    HeroMode = HeroMode.Draft;
-                }
-                else if (radHeroPick.Checked)
-                {
-                    HeroMode = HeroMode.All_Pick;
-                }
-                else if (radHeroRandom.Checked)
-                {
-                    HeroMode = HeroMode.All_Random;
-                }
-                else
-                {
-                    MessageBox.Show("ERROR - Hero mode unknown.\nPlease contact the developers about this error, it should never occur outside of development builds");
-                    return;
-                }
-            }
-            else
-            {
-                HeroMode = HeroMode.NA;
-            }
-            if (cbxWTF.Checked) // WTF ENABLED
-            {
-                Modes.Add("WTF");
-            }
-            if (cbxAllTalk.Checked)
-            {
-                Modes.Add("AllTalk");
-            }
-            if (cbxX2.Checked)
-            {
-                Modes.Add("X2");
-            }
-            if (chkBalanced.Checked)
-            {
-                Modes.Add("Balanced");
-            }
-            if (chkCustomEnable.Checked)
-            {
-                Modes.Add("Custom");
-            }
-            if (cbxGameMode.Text == "OMG" || cbxGameMode.Text == "LOD" || cbxGameMode.Text == "OMG Greevilings" || cbxGameMode.Text == "OMG Diretide" || cbxGameMode.Text == "OMG Mid Only")
-            {
-                if (radSkillDraft.Checked)
-                {
-                    SkillMode = SkillMode.Draft;
-                }
-                else if (radSkillRandom.Checked)
-                {
-                    SkillMode = SkillMode.All_Random;
-                }
-                else
-                {
-                    MessageBox.Show("ERROR - Skill mode unknown.\nPlease contact the developers about this error, it should never occur outside of development builds");
-                    return;
-                }
-                if (chkBalanced.Checked)
-                {
-                    Game = new GameBalanced(GameMode, HeroMode, SkillMode, Modes);
-                }
-                else
-                {
-                    Game = new Game(GameMode, HeroMode, SkillMode, Modes);
-                }
-            }
-            else
-            {
-                SkillMode = SkillMode.NA;
-                Game = new GameSkipPicks(GameMode, HeroMode, SkillMode, Modes);
-            }
-            if (Properties.Settings.Default.Dedicated)
-            {
-                Game.AdditionalModes.Add("Dedicated");
-            }
+            Game = new GameSkipPicks();
+            
 
             Game.LobbyName = tbxGameName.Text;
             lblLobbyName.Text = tbxGameName.Text;
-            if (chkCustomEnable.Checked)
-            {
-                if (tbxCustomMod.Text != null)
-                {
-                    Game.CustomMod = tbxCustomMod.Text;
-                }
-                else
-                {
-                    MessageBox.Show("You failed to select a custom mod while it was enabled. Please disable it or select a mod.");
-                    Game = null;
-                    return;
-                }
-            }
-            if (Game.GameMode == GameMode.Diretide || Game.GameMode == GameMode.OMG_Diretide)
-            {
-                Game.Diretide = true;
-            }
+            
             Game.IsHost = true;
             Game.HostName = ircClient.Nickname;
             Game.MyName = ircClient.Nickname;
             Game.Password = tbxGamePassword.Text;
             Game.MaxLobbySize = int.Parse(cbxGameSize.Text);
-
-            switch (cbxMap.Text)
-            {
-                case "Diretide":
-                    {
-                        Game.Dotamap = "dota_diretide_12";
-                        break;
-                    }
-                case "Dota":
-                    {
-                        Game.Dotamap = "dota";
-                        break;
-                    }
-                case "Autumn":
-                    {
-                        Game.Dotamap = "dota_autumn";
-                        break;
-                    }
-                case "Winter":
-                    {
-                        Game.Dotamap = "dota_winter";
-                        break;
-                    }
-                default:
-                    {
-                        throw new NotImplementedException();
-                    }
-            }
 
             //Game.Dotamap = cbxMap.Text;
 
@@ -1298,7 +1090,7 @@ namespace Dota2CustomRealms
 
 
 
-            Game.Channel = "#G_" + ((int)HeroMode).ToString() + ((int)SkillMode).ToString() + " " + tbxGameName.Text;
+            Game.Channel = "#G_ " + tbxGameName.Text;
 
 
             string ReplaceChars = "01234567890qwertyuiopasdfghjklzxcvbnm";
@@ -1351,48 +1143,7 @@ namespace Dota2CustomRealms
             btnStart.Enabled = Game.IsHost;
             btnLobbyKick.Enabled = Game.IsHost;
             btnLobbyRandomiseTeams.Enabled = Game.IsHost;
-            string heroesmode = "", skillsmode = "", gamemode = cbxGameMode.Text;
-            switch (Game.HeroMode.ToString())
-            {
-                case "Unknown":
-                    heroesmode = "Unknown(Heroes)";
-                    break;
-                case "All_Pick":
-                    heroesmode = "All Pick(Heroes)";
-                    break;
-                case "All_Random":
-                    heroesmode = "All Random(Heroes)";
-                    break;
-                case "Draft":
-                    heroesmode = "Draft(Heroes)";
-                    break;
-                case "NA":
-                    heroesmode = "NA";
-                    break;
-            }
-            switch (Game.SkillMode.ToString())
-            {
-                case "Unknown":
-                    skillsmode = "Unknown(Skills)";
-                    break;
-                case "All_Random":
-                    skillsmode = "All Random(Skills)";
-                    break;
-                case "Draft":
-                    skillsmode = "Draft(Skills)";
-                    break;
-                case "All_Pick":
-                    skillsmode = "All Pick(Skills)";
-                    break;
-                case "NA":
-                    skillsmode = "NA";
-                    break;
-            }
-            string additionalmodes = "";
-            foreach (string mode in Game.AdditionalModes)
-            {
-                additionalmodes += mode + " / ";
-            }
+            
             if (Game.IsHost)
             {
                 if (Game.AdditionalModes.Contains("Dedicated")) // Disable buttons that the host shouldn't be pushing.
@@ -1413,15 +1164,10 @@ namespace Dota2CustomRealms
                 }
                 btnLobbyKick.Text = "Kick Player";
                 btnLobbyRandomiseTeams.Text = "Scramble Teams";
-                btnLeaveSkills.Text = "Leave Game";
-                btnLeaveSkills.Show();
                 btnLobbyKick.Show();
                 btnLobbyRandomiseTeams.Show();
                 labelHost.Text = "Host: " + ircClient.Nickname;
-                labelHeroSkills.Text = "Mode: " + gamemode + " / " + heroesmode + " / " + skillsmode;
-                labelMap.Text = "Map: " + cbxMap.Text;
                 labelMaxPlayers.Text = "Max Players: " + Game.MaxLobbySize.ToString();
-                lblAdditional.Text = "Additional Modes: " + additionalmodes;
             }
             else
             {
@@ -1540,10 +1286,8 @@ namespace Dota2CustomRealms
                     string Host = null;
                     string Lock = "No";
                     int MaxPlayers = 0;
-                    string Map = "", Mode = "";
                     string pass = "";
                     string version = Properties.Settings.Default.MyVersion;
-                    string custommod = "-";
                     //int ping = 999;
                     //IPAddress ip = null;
 
@@ -1566,23 +1310,12 @@ namespace Dota2CustomRealms
                             if (pass != "")
                                 Lock = "Yes";
                         }
-                        if (GameProp.StartsWith("MAP="))
-                        {
-                            Map = GameProp.Substring(4);
 
-                        }
-                        if (GameProp.StartsWith("MODE="))
-                        {
-                            Mode = GameProp.Substring(5);
-                        }
                         if (GameProp.StartsWith("VER="))
                         {
                             version = GameProp.Substring(4);
                         }
-                        if (GameProp.StartsWith("CUSTOMMOD="))
-                        {
-                            custommod = GameProp.Substring(10);
-                        }
+                        
                         //if (GameProp.StartsWith("IP="))
                         //{
                         //    ip = IPAddress.Parse(GameProp.Substring(3));
@@ -1600,7 +1333,7 @@ namespace Dota2CustomRealms
                         }
                         else
                         {
-                            int rowid = grdGamesList.Rows.Add(new object[] { Game.Key, Lock, Game.Key.Substring(6).Replace("_", " "), Host, Mode, ((HeroMode)int.Parse(Game.Key.Substring(3, 1))).ToString().Replace("_", " ") + "/" + ((SkillMode)int.Parse(Game.Key.Substring(4, 1))).ToString().Replace("_", " "), Game.Value + "/" + MaxPlayers, Map, custommod });
+                            int rowid = grdGamesList.Rows.Add(new object[] { Game.Key, Lock, Game.Key.Substring(3).Replace("_", " "), Host, Game.Value + "/" + MaxPlayers});
                         }
                    }
                 }
@@ -1656,7 +1389,7 @@ namespace Dota2CustomRealms
                 return;
             }
 
-            string[] Players = grdGamesList.Rows[e.RowIndex].Cells[6].Value.ToString().Split('/');
+            string[] Players = grdGamesList.Rows[e.RowIndex].Cells[4].Value.ToString().Split('/');
             int players = int.Parse(Players[0]);
             int maxplayers = int.Parse(Players[1]);
             if (grdGamesList.Rows[e.RowIndex].Cells[0].Value != null)
@@ -1718,8 +1451,7 @@ namespace Dota2CustomRealms
                 string[] GameProperties = Topics[Channel].Split(' ');
 
                 string map = "";
-                string mode = "";
-                string additionalmodes = "None";
+
                 int MaxPlayers = 0;
                 foreach (string GameProp in GameProperties)
                 {
@@ -1730,18 +1462,6 @@ namespace Dota2CustomRealms
                     if (GameProp.StartsWith("SIZE="))
                     {
                         MaxPlayers = int.Parse(GameProp.Substring(5));
-                    }
-                    if (GameProp.StartsWith("MAP="))
-                    {
-                        map = GameProp.Substring(4);
-                    }
-                    if (GameProp.StartsWith("MODE="))
-                    {
-                        mode = GameProp.Substring(5);
-                    }
-                    if (GameProp.StartsWith("ADD="))
-                    {
-                        additionalmodes = GameProp.Substring(4);
                     }
                 }
 
@@ -1758,26 +1478,14 @@ namespace Dota2CustomRealms
                         Game = null;
                     }
 
-                    if (mode == "OMG" || mode == "OMG_Balanced" || mode == "LOD" || mode == "OMG_Greevilings" || mode == "OMG_Diretide" || mode == "OMG_Mid_Only")
-                    {
-                        if (additionalmodes.Contains("Balanced"))
-                        {
-                            Game = new GameBalanced();
-                        }
-                        else
-                        {
-                            Game = new Game();
-                        }
-                    }
-                    else
-                    {
-                        Game = new GameSkipPicks();
-                    }
+
+                    Game = new GameSkipPicks();
+                    
 
 
                     Game.MyName = ircClient.Nickname;
                     Game.Channel = Channel;
-                    Game.LobbyName = Channel.Substring(6);
+                    Game.LobbyName = Channel.Substring(3);
                     Game.HostName = Host;
                     lblLobbyName.Text = Game.LobbyName;
                     AttachGameEvents(Game);
@@ -1788,14 +1496,11 @@ namespace Dota2CustomRealms
                     labelHost.Text = "Host: " + Host;
                     labelMap.Text = "Map: " + map;
                     labelMaxPlayers.Text = "Max Players: " + MaxPlayers.ToString();
-                    lblAdditional.Text = "Additional Modes: " + additionalmodes;
-                    labelHeroSkills.Text = "Mode: " + mode + " / " + ((HeroMode)int.Parse(Channel.Substring(3, 1))).ToString().Replace("_", " ") + "(Heroes) / " + ((SkillMode)int.Parse(Channel.Substring(4, 1))).ToString().Replace("_", " ") + "(Skills)";
                     btnStart.Text = "Host Starts";
                     btnLobbyKick.Text = "Host-Only";
                     btnLobbyKick.Hide();
                     btnLobbyRandomiseTeams.Text = "Host-Only";
                     btnLobbyRandomiseTeams.Hide();
-                    btnLeaveSkills.Hide();
                     Game.RequestJoin(Host);
                 }
             }
@@ -1924,15 +1629,10 @@ namespace Dota2CustomRealms
         {
             lblPlayersOnline.Enabled = false;
             lblPlayersInGame.Enabled = false;
-            lblDraftDireTeamPicks.Visible = false;
-            lblDraftRadiantTeamPicks.Visible = false;
-            floDireTeamSummary.Visible = false;
-            floRadiantTeamSummary.Visible = false;
+
             btnManualConnect.Visible = false;
-            tbxCustomMod.Enabled = false;
             chkDedicated.Enabled = false; // DEDICATED SERVER, ENABLE WHEN IMPLEMENTED/TESTING, DISABLE WHEN RELEASING HOTFIXES.
-            ttpWTF.SetToolTip(cbxWTF, "Removes all mana costs and cooldowns from abilities and items.");
-            ttpX2.SetToolTip(cbxX2, "Doubles all skill values except for mana cost. Includes damage, range, cooldown, percents, etc.");
+          
             RefreshSettingsTab(); // Update settings
             tbxChooseNick.Text = Properties.Settings.Default.NickName;
             if (Game != null)
@@ -1973,282 +1673,9 @@ namespace Dota2CustomRealms
 
             VersionCheck();
 
-            // Load Heroes and skills
-
-            // TODO: once beta skills are removed, load ultimates seperately
-
-            string[] Heroes = File.ReadAllLines(Files.HERO_LIST);
-            List<string> Skills = File.ReadAllLines(Files.SKILL_LIST).ToList();
-            List<string> SkillTags = new List<string>(Skills.Count);
-            for (int i = 0; i < Skills.Count; i++)
-            {
-                string[] SplitSkillText = Skills[i].Split(",".ToCharArray(), 2);
-                Skills[i] = SplitSkillText[0];
-                if (SplitSkillText.Length > 1)
-                {
-                    SkillTags.Add(SplitSkillText[1]);
-                }
-                else
-                {
-                    SkillTags.Add("");
-                }
-            }
-
-            int SkillLocation = 0, SkillNumber = 0;
-
-            foreach (string HeroLine in Heroes)
-            {
-                string[] HeroParams = HeroLine.Split(',');
-                string Name = HeroParams[0];
-
-                HeroSide Side = (HeroSide)Enum.Parse(typeof(HeroSide), HeroParams[1]);
-                HeroType Type = (HeroType)Enum.Parse(typeof(HeroType), HeroParams[2]);
-                string ImagePath;
-
-                if (File.Exists(Application.StartupPath + "\\images\\80px-" + Name.Replace(" ", "_") + ".png")) // yay, conditional breakpoints do funny things sometimes
-                {
-                    ImagePath = Application.StartupPath + "\\images\\80px-" + Name.Replace(" ", "_") + ".png";
-                }
-                else if (File.Exists(Application.StartupPath + "\\images\\" + Name.Replace(" ", "_") + ".png"))
-                {
-                    ImagePath = Application.StartupPath + "\\images\\" + Name.Replace(" ", "_") + ".png";
-                }
-                else
-                {
-                    ImagePath = "herotest.png"; //Name;
-                }
-
-
-                Hero CurrentHero = new Hero(Name, Side, Type, new Bitmap(ImagePath));
-
-                for (int i = 3; i < HeroParams.Length; i++)
-                {
-                    CurrentHero.AddTag(HeroParams[i]);
-                }
-
-                Hero.List.Add(CurrentHero);
-
-                // Load Hero Skills
-                bool Ultimate = false;
-                SkillNumber = 0;
-                SkillLocation = 0;
-                while (SkillLocation < Skills.Count && Ultimate == false)
-                {
-                    if (Skills[SkillLocation].StartsWith(CurrentHero.Name.ToLowerInvariant()))
-                    {
-                        SkillNumber++;
-
-                        string SkillName = Skills[SkillLocation].Remove(0, CurrentHero.Name.Length + 1);
-
-                        if (SkillName.Trim() == "")
-                        {
-                            Skills.RemoveAt(SkillLocation);
-                            SkillTags.RemoveAt(SkillLocation);
-                            continue;
-                        }
-
-                        /*if (SkillNumber == 4)
-                        {
-                            Ultimate = true;
-                        }*/
-
-                        string[] Results = Directory.GetFiles("skills", "??? " + CurrentHero.Name + " " + SkillName + ".png");
-
-                        if (Results.Length == 0)
-                        {
-                            Results = Directory.GetFiles("skills", "??? * " + SkillName + ".png");
-                        }
-
-                        if (Results.Length == 0)
-                        {
-                            Results = Directory.GetFiles("skills", SkillName.Replace(" ", "_") + ".png");
-                        }
-
-                        if (Results.Length > 0)
-                        {
-                            ImagePath = Results[0]; ;
-                        }
-                        else
-                        {
-                            ImagePath = "herotest.png";
-                        }
-
-                        Skill NewSkill = new Skill(SkillName, CurrentHero, Ultimate, new Bitmap(ImagePath));
-
-                        Skill.List.Add(NewSkill);
-
-                        PictureBox SkillBox = new PictureBox();
-                        SkillBox.Image = NewSkill.Icon;
-                        SkillBox.Width = 40;
-                        SkillBox.Height = 40;
-                        SkillBox.SizeMode = PictureBoxSizeMode.Zoom;
-                        SkillBox.Tag = NewSkill;
-                        ttpSkillDraftTooltips.SetToolTip(SkillBox, NewSkill.Name);
-
-                        SkillBox.Click += new EventHandler(SkillBox_Click);
-
-                        NewSkill.PickBox = SkillBox;
-
-                        string[] Tags = SkillTags[SkillLocation].Split(',');
-                        foreach (string Tag in Tags)
-                        {
-                            NewSkill.AddTag(Tag);
-                        }
-
-                        if (NewSkill.Tags.Contains("ultimate"))
-                        {
-                            NewSkill.IsUltimate = true;
-                            Skill.UltimateList.Add(NewSkill);
-
-                            floSkillDraftUltimateSkills.Controls.Add(SkillBox);
-                        }
-                        else
-                        {
-                            NewSkill.IsUltimate = false;
-                            Skill.NormalList.Add(NewSkill);
-                            floSkillDraftNormalSkills.Controls.Add(SkillBox);
-                        }
-                        Skills.RemoveAt(SkillLocation);
-                        SkillTags.RemoveAt(SkillLocation);
-                    }
-                    else
-                    {
-                        SkillLocation++;
-                    }
-                }
-
-                // Add hero to UI
-
-
-                FlowLayoutPanel TargetPanel = null;
-
-                // Determine target panel in picking UI for hero
-
-                switch (Side)
-                {
-                    case HeroSide.Radiant:
-                        {
-                            switch (Type)
-                            {
-                                case HeroType.Strength:
-                                    {
-                                        TargetPanel = floDraftHeroRadiantStrength;
-                                        break;
-                                    }
-                                case HeroType.Agility:
-                                    {
-                                        TargetPanel = floDraftHeroRadiantAgility;
-                                        break;
-                                    }
-                                case HeroType.Intelligence:
-                                    {
-                                        TargetPanel = floDraftHeroRadiantIntelligence;
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        MessageBox.Show("Something is terribly broken, this should never happen");
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case HeroSide.Dire:
-                        {
-                            switch (Type)
-                            {
-                                case HeroType.Strength:
-                                    {
-                                        TargetPanel = floDraftHeroDireStrength;
-                                        break;
-                                    }
-                                case HeroType.Agility:
-                                    {
-                                        TargetPanel = floDraftHeroDireAgility;
-                                        break;
-                                    }
-                                case HeroType.Intelligence:
-                                    {
-                                        TargetPanel = floDraftHeroDireIntelligence;
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        MessageBox.Show("Something is terribly broken, this should never happen");
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case HeroSide.Disabled:
-                        {
-                            TargetPanel = null;
-                            break; // Don't do anything with these heroes
-                        }
-                }
-
-                PictureBox HeroBox = new PictureBox();
-
-                HeroBox.Image = CurrentHero.Portrait;
-
-                HeroBox.SizeMode = PictureBoxSizeMode.Zoom;
-                HeroBox.Width = 60;
-                HeroBox.Height = 34;
-
-                ttpHeroDraftTooltips.SetToolTip(HeroBox, Name);
-                HeroBox.Tag = CurrentHero;
-                HeroBox.Click += new EventHandler(HeroBox_Click);
-
-                CurrentHero.PickBox = HeroBox;
-
-                if (TargetPanel != null)
-                {
-                    TargetPanel.Controls.Add(HeroBox);
-                }
-
-
-            }
-
-            Skill.LoadSkillIncompatibilities();
             tabUISections.SizeMode = TabSizeMode.Fixed;
             tabUISections.SelectedTab = tabPreConnect;
 
-
-            /* TEST EVERY HERO AND SKILL WITH THE NPC HEROES TEMPLATE
-             * 
-             * 
-             * 
-            Dota2ConfigModder ModTest = new Dota2ConfigModder(GameMode.OMG);
-
-
-
-            
-            foreach (Hero aHero in Hero.List)
-            {
-                ModTest.AlterHero(aHero, Skill.NormalList[0], Skill.NormalList[1], Skill.NormalList[2], Skill.UltimateList[0]);
-            }
-
-            foreach(Skill aSkill in Skill.NormalList)
-            {
-                ModTest.AlterHero(Hero.List[0], aSkill, Skill.NormalList[1], Skill.NormalList[2], Skill.UltimateList[0]);
-            }
-
-            foreach(Skill aSkill in Skill.UltimateList)
-            {
-                   ModTest.AlterHero(Hero.List[0], Skill.NormalList[0], Skill.NormalList[1], Skill.NormalList[2], aSkill);
-            }
-            */
-
-            //File.AppendAllText("DEBUG skills.txt", "***NORMAL SKILLS***\r\n");
-            //foreach (Skill S in Skill.NormalList)
-            //{
-            //    File.AppendAllText("DEBUG skills.txt", S.Hero.Name + " - " + S.Name + "\r\n");
-            //}
-            //File.AppendAllText("DEBUG skills.txt", "\r\n***ULTIMATE SKILLS***\r\n");
-            //foreach (Skill S in Skill.UltimateList)
-            //{
-            //    File.AppendAllText("DEBUG skills.txt", S.Hero.Name + " - " + S.Name + "\r\n");
-            //}
 
         }
 
@@ -2295,30 +1722,6 @@ namespace Dota2CustomRealms
                         DetachGameEvents(Game);
                         Game = null;
                         MessageBox.Show("You are banned from this host's games, and cannot join.");
-                        break;
-                    }
-                case Game.GAME_HERO_PICK_DATA_LIST:
-                    {
-                        tabUISections.SelectedTab = tabDraftHeroPick;
-                        gbxChat.Focus();
-                        if (Game.Players[ircClient.Nickname].Side == PlayerSide.Radiant)
-                        {
-                            ircJoin(Game.RadiantChannel);
-                        }
-                        else if (Game.Players[ircClient.Nickname].Side == PlayerSide.Dire)
-                        {
-                            ircJoin(Game.DireChannel);
-                        }
-                        else if (Game.Players[ircClient.Nickname].Side == PlayerSide.Spectator)
-                        {
-                            ircJoin(Game.SpectatorChannel);
-                        }
-                        break;
-                    }
-                case Game.GAME_SKILL_PICK_POOL:
-                    {
-                        tabUISections.SelectedTab = tabSkillDraft;
-                        gbxChat.Focus();
                         break;
                     }
                 case Game.GAME_PREGAME:
@@ -2375,7 +1778,6 @@ namespace Dota2CustomRealms
             {
                 case Dota2CustomRealms.Game.GameStage.Lobby:
                     {
-                        pbxSkillDraftYourHero.Visible = false;
 
                         if (lbxLobbyDirePlayers.SelectedIndex != -1)
                         {
@@ -2493,297 +1895,14 @@ namespace Dota2CustomRealms
 
                         break;
                     }
-                case Dota2CustomRealms.Game.GameStage.HeroDraft:
-                    {
-                        floDraftPlayerOrder.Controls.Clear();
-                        floDraftRadiantHeroes.Controls.Clear();
-                        floDraftDireHeroes.Controls.Clear();
-
-                        foreach (Player Player in Game.HeroDraft.Turns)
-                        {
-                            if (!Game.HeroDraft.PlayerDraftPicks.ContainsKey(Player))
-                            {
-                                Label PlayerTurn = new Label();
-                                PlayerTurn.Text = Player.FriendlyName;
-                                floDraftPlayerOrder.Controls.Add(PlayerTurn);
-                            }
-                            else
-                            {
-                                if (Player.Name == ircClient.Nickname)
-                                {
-                                    pbxSkillDraftYourHero.Image = Game.HeroDraft.PlayerDraftPicks[Player].Portrait;
-                                    pbxSkillDraftYourHero.Visible = true;
-                                }
-
-                                PictureBox HeroImage = new PictureBox();
-
-                                HeroImage.Image = Game.HeroDraft.PlayerDraftPicks[Player].Portrait;
-
-                                HeroImage.Size = new Size(60, 40);
-                                HeroImage.SizeMode = PictureBoxSizeMode.Zoom;
-
-                                ttpHeroDraftTooltips.SetToolTip(HeroImage, Player.FriendlyName + " is playing " + Game.HeroDraft.PlayerDraftPicks[Player].Name);
-
-
-                                if (Player.Side == PlayerSide.Radiant)
-                                {
-                                    floDraftRadiantHeroes.Controls.Add(HeroImage);
-                                }
-                                else if (Player.Side == PlayerSide.Dire)
-                                {
-                                    floDraftDireHeroes.Controls.Add(HeroImage);
-                                }
-                            }
-                        }
-
-                        if (Game.HeroDraft.GetCurrentPickersString() != null)
-                        {
-                            if (lblDraftPlayerTurnText.Text != Game.HeroDraft.GetCurrentPickersString() + "'s turn to pick" && Game.HeroMode != HeroMode.All_Random && Game.HeroDraft.IsPlayerTurn(Game.Players[ircClient.Nickname]))
-                            {
-                                AlertUserTheirTurn();
-                            }
-                            lblDraftPlayerTurnText.Text = Game.HeroDraft.GetCurrentPickersString() + "'s turn to pick";
-                        }
-
-                        break;
-                    }
-                case Dota2CustomRealms.Game.GameStage.SkillDraft:
-                    {
-                        if (Game.AdditionalModes.Contains("Balanced"))
-                        {
-                            Files.NPC_HEROES_TEMPLATE = "data\\npc_heroes template b.txt";
-                        }
-                        if (Game.AdditionalModes.Contains("Custom"))
-                        {
-                            Files.NPC_HEROES_TEMPLATE = "data\\custom\\" + Game.CustomMod + "\\npc_heroes.txt";
-                            Files.NPC_ABILITIES = "data\\custom\\" + Game.CustomMod + "\\npc_abilities.txt";
-                            Files.NPC_ITEMS = "data\\custom\\" + Game.CustomMod + "\\items.txt";
-                        }
-                        Dota2ConfigModder = new Dota2ConfigModder(Game.GameMode);
-                        if (Game.Players[ircClient.Nickname].Side != PlayerSide.Spectator)
-                        {
-                            Dota2ConfigModder.AlterActivelist(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\activelist.txt", Game.HeroDraft.PlayerDraftPicks[Game.Players[ircClient.Nickname]]);
-                        }
-                        floSkillDirePicks.Controls.Clear();
-                        floSkillRadiantPicks.Controls.Clear();
-                        floSKillDraftPickingOrder.Controls.Clear();
-
-                        for (int i = Game.SkillDraft.GetCurrentTurn(); i < Game.SkillDraft.Turns.Count; i++)
-                        {
-                            Label PlayerTurn = new Label();
-                            PlayerTurn.Text = Game.SkillDraft.Turns[i].FriendlyName;
-                            floSKillDraftPickingOrder.Controls.Add(PlayerTurn);
-                        }
-
-                        foreach (KeyValuePair<Player, List<Skill>> Player in Game.SkillDraft.PlayerDraftPicks)
-                        {
-                            GroupBox gbxPlayer = new GroupBox();
-                            FlowLayoutPanel floPlayer = new FlowLayoutPanel();
-
-                            gbxPlayer.Text = Player.Key.FriendlyName;
-                            gbxPlayer.Width = 60;
-                            gbxPlayer.Height = 75;
-
-                            gbxPlayer.Controls.Add(floPlayer);
-                            floPlayer.Dock = DockStyle.Fill;
-
-                            foreach (Skill Skill in Player.Value)
-                            {
-
-                                PictureBox SkillImage = new PictureBox();
-                                SkillImage.Image = Skill.Icon;
-                                SkillImage.Width = 20;
-                                SkillImage.Height = 20;
-                                SkillImage.SizeMode = PictureBoxSizeMode.Zoom;
-                                ttpSkillDraftTooltips.SetToolTip(SkillImage, Player.Key.FriendlyName + " is using " + Skill.Name);
-
-                                floPlayer.Controls.Add(SkillImage);
-                            }
-
-                            if (Player.Key.Side == PlayerSide.Radiant)
-                            {
-                                floSkillRadiantPicks.Controls.Add(gbxPlayer);
-                            }
-                            else if (Player.Key.Side == PlayerSide.Dire)
-                            {
-                                floSkillDirePicks.Controls.Add(gbxPlayer);
-                            }
-                        }
-
-                        if (Game.SkillDraft.GetCurrentPickersString() != null)
-                        {
-                            if (lblSkillDraftPlayerTurn.Text != Game.SkillDraft.GetCurrentPickersString() + "'s turn to pick" && Game.SkillMode != SkillMode.All_Random && Game.SkillDraft.IsPlayerTurn(Game.Players[ircClient.Nickname]))
-                            {
-                                AlertUserTheirTurn();
-                            }
-                            lblSkillDraftPlayerTurn.Text = Game.SkillDraft.GetCurrentPickersString() + "'s turn to pick";
-                        }
-
-                        break;
-                    }
                 case Dota2CustomRealms.Game.GameStage.ServerSetup:
                     {
-                        if (Game.AdditionalModes.Contains("Custom") && Game.GetType() != typeof(Game) && Game.GetType() != typeof(GameBalanced))
-                        {
-                            Files.NPC_HEROES_TEMPLATE = "data\\custom\\" + Game.CustomMod + "\\npc_heroes.txt";
-                            Files.NPC_ABILITIES = "data\\custom\\" + Game.CustomMod + "\\npc_abilities.txt";
-                            Files.NPC_ITEMS = "data\\custom\\" + Game.CustomMod + "\\items.txt";
-                        }
-                        floDireTeamSummary.Controls.Clear();
-                        floRadiantTeamSummary.Controls.Clear();
-                        floPersonalSummary.Controls.Clear();
-                        floDireTeamSummary.Visible = false;
-                        floRadiantTeamSummary.Visible = false;
-                        lblDraftDireTeamPicks.Visible = false;
-                        lblDraftRadiantTeamPicks.Visible = false;
-
-
-                        if (Game.GetType() != typeof(GameSkipPicks))
-                        {
-                            // Sort so ultimates are last
-                            foreach (KeyValuePair<Player, List<Skill>> PlayerSkillPicks in Game.SkillDraft.PlayerDraftPicks)
-                            {
-                                if (PlayerSkillPicks.Key.Side != PlayerSide.Spectator)
-                                {
-
-                                    Debug.Assert(PlayerSkillPicks.Value.Count == 4 || PlayerSkillPicks.Value.Count == 0, PlayerSkillPicks.Key.FriendlyName + " only has " + PlayerSkillPicks.Value.Count + " skills, should have 0 or 4.\nThis error is safe to ignore, however the player will only have the specified number of skills in this game =(\nPlease let the developers know you encountered this problem.");
-
-                                    for (int i = 0; i < PlayerSkillPicks.Value.Count; i++)
-                                    {
-                                        if (PlayerSkillPicks.Value[i].IsUltimate == true)
-                                        {
-                                            Skill temp = PlayerSkillPicks.Value[i];
-                                            PlayerSkillPicks.Value.RemoveAt(i);
-                                            PlayerSkillPicks.Value.Add(temp);
-                                            break;
-                                        }
-                                        else if (PlayerSkillPicks.Value[i].Name == "shadowraze" || PlayerSkillPicks.Value[i].Name == "shadow raze")
-                                        {
-                                            Skill temp = PlayerSkillPicks.Value[i];
-                                            PlayerSkillPicks.Value.RemoveAt(i);
-                                            PlayerSkillPicks.Value.Insert(0, temp);
-                                        }
-                                    }
-                                }
-                            }
-
-
-
-                            foreach (KeyValuePair<Player, Hero> Player in Game.HeroDraft.PlayerDraftPicks)
-                            {
-                                if (Player.Key.Side == PlayerSide.Spectator || Player.Value == null) continue;
-
-                                GroupBox gbxPlayer = new GroupBox();
-                                PictureBox Hero = new PictureBox();
-                                FlowLayoutPanel floPlayer = new FlowLayoutPanel();
-                                gbxPlayer.Height = 70;
-                                gbxPlayer.Width = 400;
-                                gbxPlayer.Text = Player.Key.FriendlyName + " playing " + Player.Value.Name;
-                                Hero.Width = 80;
-                                Hero.Height = 50;
-                                Hero.SizeMode = PictureBoxSizeMode.Zoom;
-                                Hero.Image = Player.Value.Portrait;
-
-                                floPlayer.Dock = DockStyle.Fill;
-                                gbxPlayer.Controls.Add(floPlayer);
-                                floPlayer.Controls.Add(Hero);
-
-                                ttpHeroDraftTooltips.SetToolTip(Hero, Player.Key.FriendlyName + " is playing " + Player.Value.Name);
-
-                                PictureBox SkillImage;
-
-                                foreach (Skill Skill in Game.SkillDraft.PlayerDraftPicks[Player.Key])
-                                {
-                                    SkillImage = new PictureBox();
-                                    SkillImage.Width = 50;
-                                    SkillImage.Height = 50;
-                                    SkillImage.SizeMode = PictureBoxSizeMode.Zoom;
-                                    SkillImage.Image = Skill.Icon;
-
-                                    floPlayer.Controls.Add(SkillImage);
-
-                                    ttpSkillDraftTooltips.SetToolTip(SkillImage, Skill.Name);
-                                }
-
-                                if (Player.Key.Side == PlayerSide.Radiant)
-                                {
-                                    floRadiantTeamSummary.Controls.Add(gbxPlayer);
-                                }
-                                else if (Player.Key.Side == PlayerSide.Dire)
-                                {
-                                    floDireTeamSummary.Controls.Add(gbxPlayer);
-                                }
-                            }
-
-                            if (Game.Players[ircClient.Nickname].Side != PlayerSide.Spectator)
-                            {
-                                Hero PlayerHero = Game.HeroDraft.PlayerDraftPicks[Game.Players[ircClient.Nickname]];
-                                List<Skill> PlayerSkills = Game.SkillDraft.PlayerDraftPicks[Game.Players[ircClient.Nickname]];
-
-                                GroupBox gbxPlayer = new GroupBox();
-                                PictureBox Hero = new PictureBox();
-                                FlowLayoutPanel floPlayer = new FlowLayoutPanel();
-                                gbxPlayer.Height = 80;
-                                gbxPlayer.Width = 400;
-                                gbxPlayer.Text = "You are playing " + PlayerHero.Name;
-                                Hero.Width = 80;
-                                Hero.Height = 50;
-                                Hero.SizeMode = PictureBoxSizeMode.Zoom;
-                                Hero.Image = PlayerHero.Portrait;
-
-                                ttpHeroDraftTooltips.SetToolTip(Hero, "You are playing " + PlayerHero.Name);
-
-                                floPlayer.Dock = DockStyle.Fill;
-                                gbxPlayer.Controls.Add(floPlayer);
-                                floPlayer.Controls.Add(Hero);
-
-                                PictureBox SkillImage;
-
-                                foreach (Skill Skill in PlayerSkills)
-                                {
-                                    SkillImage = new PictureBox();
-                                    SkillImage.Width = 50;
-                                    SkillImage.Height = 50;
-                                    SkillImage.SizeMode = PictureBoxSizeMode.Zoom;
-                                    SkillImage.Image = Skill.Icon;
-
-                                    ttpSkillDraftTooltips.SetToolTip(SkillImage, Skill.Name);
-
-                                    floPlayer.Controls.Add(SkillImage);
-                                }
-
-                                floPersonalSummary.Controls.Add(gbxPlayer);
-                                if (Game.Players[ircClient.Nickname].Side == PlayerSide.Radiant)
-                                {
-                                    lblDraftRadiantTeamPicks.Visible = true;
-                                    floRadiantTeamSummary.Visible = true;
-                                }
-                                else
-                                {
-                                    lblDraftDireTeamPicks.Visible = true;
-                                    floDireTeamSummary.Visible = true;
-                                }
-
-                            }
-                        }
-                        else
-                        {
-                            lblDraftDireTeamPicks.Visible = false;
-                            lblDraftRadiantTeamPicks.Visible = false;
-                        }
+                        
                         tabUISections.SelectedTab = tabDraftSummary;
 
                         break;
                     }
             }
-        }
-
-        private void AlertUserTheirTurn()
-        {
-            FlashWindow.Flash(this);
-            System.Media.SystemSounds.Beep.Play();
-            icoNotifyDraftTurn.Visible = true;
-            icoNotifyDraftTurn.ShowBalloonTip(1000);
         }
 
         private void DetachGameEvents(Game aGame)
@@ -2910,25 +2029,6 @@ namespace Dota2CustomRealms
                     ircClient.SendMessage(SendType.Notice, Game.Channel, "NOTREADYYET!");
                 }
                 UpdatePlayerReadyCount();
-            }
-        }
-
-        private void chkCustomEnable_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkCustomEnable.Checked)
-            {
-                tbxCustomMod.Enabled = true;
-                cbxX2.Checked = false;
-                cbxX2.Enabled = false;
-                chkBalanced.Checked = false;
-                chkBalanced.Enabled = false;
-            }
-            else
-            {
-                tbxCustomMod.Enabled = false;
-                tbxCustomMod.Text = "";
-                cbxX2.Enabled = true;
-                chkBalanced.Enabled = true;
             }
         }
 
@@ -3185,108 +2285,16 @@ namespace Dota2CustomRealms
         private void bgwGenerateNpcHeroesAutoexec_DoWork(object sender, DoWorkEventArgs e)
         {
 
-            //try
-            //{
-            if (Game.GetType() != typeof(Game) && Game.GetType() != typeof(GameBalanced))
-            {
-                Dota2ConfigModder = new Dota2ConfigModder(Game.GameMode);
-                Dota2ConfigModder.ModNPC_CUSTOM(Properties.Settings.Default.Dota2Path + "\\dota\\scripts\\npc\\npc_heroes.txt");
-            }
-            if (Game.GetType() != typeof(Game) && Game.GetType() != typeof(GameBalanced) && !Game.AdditionalModes.Contains("Dedicated"))
-            {
-                if (Game.AdditionalModes.Contains("Custom"))
-                {
-                    Dota2ConfigModder.ModItems(Properties.Settings.Default.Dota2Path + "\\dota\\scripts\\npc\\items.txt");
-                    Dota2ConfigModder.ModNPC_CUSTOM(Properties.Settings.Default.Dota2Path + "\\dota\\scripts\\npc\\npc_heroes.txt");
-                }
-                if (Game.AdditionalModes.Contains("X2") || Game.AdditionalModes.Contains("Custom"))
-                {
-                    Dota2ConfigModder.ModNPCAbilities(Properties.Settings.Default.Dota2Path + "\\dota\\scripts\\npc\\npc_abilities.txt");
-                }
-            }
-            //Dota2ConfigModder = new Dota2ConfigModder();
-            if (Game.GetType() == typeof(Game) || Game.GetType() == typeof(GameBalanced))
-            {
+ 
 
-                Dota2ConfigModder.AddSkillReqs = Game.IsHost;
-
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(10, "Altering npc_heroes.txt");
-
-                Dota2ConfigModder.AddPickedHeroes(Game.HeroDraft.PlayerDraftPicks.Values.ToList());
-                foreach (Player Player in Game.SkillDraft.PlayerDraftPicks.Keys)
-                {
-                    Dota2ConfigModder.AlterHero(Game.HeroDraft.PlayerDraftPicks[Player], Game.SkillDraft.PlayerDraftPicks[Player][0], Game.SkillDraft.PlayerDraftPicks[Player][1], Game.SkillDraft.PlayerDraftPicks[Player][2], Game.SkillDraft.PlayerDraftPicks[Player][3]);
-                }
-                if (!Game.AdditionalModes.Contains("Dedicated"))
-                {
-                    if (Game.AdditionalModes.Contains("Custom"))
-                    {
-                        Dota2ConfigModder.ModItems(Properties.Settings.Default.Dota2Path + "\\dota\\scripts\\npc\\items.txt");
-                    }
-                    if (Game.AdditionalModes.Contains("X2") || Game.AdditionalModes.Contains("Custom"))
-                    {
-                        Dota2ConfigModder.ModNPCAbilities(Properties.Settings.Default.Dota2Path + "\\dota\\scripts\\npc\\npc_abilities.txt");
-                    }
-
-                    bgwGenerateNpcHeroesAutoexec.ReportProgress(20, "Saving npc_heroes.txt");
-
-                    if (Game.Players[ircClient.Nickname].Side != PlayerSide.Spectator)
-                    {
-                        // Save npc_heroes of client's hero only to client's dota 2
-                        //NpcHeroes.Save(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\npc_heroes.txt", Heroes[Self]);
-                        Dota2ConfigModder.SaveNpcHeroes(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\npc_heroes.txt"); // Save whole thing for now, to be safe
-                    }
-                    else
-                    {
-                        // Save npc_heroes to client dota 2
-                        Dota2ConfigModder.SaveNpcHeroes(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\npc_heroes.txt");
-                    }
-
-                    // Save npc heroes to local dir (for debug purposes)
-                    //Dota2ConfigModder.SaveNpcHeroes("npc_heroes.txt");
-
-                    Dota2ConfigModder.ModSoundsManifest(Properties.Settings.Default.Dota2Path + "dota\\scripts\\game_sounds_manifest.txt");
-                }
-                //NpcHeroes.SaveAutoexec("autoexec.txt");
-
-                // TODO: More stuff in between here of course
-
-                // Start Dota2
-                //Dota2 = Process.Start(Properties.Settings.Default.Dota2Path + "dota.exe", "-vpk_override 1 -international -novid");
-
-                //if (Game.Players[ircClient.Nickname].Side != PlayerSide.Spectator)
-                //{
-                //    Dota2ConfigModder.AlterActivelist(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\activelist.txt", Game.HeroDraft.PlayerDraftPicks[Game.Players[ircClient.Nickname]]);
-                //}
-            }
-            if (Game.Diretide)
-            {
-                Dota2ConfigModder.InstallDiretideMinimap();
-            }
-
-            Dota2ConfigModder.InstallCustomScreen();
-
-            Dota2ConfigModder.Modified = true;
-            //Dota2 = Process.Start("steam://run/570");
+            
             if (Game.IsHost)
             {
                 if (File.Exists(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\autoexec.cfg")) // Delete server autoexec
                 {
                     File.Delete(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\autoexec.cfg");
                 }
-                Dota2ConfigModder.SaveNpcHeroes(Properties.Settings.Default.Dota2ServerPath + "dota\\scripts\\npc\\npc_heroes.txt");
-                if (Game.GetType() == typeof(Game) || Game.GetType() == typeof(GameBalanced))
-                {
-                    Dota2ConfigModder.ModSoundsManifest(Properties.Settings.Default.Dota2ServerPath + "dota\\scripts\\game_sounds_manifest.txt");
-                }
-                if (Game.AdditionalModes.Contains("Custom"))
-                {
-                    Dota2ConfigModder.ModItems(Properties.Settings.Default.Dota2ServerPath + "\\dota\\scripts\\npc\\items.txt");
-                }
-                if (Game.AdditionalModes.Contains("X2") || Game.AdditionalModes.Contains("Custom"))
-                {
-                    Dota2ConfigModder.ModNPCAbilities(Properties.Settings.Default.Dota2ServerPath + "dota\\scripts\\npc\\npc_abilities.txt");
-                }
+
                 StringBuilder AutoHotkeyData = new StringBuilder();
 
                 AutoHotkeyData.AppendLine(Properties.Settings.Default.Dota2Path);
@@ -3317,11 +2325,7 @@ namespace Dota2CustomRealms
                 // TODO: Apply below fix by determining computer's IP
                 //Dota2ConfigModder.AutoExecConnect(HostConnection);
                 // FIX: Users who can't connect to their external IP couldn't join their own game in Dota 2 client
-                Dota2ConfigModder.AutoExecConnect("localhost:" + Properties.Settings.Default.ServerPort);
 
-
-                Dota2ConfigModder.AutoExecJoinTeam(Game.Players[ircClient.Nickname].Side);
-                Dota2ConfigModder.EditAutoexec(Properties.Settings.Default.Dota2Path + "dota\\cfg\\autoexec.cfg");
                 //Dota2ConfigModder.SaveAutoHotKeyCommands();
                 bgwGenerateNpcHeroesAutoexec.ReportProgress(60, "Starting Dota 2 Server");
 
@@ -3345,7 +2349,7 @@ namespace Dota2CustomRealms
                 }
                 else if (Game.GameMode != GameMode.OMG && Game.GameMode != GameMode.LOD && Game.GameMode != GameMode.OMG_Balanced)
                 {
-                    gamemodecommand = " +dota_force_gamemode " + (int) Game.GameMode;
+                    gamemodecommand = " +dota_force_gamemode " + (int)Game.GameMode;
                     gamemapcommand = " -map " + Game.Dotamap;
                 }
                 string debugcommand = "";
@@ -3353,7 +2357,7 @@ namespace Dota2CustomRealms
                 {
                     debugcommand = " -condebug";
                 }
- 
+
                 // FIXED: Make srcds bind to all available IPs on computer
                 ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +map " + Game.Dotamap + debugcommand);
 
@@ -3414,60 +2418,22 @@ namespace Dota2CustomRealms
                                 SendKeys.SendWait("{ENTER}");
                             }
 
-                            if (!Game.AdditionalModes.Contains("Dedicated"))
-                            {
-                                bgwGenerateNpcHeroesAutoexec.ReportProgress(80, "Starting ActivateConsole");
-                                Process Autohotkey = Process.Start("ActivateConsole.exe");
-                                //TODO: Pick apporpriate gamemode
 
-                                Thread.Sleep(1000);
+                            bgwGenerateNpcHeroesAutoexec.ReportProgress(80, "Starting ActivateConsole");
+                            Process Autohotkey = Process.Start("ActivateConsole.exe");
 
-                                bgwGenerateNpcHeroesAutoexec.ReportProgress(90, "Starting Dota 2 Client...");
-                                Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk");
+                            Thread.Sleep(1000);
 
-                                //Dota2 = Process.Start("steam://570");
-
-                                //Autohotkey.WaitForExit();
+                            bgwGenerateNpcHeroesAutoexec.ReportProgress(90, "Starting Dota 2 Client...");
+                            Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk");
 
 
-                                //PlayersJoined = 0;
-                                ircClient.SendMessage(SendType.Notice, Game.Channel, "SERVERREADY");
+                            ircClient.SendMessage(SendType.Notice, Game.Channel, "SERVERREADY");
 
-                                Autohotkey.WaitForExit();
-                            }
-                            else
-                            {
-                                ircClient.SendMessage(SendType.Notice, Game.Channel, "SERVERREADY");
-                                timerDediCount.Enabled = true;
-                            }
+                            Autohotkey.WaitForExit();
+  
 
-                            // DONT REVERT UNTIL USER CLICKS BUTTON OR QUITS
-
-                            //// REVERT MODS
-                            //if (Game != null && Game.IsHost)
-                            //{
-                            //    Dota2ConfigModder.RevertNpcHeroes(Properties.Settings.Default.Dota2ServerPath + "dota\\scripts\\npc\\npc_heroes.txt");
-                            //}
-                            //Dota2ConfigModder.RevertNpcHeroes(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\npc_heroes.txt");
-                            //Dota2ConfigModder.RevertActivelist(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\activelist.txt");
-                            //Dota2ConfigModder.RevertSoundsManifest(Properties.Settings.Default.Dota2Path + "dota\\scripts\\game_sounds_manifest.txt");
-                            //Dota2ConfigModder.RevertAutoexec(Properties.Settings.Default.Dota2Path + "dota\\cfg\\autoexec.cfg");
-                            //Dota2ConfigModder.Modified = false;
-
-
-
-
-                            //while (PlayersJoined < HeroDraft.DirePicks.Count + HeroDraft.RadiantPicks.Count)
-                            //{
-                            //    Thread.Sleep(1000);
-                            //}
-
-                            //SetForegroundWindow(Dota2ServerWindow);
-                            //Thread.Sleep(10);
-                            //SendKeys.SendWait("sv_cheats 0{ENTER}");
-                            //Thread.Sleep(10);
-                            //Dota2Window = FindWindow("Valve001", "DOTA 2");
-                            //SetForegroundWindow(Dota2Window);
+       
                             break;
                         }
                     }
@@ -3500,12 +2466,6 @@ namespace Dota2CustomRealms
 
                 bgwGenerateNpcHeroesAutoexec.ReportProgress(60, "Saving Setup Commands");
 
-                Dota2ConfigModder.AutoExecConnect(HostConnection);
-                Dota2ConfigModder.AutoExecJoinTeam(Game.Players[ircClient.Nickname].Side);
-
-                //Dota2ConfigModder.SaveAutoHotKeyCommands();
-
-                Dota2ConfigModder.EditAutoexec(Properties.Settings.Default.Dota2Path + "dota\\cfg\\autoexec.cfg");
 
                 bgwGenerateNpcHeroesAutoexec.ReportProgress(70, "Waiting for game host...");
 
@@ -3525,60 +2485,18 @@ namespace Dota2CustomRealms
 
                 bgwGenerateNpcHeroesAutoexec.ReportProgress(90, "Starting Dota 2...");
 
-                //TODO: Pick apporpriate gamemode
+                
                 Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk");
 
-                //Dota2 = Process.Start("steam://570");
-
-                //ProcessStartInfo AhkStart = new ProcessStartInfo("ActivateConsole.exe");
-
-                // if (Self.Side != PlayerSide.Spectator)
-                // {
                 Autohotkey.WaitForExit();
 
 
 
-                // WAIT UNTIL LATER
-                //// REVERT MODS
-                //if (Game != null && Game.IsHost)
-                //{
-                //    Dota2ConfigModder.RevertNpcHeroes(Properties.Settings.Default.Dota2ServerPath + "dota\\scripts\\npc\\npc_heroes.txt");
-                //}
-                //Dota2ConfigModder.RevertNpcHeroes(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\npc_heroes.txt");
-                //Dota2ConfigModder.RevertActivelist(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\activelist.txt");
-                //Dota2ConfigModder.RevertSoundsManifest(Properties.Settings.Default.Dota2Path + "dota\\scripts\\game_sounds_manifest.txt");
-                //Dota2ConfigModder.RevertAutoexec(Properties.Settings.Default.Dota2Path + "dota\\cfg\\autoexec.cfg");
-                    
-
-
-
-
-
-
-                //ircClient.SendMessage(SendType.Notice, GameChannel, "PLAYERJOINED");
-                //}
-
-                //SetupGame = new frmDotaSetup(Dota2Window);
             }
 
-                // bgwGenerateNpcHeroesAutoexec.ReportProgress(100, "Reverting Mods");
+  
 
-                // Revert changes
-
-                //Dota2ConfigModder.RevertNpcHeroes(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\npc_heroes.txt");
-                //
-                //Dota2ConfigModder.RevertNpcHeroes(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\npc_heroes.txt");
-                //Dota2ConfigModder.RevertAutoexec(Properties.Settings.Default.Dota2Path + "dota\\cfg\\autoexec.cfg");
-                //Dota2ConfigModder.Modified = false;
-                //
-                // bgwGenerateNpcHeroesAutoexec.ReportProgress(100, "Done!");
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    bgwGenerateNpcHeroesAutoexec.ReportProgress(100, "ERROR=" + ex.Message + "\nAdditional information about this error has been copied to the clipboard. \n Please send this information to the developers.");
-            //    Clipboard.SetText(ex.Message + "\r\n" + ex.StackTrace);
-            //}
+          
         }
 
 
@@ -4480,115 +3398,9 @@ namespace Dota2CustomRealms
             }
         }
 
-        private void cbxGameMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbxGameMode.Text == "OMG")
-            {
-                gbxSkillMode.Show();
-                gbxHeroMode.Show();
-                cbxMap.SelectedIndex = 0;
-                cbxMap.Enabled = true;
-            }
-            else if (cbxGameMode.Text == "OMG Greevilings")
-            {
-                gbxSkillMode.Show();
-                gbxHeroMode.Show();
-                cbxMap.SelectedIndex = 2;
-                cbxMap.Enabled = false;
-            }
-            else if (cbxGameMode.Text == "OMG Diretide")
-            {
-                gbxSkillMode.Show();
-                gbxHeroMode.Show();
-                cbxMap.SelectedIndex = 3;
-                cbxMap.Enabled = false;
-            }
-            else if (cbxGameMode.Text == "OMG Mid Only")
-            {
-                gbxSkillMode.Show();
-                gbxHeroMode.Show();
-                cbxMap.SelectedIndex = 0;
-                cbxMap.Enabled = true;
-            }
-            else
-            {
-                if (cbxGameMode.Text == "Greevilings")
-                {
-                    cbxMap.SelectedIndex = 2;
-                    cbxMap.Enabled = false;
-                }
-                else if (cbxGameMode.Text == "Diretide")
-                {
-                    cbxMap.SelectedIndex = 3;
-                    cbxMap.Enabled = false;
-                }
-                else
-                {
-                    cbxMap.SelectedIndex = 0;
-                    cbxMap.Enabled = true;
-                }
-                gbxHeroMode.Hide();
-                gbxSkillMode.Hide();
-            }
-        }
-
-        private void icoNotifyDraftTurn_BalloonTipClosed(object sender, EventArgs e)
-        {
-            icoNotifyDraftTurn.Visible = false;
-        }
-
-        private void icoNotifyDraftTurn_BalloonTipClicked(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Minimized)
-            {
-                this.WindowState = FormWindowState.Normal;
-            }
-            icoNotifyDraftTurn.Visible = false;
-        }
-
-        private void icoNotifyDraftTurn_Click(object sender, EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Minimized)
-            {
-                this.WindowState = FormWindowState.Normal;
-            }
-            icoNotifyDraftTurn.Visible = false;
-        }
-
         private void RevertMods()
         {
-            if (Dota2ConfigModder != null)
-            {
 
-                Dota2ConfigModder.RevertActivelist(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\activelist.txt");
-
-                if (Dota2ConfigModder.Modified == true)
-                {
-                    if (Game != null && Game.IsHost)
-                    {
-                        Dota2ConfigModder.RevertNpcHeroes(Properties.Settings.Default.Dota2ServerPath + "dota\\scripts\\npc\\npc_heroes.txt");
-                        if (Game.AdditionalModes.Contains("Custom"))
-                        {
-                            Dota2ConfigModder.RevertItems(Properties.Settings.Default.Dota2ServerPath + "\\dota\\scripts\\npc\\items.txt");
-                        }
-                        if (Game.AdditionalModes.Contains("X2") || Game.AdditionalModes.Contains("Custom"))
-                        {
-                            Dota2ConfigModder.RevertNPCAbilities(Properties.Settings.Default.Dota2ServerPath + "dota\\scripts\\npc\\npc_abilities.txt");
-                        }
-                    }
-                    Dota2ConfigModder.RevertNpcHeroes(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\npc_heroes.txt");
-
-                    Files.NPC_HEROES_TEMPLATE = "data\\npc_heroes template.txt";
-                    Files.NPC_ABILITIES = "data\\npc_abilities_x2.txt";
-                    Files.NPC_ITEMS = "data\\items.txt";
-                    Dota2ConfigModder.RevertItems(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\items.txt");
-                    Dota2ConfigModder.RevertSoundsManifest(Properties.Settings.Default.Dota2Path + "dota\\scripts\\game_sounds_manifest.txt");
-                    Dota2ConfigModder.RevertNPCAbilities(Properties.Settings.Default.Dota2Path + "dota\\scripts\\npc\\npc_abilities.txt");
-                    Dota2ConfigModder.RevertAutoexec(Properties.Settings.Default.Dota2Path + "dota\\cfg\\autoexec.cfg");
-                    Dota2ConfigModder.RevertCustomScreen();
-                    Dota2ConfigModder.Modified = false;
-                }
-            }
         }
 
         private void btnSettingConsoleKeybindManual_Click(object sender, EventArgs e)
@@ -4623,18 +3435,6 @@ namespace Dota2CustomRealms
             Stream stream = client.OpenRead(input);
             StreamReader reader = new StreamReader(stream);
             tbxBans.Text = reader.ReadToEnd();
-        }
-
-        private void chkBalanced_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkBalanced.Checked)
-            {
-                if (!cbxGameMode.Text.StartsWith("OMG") && !cbxGameMode.Text.StartsWith("LOD"))
-                {
-                    chkBalanced.Checked = false;
-                    MessageBox.Show("You are not allowed to use balanced mode with anything other than OMG or LOD modes.");
-                }
-            }
         }
 
         private void chkFlashNew_CheckedChanged(object sender, EventArgs e)
@@ -4704,119 +3504,6 @@ namespace Dota2CustomRealms
             {
                 Properties.Settings.Default.Dedicated = false;
                 Properties.Settings.Default.Save();
-            }
-        }
-
-        private void btnLoadMods_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                grdMods.RowCount = 0;
-                string server = "http://dota2cr.com/mods.xml";
-                WebClient client = new WebClient();
-                client.DownloadFileCompleted += new AsyncCompletedEventHandler(loadmod_DownloadFileCompleted);
-                Uri uri = new Uri(server);
-                client.DownloadFileAsync(uri, "data\\mods.xml");
-            }
-            catch
-            {
-                MessageBox.Show("Unable to load mod list. Please try again later.");
-            }
-        }
-
-        private void loadmod_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            try
-            {
-                dataMods.ReadXml("data\\mods.xml");
-                File.Delete("data\\mods.xml");
-
-                grdMods.DataSource = dataMods;
-                grdMods.DataMember = "mod";
-                foreach (DataGridViewColumn column in this.grdMods.Columns)
-                {
-                    if (column.Name == "Name")
-                        column.Width = 125;
-                    if (column.Name == "Creator")
-                        column.Width = 100;
-                    if (column.Name == "Version")
-                        column.Width = 50;
-                    if (column.Name == "Description")
-                        column.Width = 472;
-                    if (column.Name == "link")
-                        column.Visible = false;
-                }
-                DataGridViewButtonColumn test = new DataGridViewButtonColumn();
-                test.Text = "Download";
-                test.UseColumnTextForButtonValue = true;
-                test.Name = "Download";
-                test.DataPropertyName = "Download";
-                test.Width = 65;
-                grdMods.Columns.Add(test);
-            }
-            catch
-            {
-                MessageBox.Show("Unable to load mod list. Please try again later.");
-            }
-        }
-
-        private void grdMods_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == 5 && e.RowIndex >= 0)
-            {
-                try
-                {
-                    WebClient client = new WebClient();
-                    client.DownloadFileCompleted += new AsyncCompletedEventHandler(mod_DownloadFileCompleted);
-                    string download = grdMods.Rows[e.RowIndex].Cells[4].Value.ToString();
-                    Uri uri = new Uri(download);
-                    client.DownloadFileAsync(uri, "data\\mod.zip");
-                }
-                catch
-                {
-                    MessageBox.Show("Unable to download mod. Please try again later.");
-                }
-            }
-        }
-
-        private void mod_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
-        {
-            if (File.Exists("data\\mod.zip"))
-            {
-                using (ZipFile zip = ZipFile.Read("data\\mod.zip"))
-                {
-                    foreach (ZipEntry x in zip)
-                    {
-                        x.Extract("data\\custom\\", true);
-                    }
-                }
-                File.Delete("data\\mod.zip");
-
-                MessageBox.Show("Download Completed.");
-            }
-        }
-
-        private void btnModDL_Click(object sender, EventArgs e)
-        {
-            tabUISections.SelectedTab = tabMod;
-        }
-
-        private void btnBackMods_Click(object sender, EventArgs e)
-        {
-            tabUISections.SelectedTab = tabJoin;
-        }
-
-        private void timerDediCount_Tick(object sender, System.EventArgs e)
-        {
-            if (Game != null)
-            {
-                if (Game.Players.Count == 1)
-                {
-                    timerDediCount.Enabled = false;
-                    btnDone_Click(null, new EventArgs());
-                    Thread.Sleep(500);
-                    btnHostGame_Click(null, new EventArgs());
-                }
             }
         }
     }

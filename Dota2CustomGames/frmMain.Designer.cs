@@ -33,17 +33,13 @@
             this.webAdvertisement = new System.Windows.Forms.WebBrowser();
             this.ircListener = new System.Windows.Forms.Timer(this.components);
             this.lblMessageLeft = new System.Windows.Forms.Label();
-            this.ttpHeroDraftTooltips = new System.Windows.Forms.ToolTip(this.components);
-            this.ttpSkillDraftTooltips = new System.Windows.Forms.ToolTip(this.components);
             this.bgwGenerateNpcHeroesAutoexec = new System.ComponentModel.BackgroundWorker();
             this.ofdFindDotaExe = new System.Windows.Forms.OpenFileDialog();
             this.lblVersionSubtitle = new System.Windows.Forms.Label();
             this.ofdFindSrcdsExe = new System.Windows.Forms.OpenFileDialog();
             this.pbxBanner = new System.Windows.Forms.PictureBox();
             this.ofdFindSteam = new System.Windows.Forms.OpenFileDialog();
-            this.icoNotifyDraftTurn = new System.Windows.Forms.NotifyIcon(this.components);
             this.lblPlayersOnline = new System.Windows.Forms.Label();
-            this.timerPlayers = new System.Windows.Forms.Timer(this.components);
             this.lblPlayersInGame = new System.Windows.Forms.Label();
             this.gbxChat = new System.Windows.Forms.GroupBox();
             this.gbxGameSize = new System.Windows.Forms.TabControl();
@@ -60,58 +56,26 @@
             this.btnFindLobby = new System.Windows.Forms.Button();
             this.btnHostLobby = new System.Windows.Forms.Button();
             this.tabHostLobby = new System.Windows.Forms.TabPage();
-            this.gbxCustomMod = new System.Windows.Forms.GroupBox();
-            this.tbxCustomMod = new System.Windows.Forms.ComboBox();
-            this.lblCustomWarn = new System.Windows.Forms.Label();
-            this.chkCustomEnable = new System.Windows.Forms.CheckBox();
-            this.gbxAdditional = new System.Windows.Forms.GroupBox();
-            this.chkBalanced = new System.Windows.Forms.CheckBox();
-            this.cbxX2 = new System.Windows.Forms.CheckBox();
-            this.cbxAllTalk = new System.Windows.Forms.CheckBox();
-            this.cbxWTF = new System.Windows.Forms.CheckBox();
-            this.gmxGameMode = new System.Windows.Forms.GroupBox();
-            this.cbxGameMode = new System.Windows.Forms.ComboBox();
-            this.gbxMap = new System.Windows.Forms.GroupBox();
-            this.cbxMap = new System.Windows.Forms.ComboBox();
             this.gbxLobbySize = new System.Windows.Forms.GroupBox();
             this.cbxGameSize = new System.Windows.Forms.ComboBox();
             this.gbxGamePassword = new System.Windows.Forms.GroupBox();
             this.tbxGamePassword = new System.Windows.Forms.TextBox();
             this.btnCancelHosting = new System.Windows.Forms.Button();
             this.btnHostGame = new System.Windows.Forms.Button();
-            this.gbxSkillMode = new System.Windows.Forms.GroupBox();
-            this.radSkillDraft = new System.Windows.Forms.RadioButton();
-            this.radSkillRandom = new System.Windows.Forms.RadioButton();
             this.gbxGameName = new System.Windows.Forms.GroupBox();
             this.tbxGameName = new System.Windows.Forms.TextBox();
-            this.gbxHeroMode = new System.Windows.Forms.GroupBox();
-            this.radHeroDraft = new System.Windows.Forms.RadioButton();
-            this.radHeroRandom = new System.Windows.Forms.RadioButton();
-            this.radHeroPick = new System.Windows.Forms.RadioButton();
             this.lblHostLobbyMessage = new System.Windows.Forms.Label();
             this.tabJoin = new System.Windows.Forms.TabPage();
-            this.btnModDL = new System.Windows.Forms.Button();
             this.cbxLocked = new System.Windows.Forms.CheckBox();
             this.lblJoinAttemptText = new System.Windows.Forms.Label();
             this.lblGameListRefresh = new System.Windows.Forms.Label();
             this.btnCancelJoining = new System.Windows.Forms.Button();
             this.btnGameListRefresh = new System.Windows.Forms.Button();
             this.grdGamesList = new System.Windows.Forms.DataGridView();
-            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSkillsHeroes = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCustomMod = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabLobby = new System.Windows.Forms.TabPage();
             this.gbxGameInfo = new System.Windows.Forms.GroupBox();
-            this.lblAdditional = new System.Windows.Forms.Label();
             this.labelMaxPlayers = new System.Windows.Forms.Label();
             this.labelMap = new System.Windows.Forms.Label();
-            this.labelHeroSkills = new System.Windows.Forms.Label();
             this.labelHost = new System.Windows.Forms.Label();
             this.chkLobbyPlayerReady = new System.Windows.Forms.CheckBox();
             this.btnLobbyKick = new System.Windows.Forms.Button();
@@ -129,58 +93,12 @@
             this.btnJoinRadiant = new System.Windows.Forms.Button();
             this.lbxLobbyRadiantPlayers = new System.Windows.Forms.ListBox();
             this.lblLobbyName = new System.Windows.Forms.Label();
-            this.tabDraftHeroPick = new System.Windows.Forms.TabPage();
-            this.lblHeroDraftPickingOrder = new System.Windows.Forms.Label();
-            this.lblHeroDraftPicks = new System.Windows.Forms.Label();
-            this.pbxDraftRadiantPicks = new System.Windows.Forms.PictureBox();
-            this.pbxDraftDirePicks = new System.Windows.Forms.PictureBox();
-            this.floDraftDireHeroes = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblDraftPlayerTurnText = new System.Windows.Forms.Label();
-            this.floDraftRadiantHeroes = new System.Windows.Forms.FlowLayoutPanel();
-            this.pbxDraftHeroPickDire = new System.Windows.Forms.PictureBox();
-            this.pbxDraftHeroPickRadiant = new System.Windows.Forms.PictureBox();
-            this.pbxDraftHeroPickIntelligence = new System.Windows.Forms.PictureBox();
-            this.pbxDraftHeroPickAgility = new System.Windows.Forms.PictureBox();
-            this.pbxDraftHeroPickStrength = new System.Windows.Forms.PictureBox();
-            this.gbxDraftHeroPickTimeRemaining = new System.Windows.Forms.GroupBox();
-            this.lblDraftHeroPickTimeRemaining = new System.Windows.Forms.Label();
-            this.floDraftPlayerOrder = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblHeroSelectionDraft = new System.Windows.Forms.Label();
-            this.floDraftHeroRadiantIntelligence = new System.Windows.Forms.FlowLayoutPanel();
-            this.floDraftHeroDireIntelligence = new System.Windows.Forms.FlowLayoutPanel();
-            this.floDraftHeroDireAgility = new System.Windows.Forms.FlowLayoutPanel();
-            this.floDraftHeroRadiantAgility = new System.Windows.Forms.FlowLayoutPanel();
-            this.floDraftHeroDireStrength = new System.Windows.Forms.FlowLayoutPanel();
-            this.floDraftHeroRadiantStrength = new System.Windows.Forms.FlowLayoutPanel();
-            this.tabSkillDraft = new System.Windows.Forms.TabPage();
-            this.btnLeaveSkills = new System.Windows.Forms.Button();
-            this.pbxSkillDraftYourHero = new System.Windows.Forms.PictureBox();
-            this.lblSkillDraftSelection = new System.Windows.Forms.Label();
-            this.floSkillDirePicks = new System.Windows.Forms.FlowLayoutPanel();
-            this.floSkillRadiantPicks = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblSkillDraftPickingOrder = new System.Windows.Forms.Label();
-            this.lblSkillDraftPicks = new System.Windows.Forms.Label();
-            this.pbxSkillRadiantPicks = new System.Windows.Forms.PictureBox();
-            this.pbxSkillDirePicks = new System.Windows.Forms.PictureBox();
-            this.lblSkillDraftPlayerTurn = new System.Windows.Forms.Label();
-            this.gbxSkillDraftTimeRemaining = new System.Windows.Forms.GroupBox();
-            this.lblSkillDraftTimeRemaining = new System.Windows.Forms.Label();
-            this.floSKillDraftPickingOrder = new System.Windows.Forms.FlowLayoutPanel();
-            this.floSkillDraftUltimateSkills = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblSkillDraftUltimates = new System.Windows.Forms.Label();
-            this.lblSkillDraftNormal = new System.Windows.Forms.Label();
-            this.floSkillDraftNormalSkills = new System.Windows.Forms.FlowLayoutPanel();
             this.tabDraftSummary = new System.Windows.Forms.TabPage();
             this.gbxConfiguringMod = new System.Windows.Forms.GroupBox();
             this.btnManualConnect = new System.Windows.Forms.Button();
             this.btnDone = new System.Windows.Forms.Button();
             this.lblConfigProgressMessage = new System.Windows.Forms.Label();
             this.pgbConfigProgress = new System.Windows.Forms.ProgressBar();
-            this.floDireTeamSummary = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblDraftDireTeamPicks = new System.Windows.Forms.Label();
-            this.floRadiantTeamSummary = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblDraftRadiantTeamPicks = new System.Windows.Forms.Label();
-            this.floPersonalSummary = new System.Windows.Forms.FlowLayoutPanel();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.lblSettings = new System.Windows.Forms.Label();
             this.btnSettingsSaveReturn = new System.Windows.Forms.Button();
@@ -233,15 +151,12 @@
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.logText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.tabMod = new System.Windows.Forms.TabPage();
-            this.btnBackMods = new System.Windows.Forms.Button();
-            this.btnLoadMods = new System.Windows.Forms.Button();
-            this.grdMods = new System.Windows.Forms.DataGridView();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.ttpWTF = new System.Windows.Forms.ToolTip(this.components);
-            this.ttpX2 = new System.Windows.Forms.ToolTip(this.components);
-            this.dataMods = new System.Data.DataSet();
-            this.timerDediCount = new System.Windows.Forms.Timer(this.components);
+            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).BeginInit();
             this.gbxChat.SuspendLayout();
             this.tabUISections.SuspendLayout();
@@ -249,15 +164,9 @@
             this.gbxConnect.SuspendLayout();
             this.tabConnected.SuspendLayout();
             this.tabHostLobby.SuspendLayout();
-            this.gbxCustomMod.SuspendLayout();
-            this.gbxAdditional.SuspendLayout();
-            this.gmxGameMode.SuspendLayout();
-            this.gbxMap.SuspendLayout();
             this.gbxLobbySize.SuspendLayout();
             this.gbxGamePassword.SuspendLayout();
-            this.gbxSkillMode.SuspendLayout();
             this.gbxGameName.SuspendLayout();
-            this.gbxHeroMode.SuspendLayout();
             this.tabJoin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdGamesList)).BeginInit();
             this.tabLobby.SuspendLayout();
@@ -265,20 +174,6 @@
             this.gbxLobbySpectators.SuspendLayout();
             this.gbxLobbyDire.SuspendLayout();
             this.gbxLobbyRadiant.SuspendLayout();
-            this.tabDraftHeroPick.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftRadiantPicks)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftDirePicks)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickDire)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickRadiant)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickIntelligence)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickAgility)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickStrength)).BeginInit();
-            this.gbxDraftHeroPickTimeRemaining.SuspendLayout();
-            this.tabSkillDraft.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxSkillDraftYourHero)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxSkillRadiantPicks)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxSkillDirePicks)).BeginInit();
-            this.gbxSkillDraftTimeRemaining.SuspendLayout();
             this.tabDraftSummary.SuspendLayout();
             this.gbxConfiguringMod.SuspendLayout();
             this.tabSettings.SuspendLayout();
@@ -293,10 +188,7 @@
             this.gbxSettingsConsoleKey.SuspendLayout();
             this.gbxSettingsClientLocation.SuspendLayout();
             this.tabServerWizard.SuspendLayout();
-            this.tabMod.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdMods)).BeginInit();
             this.pnlMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataMods)).BeginInit();
             this.SuspendLayout();
             // 
             // webAdvertisement
@@ -326,16 +218,6 @@
             this.lblMessageLeft.Name = "lblMessageLeft";
             this.lblMessageLeft.Size = new System.Drawing.Size(0, 13);
             this.lblMessageLeft.TabIndex = 2;
-            // 
-            // ttpHeroDraftTooltips
-            // 
-            this.ttpHeroDraftTooltips.IsBalloon = true;
-            this.ttpHeroDraftTooltips.ToolTipTitle = "Hero";
-            // 
-            // ttpSkillDraftTooltips
-            // 
-            this.ttpSkillDraftTooltips.IsBalloon = true;
-            this.ttpSkillDraftTooltips.ToolTipTitle = "Skill";
             // 
             // bgwGenerateNpcHeroesAutoexec
             // 
@@ -390,18 +272,6 @@
             this.ofdFindSteam.RestoreDirectory = true;
             this.ofdFindSteam.Title = "Find Steam Installation";
             // 
-            // icoNotifyDraftTurn
-            // 
-            this.icoNotifyDraftTurn.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.icoNotifyDraftTurn.BalloonTipText = "Its your turn to pick!";
-            this.icoNotifyDraftTurn.BalloonTipTitle = "Drafting";
-            this.icoNotifyDraftTurn.Icon = ((System.Drawing.Icon)(resources.GetObject("icoNotifyDraftTurn.Icon")));
-            this.icoNotifyDraftTurn.Text = "Dota 2 Custom Realms";
-            this.icoNotifyDraftTurn.Visible = true;
-            this.icoNotifyDraftTurn.BalloonTipClicked += new System.EventHandler(this.icoNotifyDraftTurn_BalloonTipClicked);
-            this.icoNotifyDraftTurn.BalloonTipClosed += new System.EventHandler(this.icoNotifyDraftTurn_BalloonTipClosed);
-            this.icoNotifyDraftTurn.Click += new System.EventHandler(this.icoNotifyDraftTurn_Click);
-            // 
             // lblPlayersOnline
             // 
             this.lblPlayersOnline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -412,10 +282,6 @@
             this.lblPlayersOnline.TabIndex = 7;
             this.lblPlayersOnline.Text = "Players Online";
             this.lblPlayersOnline.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // timerPlayers
-            // 
-            this.timerPlayers.Tick += new System.EventHandler(this.timerPlayers_Tick);
             // 
             // lblPlayersInGame
             // 
@@ -484,12 +350,9 @@
             this.tabUISections.Controls.Add(this.tabHostLobby);
             this.tabUISections.Controls.Add(this.tabJoin);
             this.tabUISections.Controls.Add(this.tabLobby);
-            this.tabUISections.Controls.Add(this.tabDraftHeroPick);
-            this.tabUISections.Controls.Add(this.tabSkillDraft);
             this.tabUISections.Controls.Add(this.tabDraftSummary);
             this.tabUISections.Controls.Add(this.tabSettings);
             this.tabUISections.Controls.Add(this.tabServerWizard);
-            this.tabUISections.Controls.Add(this.tabMod);
             this.tabUISections.ItemSize = new System.Drawing.Size(0, 1);
             this.tabUISections.Location = new System.Drawing.Point(0, 0);
             this.tabUISections.Name = "tabUISections";
@@ -593,17 +456,11 @@
             // tabHostLobby
             // 
             this.tabHostLobby.BackColor = System.Drawing.SystemColors.Control;
-            this.tabHostLobby.Controls.Add(this.gbxCustomMod);
-            this.tabHostLobby.Controls.Add(this.gbxAdditional);
-            this.tabHostLobby.Controls.Add(this.gmxGameMode);
-            this.tabHostLobby.Controls.Add(this.gbxMap);
             this.tabHostLobby.Controls.Add(this.gbxLobbySize);
             this.tabHostLobby.Controls.Add(this.gbxGamePassword);
             this.tabHostLobby.Controls.Add(this.btnCancelHosting);
             this.tabHostLobby.Controls.Add(this.btnHostGame);
-            this.tabHostLobby.Controls.Add(this.gbxSkillMode);
             this.tabHostLobby.Controls.Add(this.gbxGameName);
-            this.tabHostLobby.Controls.Add(this.gbxHeroMode);
             this.tabHostLobby.Controls.Add(this.lblHostLobbyMessage);
             this.tabHostLobby.Location = new System.Drawing.Point(4, 5);
             this.tabHostLobby.Name = "tabHostLobby";
@@ -612,165 +469,10 @@
             this.tabHostLobby.TabIndex = 2;
             this.tabHostLobby.Text = "Host";
             // 
-            // gbxCustomMod
-            // 
-            this.gbxCustomMod.Controls.Add(this.tbxCustomMod);
-            this.gbxCustomMod.Controls.Add(this.lblCustomWarn);
-            this.gbxCustomMod.Controls.Add(this.chkCustomEnable);
-            this.gbxCustomMod.Location = new System.Drawing.Point(11, 422);
-            this.gbxCustomMod.Name = "gbxCustomMod";
-            this.gbxCustomMod.Size = new System.Drawing.Size(218, 80);
-            this.gbxCustomMod.TabIndex = 80;
-            this.gbxCustomMod.TabStop = false;
-            this.gbxCustomMod.Text = "Custom Mod";
-            // 
-            // tbxCustomMod
-            // 
-            this.tbxCustomMod.AllowDrop = true;
-            this.tbxCustomMod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.tbxCustomMod.FormattingEnabled = true;
-            this.tbxCustomMod.Location = new System.Drawing.Point(72, 18);
-            this.tbxCustomMod.Name = "tbxCustomMod";
-            this.tbxCustomMod.Size = new System.Drawing.Size(121, 21);
-            this.tbxCustomMod.TabIndex = 2;
-            // 
-            // lblCustomWarn
-            // 
-            this.lblCustomWarn.AutoSize = true;
-            this.lblCustomWarn.Location = new System.Drawing.Point(6, 43);
-            this.lblCustomWarn.Name = "lblCustomWarn";
-            this.lblCustomWarn.Size = new System.Drawing.Size(208, 26);
-            this.lblCustomWarn.TabIndex = 1;
-            this.lblCustomWarn.Text = "WARNING: Do not enable without reading\r\n <d2cr>\\data\\custom\\readme.txt";
-            // 
-            // chkCustomEnable
-            // 
-            this.chkCustomEnable.AutoSize = true;
-            this.chkCustomEnable.Location = new System.Drawing.Point(7, 20);
-            this.chkCustomEnable.Name = "chkCustomEnable";
-            this.chkCustomEnable.Size = new System.Drawing.Size(59, 17);
-            this.chkCustomEnable.TabIndex = 0;
-            this.chkCustomEnable.Text = "Enable";
-            this.chkCustomEnable.UseVisualStyleBackColor = true;
-            this.chkCustomEnable.CheckedChanged += new System.EventHandler(this.chkCustomEnable_CheckedChanged);
-            // 
-            // gbxAdditional
-            // 
-            this.gbxAdditional.Controls.Add(this.chkBalanced);
-            this.gbxAdditional.Controls.Add(this.cbxX2);
-            this.gbxAdditional.Controls.Add(this.cbxAllTalk);
-            this.gbxAdditional.Controls.Add(this.cbxWTF);
-            this.gbxAdditional.Location = new System.Drawing.Point(11, 351);
-            this.gbxAdditional.Name = "gbxAdditional";
-            this.gbxAdditional.Size = new System.Drawing.Size(169, 65);
-            this.gbxAdditional.TabIndex = 10;
-            this.gbxAdditional.TabStop = false;
-            this.gbxAdditional.Text = "Additional Modes";
-            // 
-            // chkBalanced
-            // 
-            this.chkBalanced.AutoSize = true;
-            this.chkBalanced.Location = new System.Drawing.Point(94, 43);
-            this.chkBalanced.Name = "chkBalanced";
-            this.chkBalanced.Size = new System.Drawing.Size(71, 17);
-            this.chkBalanced.TabIndex = 3;
-            this.chkBalanced.Text = "Balanced";
-            this.chkBalanced.UseVisualStyleBackColor = true;
-            this.chkBalanced.CheckedChanged += new System.EventHandler(this.chkBalanced_CheckedChanged);
-            // 
-            // cbxX2
-            // 
-            this.cbxX2.AutoSize = true;
-            this.cbxX2.Location = new System.Drawing.Point(94, 20);
-            this.cbxX2.Name = "cbxX2";
-            this.cbxX2.Size = new System.Drawing.Size(67, 17);
-            this.cbxX2.TabIndex = 2;
-            this.cbxX2.Text = "x2 Mode";
-            this.cbxX2.UseVisualStyleBackColor = true;
-            // 
-            // cbxAllTalk
-            // 
-            this.cbxAllTalk.AutoSize = true;
-            this.cbxAllTalk.Location = new System.Drawing.Point(7, 44);
-            this.cbxAllTalk.Name = "cbxAllTalk";
-            this.cbxAllTalk.Size = new System.Drawing.Size(61, 17);
-            this.cbxAllTalk.TabIndex = 1;
-            this.cbxAllTalk.Text = "All Talk";
-            this.cbxAllTalk.UseVisualStyleBackColor = true;
-            // 
-            // cbxWTF
-            // 
-            this.cbxWTF.AutoSize = true;
-            this.cbxWTF.Location = new System.Drawing.Point(7, 20);
-            this.cbxWTF.Name = "cbxWTF";
-            this.cbxWTF.Size = new System.Drawing.Size(80, 17);
-            this.cbxWTF.TabIndex = 0;
-            this.cbxWTF.Text = "WTF Mode";
-            this.cbxWTF.UseVisualStyleBackColor = true;
-            // 
-            // gmxGameMode
-            // 
-            this.gmxGameMode.Controls.Add(this.cbxGameMode);
-            this.gmxGameMode.Location = new System.Drawing.Point(11, 180);
-            this.gmxGameMode.Name = "gmxGameMode";
-            this.gmxGameMode.Size = new System.Drawing.Size(362, 51);
-            this.gmxGameMode.TabIndex = 9;
-            this.gmxGameMode.TabStop = false;
-            this.gmxGameMode.Text = "Game Mode";
-            // 
-            // cbxGameMode
-            // 
-            this.cbxGameMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxGameMode.FormattingEnabled = true;
-            this.cbxGameMode.Items.AddRange(new object[] {
-            "OMG",
-            "OMG Greevilings",
-            "OMG Diretide",
-            "OMG Mid Only",
-            "All Pick",
-            "Captain\'s Mode",
-            "Random Draft",
-            "Single Draft",
-            "All Random",
-            "Diretide",
-            "Reverse Captain\'s Mode",
-            "Greevilings",
-            "Mid Only",
-            "New Player Pool"});
-            this.cbxGameMode.Location = new System.Drawing.Point(6, 19);
-            this.cbxGameMode.Name = "cbxGameMode";
-            this.cbxGameMode.Size = new System.Drawing.Size(349, 21);
-            this.cbxGameMode.TabIndex = 2;
-            this.cbxGameMode.SelectedIndexChanged += new System.EventHandler(this.cbxGameMode_SelectedIndexChanged);
-            // 
-            // gbxMap
-            // 
-            this.gbxMap.Controls.Add(this.cbxMap);
-            this.gbxMap.Location = new System.Drawing.Point(11, 294);
-            this.gbxMap.Name = "gbxMap";
-            this.gbxMap.Size = new System.Drawing.Size(362, 51);
-            this.gbxMap.TabIndex = 9;
-            this.gbxMap.TabStop = false;
-            this.gbxMap.Text = "Game Map";
-            // 
-            // cbxMap
-            // 
-            this.cbxMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxMap.FormattingEnabled = true;
-            this.cbxMap.Items.AddRange(new object[] {
-            "Dota",
-            "Autumn",
-            "Winter",
-            "Diretide"});
-            this.cbxMap.Location = new System.Drawing.Point(7, 20);
-            this.cbxMap.Name = "cbxMap";
-            this.cbxMap.Size = new System.Drawing.Size(349, 21);
-            this.cbxMap.TabIndex = 4;
-            // 
             // gbxLobbySize
             // 
             this.gbxLobbySize.Controls.Add(this.cbxGameSize);
-            this.gbxLobbySize.Location = new System.Drawing.Point(11, 237);
+            this.gbxLobbySize.Location = new System.Drawing.Point(11, 185);
             this.gbxLobbySize.Name = "gbxLobbySize";
             this.gbxLobbySize.Size = new System.Drawing.Size(362, 51);
             this.gbxLobbySize.TabIndex = 8;
@@ -840,41 +542,6 @@
             this.btnHostGame.UseVisualStyleBackColor = true;
             this.btnHostGame.Click += new System.EventHandler(this.btnHostGame_Click);
             // 
-            // gbxSkillMode
-            // 
-            this.gbxSkillMode.Controls.Add(this.radSkillDraft);
-            this.gbxSkillMode.Controls.Add(this.radSkillRandom);
-            this.gbxSkillMode.Location = new System.Drawing.Point(398, 185);
-            this.gbxSkillMode.Name = "gbxSkillMode";
-            this.gbxSkillMode.Size = new System.Drawing.Size(362, 93);
-            this.gbxSkillMode.TabIndex = 79;
-            this.gbxSkillMode.TabStop = false;
-            this.gbxSkillMode.Text = "Skill Mode";
-            // 
-            // radSkillDraft
-            // 
-            this.radSkillDraft.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radSkillDraft.Checked = true;
-            this.radSkillDraft.Location = new System.Drawing.Point(178, 19);
-            this.radSkillDraft.Name = "radSkillDraft";
-            this.radSkillDraft.Size = new System.Drawing.Size(110, 55);
-            this.radSkillDraft.TabIndex = 3;
-            this.radSkillDraft.TabStop = true;
-            this.radSkillDraft.Text = "Draft Skills";
-            this.radSkillDraft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radSkillDraft.UseVisualStyleBackColor = true;
-            // 
-            // radSkillRandom
-            // 
-            this.radSkillRandom.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radSkillRandom.Location = new System.Drawing.Point(62, 19);
-            this.radSkillRandom.Name = "radSkillRandom";
-            this.radSkillRandom.Size = new System.Drawing.Size(110, 55);
-            this.radSkillRandom.TabIndex = 2;
-            this.radSkillRandom.Text = "Random Skills";
-            this.radSkillRandom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radSkillRandom.UseVisualStyleBackColor = true;
-            // 
             // gbxGameName
             // 
             this.gbxGameName.Controls.Add(this.tbxGameName);
@@ -896,53 +563,6 @@
             this.tbxGameName.TabIndex = 0;
             this.tbxGameName.TextChanged += new System.EventHandler(this.tbxGameName_TextChanged);
             // 
-            // gbxHeroMode
-            // 
-            this.gbxHeroMode.Controls.Add(this.radHeroDraft);
-            this.gbxHeroMode.Controls.Add(this.radHeroRandom);
-            this.gbxHeroMode.Controls.Add(this.radHeroPick);
-            this.gbxHeroMode.Location = new System.Drawing.Point(398, 81);
-            this.gbxHeroMode.Name = "gbxHeroMode";
-            this.gbxHeroMode.Size = new System.Drawing.Size(362, 93);
-            this.gbxHeroMode.TabIndex = 78;
-            this.gbxHeroMode.TabStop = false;
-            this.gbxHeroMode.Text = "Hero Mode";
-            // 
-            // radHeroDraft
-            // 
-            this.radHeroDraft.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radHeroDraft.Location = new System.Drawing.Point(238, 19);
-            this.radHeroDraft.Name = "radHeroDraft";
-            this.radHeroDraft.Size = new System.Drawing.Size(110, 55);
-            this.radHeroDraft.TabIndex = 2;
-            this.radHeroDraft.Text = "Draft Heroes";
-            this.radHeroDraft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radHeroDraft.UseVisualStyleBackColor = true;
-            // 
-            // radHeroRandom
-            // 
-            this.radHeroRandom.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radHeroRandom.Location = new System.Drawing.Point(122, 19);
-            this.radHeroRandom.Name = "radHeroRandom";
-            this.radHeroRandom.Size = new System.Drawing.Size(110, 55);
-            this.radHeroRandom.TabIndex = 1;
-            this.radHeroRandom.Text = "Random Heroes";
-            this.radHeroRandom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radHeroRandom.UseVisualStyleBackColor = true;
-            // 
-            // radHeroPick
-            // 
-            this.radHeroPick.Appearance = System.Windows.Forms.Appearance.Button;
-            this.radHeroPick.Checked = true;
-            this.radHeroPick.Location = new System.Drawing.Point(6, 19);
-            this.radHeroPick.Name = "radHeroPick";
-            this.radHeroPick.Size = new System.Drawing.Size(110, 55);
-            this.radHeroPick.TabIndex = 0;
-            this.radHeroPick.TabStop = true;
-            this.radHeroPick.Text = "Pick Heroes";
-            this.radHeroPick.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radHeroPick.UseVisualStyleBackColor = true;
-            // 
             // lblHostLobbyMessage
             // 
             this.lblHostLobbyMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -957,7 +577,6 @@
             // tabJoin
             // 
             this.tabJoin.BackColor = System.Drawing.SystemColors.Control;
-            this.tabJoin.Controls.Add(this.btnModDL);
             this.tabJoin.Controls.Add(this.cbxLocked);
             this.tabJoin.Controls.Add(this.lblJoinAttemptText);
             this.tabJoin.Controls.Add(this.lblGameListRefresh);
@@ -970,16 +589,6 @@
             this.tabJoin.Size = new System.Drawing.Size(864, 513);
             this.tabJoin.TabIndex = 4;
             this.tabJoin.Text = "Join";
-            // 
-            // btnModDL
-            // 
-            this.btnModDL.Location = new System.Drawing.Point(667, 478);
-            this.btnModDL.Name = "btnModDL";
-            this.btnModDL.Size = new System.Drawing.Size(92, 28);
-            this.btnModDL.TabIndex = 6;
-            this.btnModDL.Text = "Download Mods";
-            this.btnModDL.UseVisualStyleBackColor = true;
-            this.btnModDL.Click += new System.EventHandler(this.btnModDL_Click);
             // 
             // cbxLocked
             // 
@@ -1050,11 +659,7 @@
             this.colPass,
             this.colGameName,
             this.colHost,
-            this.colMode,
-            this.colSkillsHeroes,
-            this.colPlayers,
-            this.colMap,
-            this.colCustomMod});
+            this.colPlayers});
             this.grdGamesList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.grdGamesList.Location = new System.Drawing.Point(3, 31);
             this.grdGamesList.MultiSelect = false;
@@ -1067,68 +672,6 @@
             this.grdGamesList.Size = new System.Drawing.Size(855, 441);
             this.grdGamesList.TabIndex = 0;
             this.grdGamesList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdGamesList_CellContentClick);
-            // 
-            // colChannel
-            // 
-            this.colChannel.HeaderText = "Channel";
-            this.colChannel.Name = "colChannel";
-            this.colChannel.ReadOnly = true;
-            this.colChannel.Visible = false;
-            // 
-            // colPass
-            // 
-            this.colPass.FillWeight = 25F;
-            this.colPass.HeaderText = "Lock";
-            this.colPass.Name = "colPass";
-            this.colPass.ReadOnly = true;
-            // 
-            // colGameName
-            // 
-            this.colGameName.FillWeight = 123F;
-            this.colGameName.HeaderText = "Game Name";
-            this.colGameName.Name = "colGameName";
-            this.colGameName.ReadOnly = true;
-            // 
-            // colHost
-            // 
-            this.colHost.FillWeight = 85.44905F;
-            this.colHost.HeaderText = "Host";
-            this.colHost.Name = "colHost";
-            this.colHost.ReadOnly = true;
-            // 
-            // colMode
-            // 
-            this.colMode.FillWeight = 65F;
-            this.colMode.HeaderText = "Mode";
-            this.colMode.Name = "colMode";
-            this.colMode.ReadOnly = true;
-            // 
-            // colSkillsHeroes
-            // 
-            this.colSkillsHeroes.HeaderText = "Hero / Skill Modes";
-            this.colSkillsHeroes.Name = "colSkillsHeroes";
-            this.colSkillsHeroes.ReadOnly = true;
-            // 
-            // colPlayers
-            // 
-            this.colPlayers.FillWeight = 50F;
-            this.colPlayers.HeaderText = "Players";
-            this.colPlayers.Name = "colPlayers";
-            this.colPlayers.ReadOnly = true;
-            // 
-            // colMap
-            // 
-            this.colMap.FillWeight = 75F;
-            this.colMap.HeaderText = "Map";
-            this.colMap.Name = "colMap";
-            this.colMap.ReadOnly = true;
-            this.colMap.Visible = false;
-            // 
-            // colCustomMod
-            // 
-            this.colCustomMod.HeaderText = "Custom Mod";
-            this.colCustomMod.Name = "colCustomMod";
-            this.colCustomMod.ReadOnly = true;
             // 
             // tabLobby
             // 
@@ -1154,10 +697,8 @@
             // 
             // gbxGameInfo
             // 
-            this.gbxGameInfo.Controls.Add(this.lblAdditional);
             this.gbxGameInfo.Controls.Add(this.labelMaxPlayers);
             this.gbxGameInfo.Controls.Add(this.labelMap);
-            this.gbxGameInfo.Controls.Add(this.labelHeroSkills);
             this.gbxGameInfo.Controls.Add(this.labelHost);
             this.gbxGameInfo.Location = new System.Drawing.Point(237, 35);
             this.gbxGameInfo.Name = "gbxGameInfo";
@@ -1165,15 +706,6 @@
             this.gbxGameInfo.TabIndex = 12;
             this.gbxGameInfo.TabStop = false;
             this.gbxGameInfo.Text = "Game Info";
-            // 
-            // lblAdditional
-            // 
-            this.lblAdditional.AutoSize = true;
-            this.lblAdditional.Location = new System.Drawing.Point(7, 69);
-            this.lblAdditional.Name = "lblAdditional";
-            this.lblAdditional.Size = new System.Drawing.Size(91, 13);
-            this.lblAdditional.TabIndex = 5;
-            this.lblAdditional.Text = "Additional Modes:";
             // 
             // labelMaxPlayers
             // 
@@ -1192,15 +724,6 @@
             this.labelMap.Size = new System.Drawing.Size(34, 13);
             this.labelMap.TabIndex = 2;
             this.labelMap.Text = "Map: ";
-            // 
-            // labelHeroSkills
-            // 
-            this.labelHeroSkills.AutoSize = true;
-            this.labelHeroSkills.Location = new System.Drawing.Point(7, 45);
-            this.labelHeroSkills.Name = "labelHeroSkills";
-            this.labelHeroSkills.Size = new System.Drawing.Size(40, 13);
-            this.labelHeroSkills.TabIndex = 1;
-            this.labelHeroSkills.Text = "Mode: ";
             // 
             // labelHost
             // 
@@ -1391,417 +914,10 @@
             this.lblLobbyName.TabIndex = 0;
             this.lblLobbyName.Text = "Lobby Name";
             // 
-            // tabDraftHeroPick
-            // 
-            this.tabDraftHeroPick.BackColor = System.Drawing.SystemColors.Control;
-            this.tabDraftHeroPick.Controls.Add(this.lblHeroDraftPickingOrder);
-            this.tabDraftHeroPick.Controls.Add(this.lblHeroDraftPicks);
-            this.tabDraftHeroPick.Controls.Add(this.pbxDraftRadiantPicks);
-            this.tabDraftHeroPick.Controls.Add(this.pbxDraftDirePicks);
-            this.tabDraftHeroPick.Controls.Add(this.floDraftDireHeroes);
-            this.tabDraftHeroPick.Controls.Add(this.lblDraftPlayerTurnText);
-            this.tabDraftHeroPick.Controls.Add(this.floDraftRadiantHeroes);
-            this.tabDraftHeroPick.Controls.Add(this.pbxDraftHeroPickDire);
-            this.tabDraftHeroPick.Controls.Add(this.pbxDraftHeroPickRadiant);
-            this.tabDraftHeroPick.Controls.Add(this.pbxDraftHeroPickIntelligence);
-            this.tabDraftHeroPick.Controls.Add(this.pbxDraftHeroPickAgility);
-            this.tabDraftHeroPick.Controls.Add(this.pbxDraftHeroPickStrength);
-            this.tabDraftHeroPick.Controls.Add(this.gbxDraftHeroPickTimeRemaining);
-            this.tabDraftHeroPick.Controls.Add(this.floDraftPlayerOrder);
-            this.tabDraftHeroPick.Controls.Add(this.lblHeroSelectionDraft);
-            this.tabDraftHeroPick.Controls.Add(this.floDraftHeroRadiantIntelligence);
-            this.tabDraftHeroPick.Controls.Add(this.floDraftHeroDireIntelligence);
-            this.tabDraftHeroPick.Controls.Add(this.floDraftHeroDireAgility);
-            this.tabDraftHeroPick.Controls.Add(this.floDraftHeroRadiantAgility);
-            this.tabDraftHeroPick.Controls.Add(this.floDraftHeroDireStrength);
-            this.tabDraftHeroPick.Controls.Add(this.floDraftHeroRadiantStrength);
-            this.tabDraftHeroPick.Location = new System.Drawing.Point(4, 5);
-            this.tabDraftHeroPick.Name = "tabDraftHeroPick";
-            this.tabDraftHeroPick.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDraftHeroPick.Size = new System.Drawing.Size(864, 513);
-            this.tabDraftHeroPick.TabIndex = 5;
-            this.tabDraftHeroPick.Text = "Hero Draft";
-            // 
-            // lblHeroDraftPickingOrder
-            // 
-            this.lblHeroDraftPickingOrder.AutoSize = true;
-            this.lblHeroDraftPickingOrder.Location = new System.Drawing.Point(7, 410);
-            this.lblHeroDraftPickingOrder.Name = "lblHeroDraftPickingOrder";
-            this.lblHeroDraftPickingOrder.Size = new System.Drawing.Size(71, 13);
-            this.lblHeroDraftPickingOrder.TabIndex = 21;
-            this.lblHeroDraftPickingOrder.Text = "Picking Order";
-            // 
-            // lblHeroDraftPicks
-            // 
-            this.lblHeroDraftPicks.AutoSize = true;
-            this.lblHeroDraftPicks.Location = new System.Drawing.Point(373, 462);
-            this.lblHeroDraftPicks.Name = "lblHeroDraftPicks";
-            this.lblHeroDraftPicks.Size = new System.Drawing.Size(33, 13);
-            this.lblHeroDraftPicks.TabIndex = 20;
-            this.lblHeroDraftPicks.Text = "Picks";
-            // 
-            // pbxDraftRadiantPicks
-            // 
-            this.pbxDraftRadiantPicks.Image = ((System.Drawing.Image)(resources.GetObject("pbxDraftRadiantPicks.Image")));
-            this.pbxDraftRadiantPicks.Location = new System.Drawing.Point(354, 479);
-            this.pbxDraftRadiantPicks.Name = "pbxDraftRadiantPicks";
-            this.pbxDraftRadiantPicks.Size = new System.Drawing.Size(24, 25);
-            this.pbxDraftRadiantPicks.TabIndex = 19;
-            this.pbxDraftRadiantPicks.TabStop = false;
-            // 
-            // pbxDraftDirePicks
-            // 
-            this.pbxDraftDirePicks.Image = ((System.Drawing.Image)(resources.GetObject("pbxDraftDirePicks.Image")));
-            this.pbxDraftDirePicks.Location = new System.Drawing.Point(396, 479);
-            this.pbxDraftDirePicks.Name = "pbxDraftDirePicks";
-            this.pbxDraftDirePicks.Size = new System.Drawing.Size(24, 25);
-            this.pbxDraftDirePicks.TabIndex = 18;
-            this.pbxDraftDirePicks.TabStop = false;
-            // 
-            // floDraftDireHeroes
-            // 
-            this.floDraftDireHeroes.Location = new System.Drawing.Point(426, 462);
-            this.floDraftDireHeroes.Name = "floDraftDireHeroes";
-            this.floDraftDireHeroes.Size = new System.Drawing.Size(340, 46);
-            this.floDraftDireHeroes.TabIndex = 16;
-            // 
-            // lblDraftPlayerTurnText
-            // 
-            this.lblDraftPlayerTurnText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDraftPlayerTurnText.Location = new System.Drawing.Point(595, 418);
-            this.lblDraftPlayerTurnText.Name = "lblDraftPlayerTurnText";
-            this.lblDraftPlayerTurnText.Size = new System.Drawing.Size(260, 34);
-            this.lblDraftPlayerTurnText.TabIndex = 9;
-            this.lblDraftPlayerTurnText.Text = "Player\'s turn";
-            this.lblDraftPlayerTurnText.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // floDraftRadiantHeroes
-            // 
-            this.floDraftRadiantHeroes.Location = new System.Drawing.Point(8, 461);
-            this.floDraftRadiantHeroes.Name = "floDraftRadiantHeroes";
-            this.floDraftRadiantHeroes.Size = new System.Drawing.Size(340, 46);
-            this.floDraftRadiantHeroes.TabIndex = 15;
-            // 
-            // pbxDraftHeroPickDire
-            // 
-            this.pbxDraftHeroPickDire.Image = ((System.Drawing.Image)(resources.GetObject("pbxDraftHeroPickDire.Image")));
-            this.pbxDraftHeroPickDire.Location = new System.Drawing.Point(493, 7);
-            this.pbxDraftHeroPickDire.Name = "pbxDraftHeroPickDire";
-            this.pbxDraftHeroPickDire.Size = new System.Drawing.Size(24, 25);
-            this.pbxDraftHeroPickDire.TabIndex = 14;
-            this.pbxDraftHeroPickDire.TabStop = false;
-            // 
-            // pbxDraftHeroPickRadiant
-            // 
-            this.pbxDraftHeroPickRadiant.Image = ((System.Drawing.Image)(resources.GetObject("pbxDraftHeroPickRadiant.Image")));
-            this.pbxDraftHeroPickRadiant.Location = new System.Drawing.Point(290, 7);
-            this.pbxDraftHeroPickRadiant.Name = "pbxDraftHeroPickRadiant";
-            this.pbxDraftHeroPickRadiant.Size = new System.Drawing.Size(24, 25);
-            this.pbxDraftHeroPickRadiant.TabIndex = 13;
-            this.pbxDraftHeroPickRadiant.TabStop = false;
-            // 
-            // pbxDraftHeroPickIntelligence
-            // 
-            this.pbxDraftHeroPickIntelligence.Image = ((System.Drawing.Image)(resources.GetObject("pbxDraftHeroPickIntelligence.Image")));
-            this.pbxDraftHeroPickIntelligence.Location = new System.Drawing.Point(417, 339);
-            this.pbxDraftHeroPickIntelligence.Name = "pbxDraftHeroPickIntelligence";
-            this.pbxDraftHeroPickIntelligence.Size = new System.Drawing.Size(24, 25);
-            this.pbxDraftHeroPickIntelligence.TabIndex = 12;
-            this.pbxDraftHeroPickIntelligence.TabStop = false;
-            // 
-            // pbxDraftHeroPickAgility
-            // 
-            this.pbxDraftHeroPickAgility.Image = ((System.Drawing.Image)(resources.GetObject("pbxDraftHeroPickAgility.Image")));
-            this.pbxDraftHeroPickAgility.Location = new System.Drawing.Point(417, 208);
-            this.pbxDraftHeroPickAgility.Name = "pbxDraftHeroPickAgility";
-            this.pbxDraftHeroPickAgility.Size = new System.Drawing.Size(24, 25);
-            this.pbxDraftHeroPickAgility.TabIndex = 11;
-            this.pbxDraftHeroPickAgility.TabStop = false;
-            // 
-            // pbxDraftHeroPickStrength
-            // 
-            this.pbxDraftHeroPickStrength.Image = ((System.Drawing.Image)(resources.GetObject("pbxDraftHeroPickStrength.Image")));
-            this.pbxDraftHeroPickStrength.Location = new System.Drawing.Point(417, 79);
-            this.pbxDraftHeroPickStrength.Name = "pbxDraftHeroPickStrength";
-            this.pbxDraftHeroPickStrength.Size = new System.Drawing.Size(24, 25);
-            this.pbxDraftHeroPickStrength.TabIndex = 10;
-            this.pbxDraftHeroPickStrength.TabStop = false;
-            // 
-            // gbxDraftHeroPickTimeRemaining
-            // 
-            this.gbxDraftHeroPickTimeRemaining.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbxDraftHeroPickTimeRemaining.Controls.Add(this.lblDraftHeroPickTimeRemaining);
-            this.gbxDraftHeroPickTimeRemaining.Location = new System.Drawing.Point(772, 457);
-            this.gbxDraftHeroPickTimeRemaining.Name = "gbxDraftHeroPickTimeRemaining";
-            this.gbxDraftHeroPickTimeRemaining.Size = new System.Drawing.Size(86, 50);
-            this.gbxDraftHeroPickTimeRemaining.TabIndex = 8;
-            this.gbxDraftHeroPickTimeRemaining.TabStop = false;
-            this.gbxDraftHeroPickTimeRemaining.Text = "Time:";
-            // 
-            // lblDraftHeroPickTimeRemaining
-            // 
-            this.lblDraftHeroPickTimeRemaining.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblDraftHeroPickTimeRemaining.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDraftHeroPickTimeRemaining.Location = new System.Drawing.Point(3, 16);
-            this.lblDraftHeroPickTimeRemaining.Name = "lblDraftHeroPickTimeRemaining";
-            this.lblDraftHeroPickTimeRemaining.Size = new System.Drawing.Size(80, 31);
-            this.lblDraftHeroPickTimeRemaining.TabIndex = 0;
-            this.lblDraftHeroPickTimeRemaining.Text = "0:00";
-            this.lblDraftHeroPickTimeRemaining.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // floDraftPlayerOrder
-            // 
-            this.floDraftPlayerOrder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.floDraftPlayerOrder.Location = new System.Drawing.Point(8, 426);
-            this.floDraftPlayerOrder.Name = "floDraftPlayerOrder";
-            this.floDraftPlayerOrder.Size = new System.Drawing.Size(581, 22);
-            this.floDraftPlayerOrder.TabIndex = 7;
-            // 
-            // lblHeroSelectionDraft
-            // 
-            this.lblHeroSelectionDraft.AutoSize = true;
-            this.lblHeroSelectionDraft.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHeroSelectionDraft.Location = new System.Drawing.Point(320, 3);
-            this.lblHeroSelectionDraft.Name = "lblHeroSelectionDraft";
-            this.lblHeroSelectionDraft.Size = new System.Drawing.Size(167, 25);
-            this.lblHeroSelectionDraft.TabIndex = 6;
-            this.lblHeroSelectionDraft.Text = "Hero Selection";
-            // 
-            // floDraftHeroRadiantIntelligence
-            // 
-            this.floDraftHeroRadiantIntelligence.Location = new System.Drawing.Point(6, 289);
-            this.floDraftHeroRadiantIntelligence.Name = "floDraftHeroRadiantIntelligence";
-            this.floDraftHeroRadiantIntelligence.Size = new System.Drawing.Size(400, 120);
-            this.floDraftHeroRadiantIntelligence.TabIndex = 5;
-            // 
-            // floDraftHeroDireIntelligence
-            // 
-            this.floDraftHeroDireIntelligence.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.floDraftHeroDireIntelligence.Location = new System.Drawing.Point(455, 289);
-            this.floDraftHeroDireIntelligence.Name = "floDraftHeroDireIntelligence";
-            this.floDraftHeroDireIntelligence.Size = new System.Drawing.Size(400, 120);
-            this.floDraftHeroDireIntelligence.TabIndex = 4;
-            // 
-            // floDraftHeroDireAgility
-            // 
-            this.floDraftHeroDireAgility.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.floDraftHeroDireAgility.Location = new System.Drawing.Point(455, 161);
-            this.floDraftHeroDireAgility.Name = "floDraftHeroDireAgility";
-            this.floDraftHeroDireAgility.Size = new System.Drawing.Size(400, 120);
-            this.floDraftHeroDireAgility.TabIndex = 3;
-            // 
-            // floDraftHeroRadiantAgility
-            // 
-            this.floDraftHeroRadiantAgility.Location = new System.Drawing.Point(6, 161);
-            this.floDraftHeroRadiantAgility.Name = "floDraftHeroRadiantAgility";
-            this.floDraftHeroRadiantAgility.Size = new System.Drawing.Size(400, 120);
-            this.floDraftHeroRadiantAgility.TabIndex = 2;
-            // 
-            // floDraftHeroDireStrength
-            // 
-            this.floDraftHeroDireStrength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.floDraftHeroDireStrength.Location = new System.Drawing.Point(455, 35);
-            this.floDraftHeroDireStrength.Name = "floDraftHeroDireStrength";
-            this.floDraftHeroDireStrength.Size = new System.Drawing.Size(400, 120);
-            this.floDraftHeroDireStrength.TabIndex = 1;
-            // 
-            // floDraftHeroRadiantStrength
-            // 
-            this.floDraftHeroRadiantStrength.Location = new System.Drawing.Point(6, 35);
-            this.floDraftHeroRadiantStrength.Name = "floDraftHeroRadiantStrength";
-            this.floDraftHeroRadiantStrength.Size = new System.Drawing.Size(400, 120);
-            this.floDraftHeroRadiantStrength.TabIndex = 0;
-            // 
-            // tabSkillDraft
-            // 
-            this.tabSkillDraft.BackColor = System.Drawing.SystemColors.Control;
-            this.tabSkillDraft.Controls.Add(this.btnLeaveSkills);
-            this.tabSkillDraft.Controls.Add(this.pbxSkillDraftYourHero);
-            this.tabSkillDraft.Controls.Add(this.lblSkillDraftSelection);
-            this.tabSkillDraft.Controls.Add(this.floSkillDirePicks);
-            this.tabSkillDraft.Controls.Add(this.floSkillRadiantPicks);
-            this.tabSkillDraft.Controls.Add(this.lblSkillDraftPickingOrder);
-            this.tabSkillDraft.Controls.Add(this.lblSkillDraftPicks);
-            this.tabSkillDraft.Controls.Add(this.pbxSkillRadiantPicks);
-            this.tabSkillDraft.Controls.Add(this.pbxSkillDirePicks);
-            this.tabSkillDraft.Controls.Add(this.lblSkillDraftPlayerTurn);
-            this.tabSkillDraft.Controls.Add(this.gbxSkillDraftTimeRemaining);
-            this.tabSkillDraft.Controls.Add(this.floSKillDraftPickingOrder);
-            this.tabSkillDraft.Controls.Add(this.floSkillDraftUltimateSkills);
-            this.tabSkillDraft.Controls.Add(this.lblSkillDraftUltimates);
-            this.tabSkillDraft.Controls.Add(this.lblSkillDraftNormal);
-            this.tabSkillDraft.Controls.Add(this.floSkillDraftNormalSkills);
-            this.tabSkillDraft.Location = new System.Drawing.Point(4, 5);
-            this.tabSkillDraft.Name = "tabSkillDraft";
-            this.tabSkillDraft.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSkillDraft.Size = new System.Drawing.Size(864, 513);
-            this.tabSkillDraft.TabIndex = 6;
-            this.tabSkillDraft.Text = "Skill Draft";
-            // 
-            // btnLeaveSkills
-            // 
-            this.btnLeaveSkills.Location = new System.Drawing.Point(773, 487);
-            this.btnLeaveSkills.Name = "btnLeaveSkills";
-            this.btnLeaveSkills.Size = new System.Drawing.Size(86, 23);
-            this.btnLeaveSkills.TabIndex = 33;
-            this.btnLeaveSkills.Text = "Leave Game";
-            this.btnLeaveSkills.UseVisualStyleBackColor = true;
-            this.btnLeaveSkills.Click += new System.EventHandler(this.btnLeaveSkills_Click);
-            // 
-            // pbxSkillDraftYourHero
-            // 
-            this.pbxSkillDraftYourHero.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbxSkillDraftYourHero.Location = new System.Drawing.Point(795, 3);
-            this.pbxSkillDraftYourHero.Name = "pbxSkillDraftYourHero";
-            this.pbxSkillDraftYourHero.Size = new System.Drawing.Size(61, 33);
-            this.pbxSkillDraftYourHero.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbxSkillDraftYourHero.TabIndex = 32;
-            this.pbxSkillDraftYourHero.TabStop = false;
-            // 
-            // lblSkillDraftSelection
-            // 
-            this.lblSkillDraftSelection.AutoSize = true;
-            this.lblSkillDraftSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSkillDraftSelection.Location = new System.Drawing.Point(351, 7);
-            this.lblSkillDraftSelection.Name = "lblSkillDraftSelection";
-            this.lblSkillDraftSelection.Size = new System.Drawing.Size(162, 25);
-            this.lblSkillDraftSelection.TabIndex = 31;
-            this.lblSkillDraftSelection.Text = "Skill Selection";
-            // 
-            // floSkillDirePicks
-            // 
-            this.floSkillDirePicks.Location = new System.Drawing.Point(427, 433);
-            this.floSkillDirePicks.Name = "floSkillDirePicks";
-            this.floSkillDirePicks.Size = new System.Drawing.Size(340, 84);
-            this.floSkillDirePicks.TabIndex = 30;
-            // 
-            // floSkillRadiantPicks
-            // 
-            this.floSkillRadiantPicks.Location = new System.Drawing.Point(9, 433);
-            this.floSkillRadiantPicks.Name = "floSkillRadiantPicks";
-            this.floSkillRadiantPicks.Size = new System.Drawing.Size(340, 81);
-            this.floSkillRadiantPicks.TabIndex = 29;
-            // 
-            // lblSkillDraftPickingOrder
-            // 
-            this.lblSkillDraftPickingOrder.AutoSize = true;
-            this.lblSkillDraftPickingOrder.Location = new System.Drawing.Point(8, 383);
-            this.lblSkillDraftPickingOrder.Name = "lblSkillDraftPickingOrder";
-            this.lblSkillDraftPickingOrder.Size = new System.Drawing.Size(71, 13);
-            this.lblSkillDraftPickingOrder.TabIndex = 28;
-            this.lblSkillDraftPickingOrder.Text = "Picking Order";
-            // 
-            // lblSkillDraftPicks
-            // 
-            this.lblSkillDraftPicks.AutoSize = true;
-            this.lblSkillDraftPicks.Location = new System.Drawing.Point(374, 438);
-            this.lblSkillDraftPicks.Name = "lblSkillDraftPicks";
-            this.lblSkillDraftPicks.Size = new System.Drawing.Size(33, 13);
-            this.lblSkillDraftPicks.TabIndex = 27;
-            this.lblSkillDraftPicks.Text = "Picks";
-            // 
-            // pbxSkillRadiantPicks
-            // 
-            this.pbxSkillRadiantPicks.Image = ((System.Drawing.Image)(resources.GetObject("pbxSkillRadiantPicks.Image")));
-            this.pbxSkillRadiantPicks.Location = new System.Drawing.Point(355, 455);
-            this.pbxSkillRadiantPicks.Name = "pbxSkillRadiantPicks";
-            this.pbxSkillRadiantPicks.Size = new System.Drawing.Size(24, 25);
-            this.pbxSkillRadiantPicks.TabIndex = 26;
-            this.pbxSkillRadiantPicks.TabStop = false;
-            // 
-            // pbxSkillDirePicks
-            // 
-            this.pbxSkillDirePicks.Image = ((System.Drawing.Image)(resources.GetObject("pbxSkillDirePicks.Image")));
-            this.pbxSkillDirePicks.Location = new System.Drawing.Point(397, 455);
-            this.pbxSkillDirePicks.Name = "pbxSkillDirePicks";
-            this.pbxSkillDirePicks.Size = new System.Drawing.Size(24, 25);
-            this.pbxSkillDirePicks.TabIndex = 25;
-            this.pbxSkillDirePicks.TabStop = false;
-            // 
-            // lblSkillDraftPlayerTurn
-            // 
-            this.lblSkillDraftPlayerTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSkillDraftPlayerTurn.Location = new System.Drawing.Point(596, 394);
-            this.lblSkillDraftPlayerTurn.Name = "lblSkillDraftPlayerTurn";
-            this.lblSkillDraftPlayerTurn.Size = new System.Drawing.Size(260, 34);
-            this.lblSkillDraftPlayerTurn.TabIndex = 24;
-            this.lblSkillDraftPlayerTurn.Text = "Player\'s turn";
-            this.lblSkillDraftPlayerTurn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // gbxSkillDraftTimeRemaining
-            // 
-            this.gbxSkillDraftTimeRemaining.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbxSkillDraftTimeRemaining.Controls.Add(this.lblSkillDraftTimeRemaining);
-            this.gbxSkillDraftTimeRemaining.Location = new System.Drawing.Point(773, 433);
-            this.gbxSkillDraftTimeRemaining.Name = "gbxSkillDraftTimeRemaining";
-            this.gbxSkillDraftTimeRemaining.Size = new System.Drawing.Size(86, 50);
-            this.gbxSkillDraftTimeRemaining.TabIndex = 23;
-            this.gbxSkillDraftTimeRemaining.TabStop = false;
-            this.gbxSkillDraftTimeRemaining.Text = "Time:";
-            // 
-            // lblSkillDraftTimeRemaining
-            // 
-            this.lblSkillDraftTimeRemaining.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSkillDraftTimeRemaining.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSkillDraftTimeRemaining.Location = new System.Drawing.Point(3, 16);
-            this.lblSkillDraftTimeRemaining.Name = "lblSkillDraftTimeRemaining";
-            this.lblSkillDraftTimeRemaining.Size = new System.Drawing.Size(80, 31);
-            this.lblSkillDraftTimeRemaining.TabIndex = 0;
-            this.lblSkillDraftTimeRemaining.Text = "0:00";
-            this.lblSkillDraftTimeRemaining.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // floSKillDraftPickingOrder
-            // 
-            this.floSKillDraftPickingOrder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.floSKillDraftPickingOrder.Location = new System.Drawing.Point(9, 399);
-            this.floSKillDraftPickingOrder.Name = "floSKillDraftPickingOrder";
-            this.floSKillDraftPickingOrder.Size = new System.Drawing.Size(581, 22);
-            this.floSKillDraftPickingOrder.TabIndex = 22;
-            // 
-            // floSkillDraftUltimateSkills
-            // 
-            this.floSkillDraftUltimateSkills.AllowDrop = true;
-            this.floSkillDraftUltimateSkills.Location = new System.Drawing.Point(11, 277);
-            this.floSkillDraftUltimateSkills.Name = "floSkillDraftUltimateSkills";
-            this.floSkillDraftUltimateSkills.Size = new System.Drawing.Size(845, 102);
-            this.floSkillDraftUltimateSkills.TabIndex = 3;
-            // 
-            // lblSkillDraftUltimates
-            // 
-            this.lblSkillDraftUltimates.AutoSize = true;
-            this.lblSkillDraftUltimates.Location = new System.Drawing.Point(8, 261);
-            this.lblSkillDraftUltimates.Name = "lblSkillDraftUltimates";
-            this.lblSkillDraftUltimates.Size = new System.Drawing.Size(75, 13);
-            this.lblSkillDraftUltimates.TabIndex = 2;
-            this.lblSkillDraftUltimates.Text = "Ultimate Skills:";
-            // 
-            // lblSkillDraftNormal
-            // 
-            this.lblSkillDraftNormal.AutoSize = true;
-            this.lblSkillDraftNormal.Location = new System.Drawing.Point(8, 23);
-            this.lblSkillDraftNormal.Name = "lblSkillDraftNormal";
-            this.lblSkillDraftNormal.Size = new System.Drawing.Size(70, 13);
-            this.lblSkillDraftNormal.TabIndex = 1;
-            this.lblSkillDraftNormal.Text = "Normal Skills:";
-            // 
-            // floSkillDraftNormalSkills
-            // 
-            this.floSkillDraftNormalSkills.Location = new System.Drawing.Point(11, 39);
-            this.floSkillDraftNormalSkills.Name = "floSkillDraftNormalSkills";
-            this.floSkillDraftNormalSkills.Size = new System.Drawing.Size(845, 219);
-            this.floSkillDraftNormalSkills.TabIndex = 0;
-            // 
             // tabDraftSummary
             // 
             this.tabDraftSummary.BackColor = System.Drawing.SystemColors.Control;
             this.tabDraftSummary.Controls.Add(this.gbxConfiguringMod);
-            this.tabDraftSummary.Controls.Add(this.floDireTeamSummary);
-            this.tabDraftSummary.Controls.Add(this.lblDraftDireTeamPicks);
-            this.tabDraftSummary.Controls.Add(this.floRadiantTeamSummary);
-            this.tabDraftSummary.Controls.Add(this.lblDraftRadiantTeamPicks);
-            this.tabDraftSummary.Controls.Add(this.floPersonalSummary);
             this.tabDraftSummary.Location = new System.Drawing.Point(4, 5);
             this.tabDraftSummary.Name = "tabDraftSummary";
             this.tabDraftSummary.Padding = new System.Windows.Forms.Padding(3);
@@ -1860,48 +976,6 @@
             this.pgbConfigProgress.Size = new System.Drawing.Size(337, 28);
             this.pgbConfigProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.pgbConfigProgress.TabIndex = 0;
-            // 
-            // floDireTeamSummary
-            // 
-            this.floDireTeamSummary.Location = new System.Drawing.Point(14, 129);
-            this.floDireTeamSummary.Name = "floDireTeamSummary";
-            this.floDireTeamSummary.Size = new System.Drawing.Size(410, 378);
-            this.floDireTeamSummary.TabIndex = 5;
-            // 
-            // lblDraftDireTeamPicks
-            // 
-            this.lblDraftDireTeamPicks.AllowDrop = true;
-            this.lblDraftDireTeamPicks.AutoSize = true;
-            this.lblDraftDireTeamPicks.Location = new System.Drawing.Point(11, 113);
-            this.lblDraftDireTeamPicks.Name = "lblDraftDireTeamPicks";
-            this.lblDraftDireTeamPicks.Size = new System.Drawing.Size(95, 13);
-            this.lblDraftDireTeamPicks.TabIndex = 4;
-            this.lblDraftDireTeamPicks.Text = "Dire Team Picked:";
-            // 
-            // floRadiantTeamSummary
-            // 
-            this.floRadiantTeamSummary.Location = new System.Drawing.Point(14, 129);
-            this.floRadiantTeamSummary.Name = "floRadiantTeamSummary";
-            this.floRadiantTeamSummary.Size = new System.Drawing.Size(410, 376);
-            this.floRadiantTeamSummary.TabIndex = 3;
-            // 
-            // lblDraftRadiantTeamPicks
-            // 
-            this.lblDraftRadiantTeamPicks.AutoSize = true;
-            this.lblDraftRadiantTeamPicks.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.lblDraftRadiantTeamPicks.Location = new System.Drawing.Point(11, 113);
-            this.lblDraftRadiantTeamPicks.Name = "lblDraftRadiantTeamPicks";
-            this.lblDraftRadiantTeamPicks.Size = new System.Drawing.Size(113, 13);
-            this.lblDraftRadiantTeamPicks.TabIndex = 2;
-            this.lblDraftRadiantTeamPicks.Text = "Radiant Team Picked:";
-            // 
-            // floPersonalSummary
-            // 
-            this.floPersonalSummary.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.floPersonalSummary.Location = new System.Drawing.Point(14, 27);
-            this.floPersonalSummary.Name = "floPersonalSummary";
-            this.floPersonalSummary.Size = new System.Drawing.Size(481, 83);
-            this.floPersonalSummary.TabIndex = 1;
             // 
             // tabSettings
             // 
@@ -2502,51 +1576,6 @@
             this.label1.Text = "Custom Realms Server Wizard";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // tabMod
-            // 
-            this.tabMod.BackColor = System.Drawing.SystemColors.Control;
-            this.tabMod.Controls.Add(this.btnBackMods);
-            this.tabMod.Controls.Add(this.btnLoadMods);
-            this.tabMod.Controls.Add(this.grdMods);
-            this.tabMod.Location = new System.Drawing.Point(4, 5);
-            this.tabMod.Name = "tabMod";
-            this.tabMod.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMod.Size = new System.Drawing.Size(864, 513);
-            this.tabMod.TabIndex = 10;
-            this.tabMod.Text = "Mods";
-            // 
-            // btnBackMods
-            // 
-            this.btnBackMods.Location = new System.Drawing.Point(11, 475);
-            this.btnBackMods.Name = "btnBackMods";
-            this.btnBackMods.Size = new System.Drawing.Size(70, 30);
-            this.btnBackMods.TabIndex = 2;
-            this.btnBackMods.Text = "Back";
-            this.btnBackMods.UseVisualStyleBackColor = true;
-            this.btnBackMods.Click += new System.EventHandler(this.btnBackMods_Click);
-            // 
-            // btnLoadMods
-            // 
-            this.btnLoadMods.Location = new System.Drawing.Point(772, 475);
-            this.btnLoadMods.Name = "btnLoadMods";
-            this.btnLoadMods.Size = new System.Drawing.Size(86, 30);
-            this.btnLoadMods.TabIndex = 1;
-            this.btnLoadMods.Text = "Load Mods";
-            this.btnLoadMods.UseVisualStyleBackColor = true;
-            this.btnLoadMods.Click += new System.EventHandler(this.btnLoadMods_Click);
-            // 
-            // grdMods
-            // 
-            this.grdMods.AllowUserToAddRows = false;
-            this.grdMods.AllowUserToDeleteRows = false;
-            this.grdMods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdMods.Location = new System.Drawing.Point(3, 23);
-            this.grdMods.Name = "grdMods";
-            this.grdMods.ReadOnly = true;
-            this.grdMods.Size = new System.Drawing.Size(855, 446);
-            this.grdMods.TabIndex = 0;
-            this.grdMods.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdMods_CellContentClick);
-            // 
             // pnlMain
             // 
             this.pnlMain.Controls.Add(this.tabUISections);
@@ -2557,13 +1586,40 @@
             this.pnlMain.Size = new System.Drawing.Size(1165, 523);
             this.pnlMain.TabIndex = 1;
             // 
-            // dataMods
+            // colChannel
             // 
-            this.dataMods.DataSetName = "dataMods";
+            this.colChannel.HeaderText = "Channel";
+            this.colChannel.Name = "colChannel";
+            this.colChannel.ReadOnly = true;
+            this.colChannel.Visible = false;
             // 
-            // timerDediCount
+            // colPass
             // 
-            this.timerDediCount.Interval = 1000;
+            this.colPass.FillWeight = 25F;
+            this.colPass.HeaderText = "Lock";
+            this.colPass.Name = "colPass";
+            this.colPass.ReadOnly = true;
+            // 
+            // colGameName
+            // 
+            this.colGameName.FillWeight = 123F;
+            this.colGameName.HeaderText = "Game Name";
+            this.colGameName.Name = "colGameName";
+            this.colGameName.ReadOnly = true;
+            // 
+            // colHost
+            // 
+            this.colHost.FillWeight = 85.44905F;
+            this.colHost.HeaderText = "Host";
+            this.colHost.Name = "colHost";
+            this.colHost.ReadOnly = true;
+            // 
+            // colPlayers
+            // 
+            this.colPlayers.FillWeight = 50F;
+            this.colPlayers.HeaderText = "Players";
+            this.colPlayers.Name = "colPlayers";
+            this.colPlayers.ReadOnly = true;
             // 
             // frmMain
             // 
@@ -2595,19 +1651,11 @@
             this.tabConnected.ResumeLayout(false);
             this.tabHostLobby.ResumeLayout(false);
             this.tabHostLobby.PerformLayout();
-            this.gbxCustomMod.ResumeLayout(false);
-            this.gbxCustomMod.PerformLayout();
-            this.gbxAdditional.ResumeLayout(false);
-            this.gbxAdditional.PerformLayout();
-            this.gmxGameMode.ResumeLayout(false);
-            this.gbxMap.ResumeLayout(false);
             this.gbxLobbySize.ResumeLayout(false);
             this.gbxGamePassword.ResumeLayout(false);
             this.gbxGamePassword.PerformLayout();
-            this.gbxSkillMode.ResumeLayout(false);
             this.gbxGameName.ResumeLayout(false);
             this.gbxGameName.PerformLayout();
-            this.gbxHeroMode.ResumeLayout(false);
             this.tabJoin.ResumeLayout(false);
             this.tabJoin.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdGamesList)).EndInit();
@@ -2618,24 +1666,7 @@
             this.gbxLobbySpectators.ResumeLayout(false);
             this.gbxLobbyDire.ResumeLayout(false);
             this.gbxLobbyRadiant.ResumeLayout(false);
-            this.tabDraftHeroPick.ResumeLayout(false);
-            this.tabDraftHeroPick.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftRadiantPicks)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftDirePicks)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickDire)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickRadiant)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickIntelligence)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickAgility)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxDraftHeroPickStrength)).EndInit();
-            this.gbxDraftHeroPickTimeRemaining.ResumeLayout(false);
-            this.tabSkillDraft.ResumeLayout(false);
-            this.tabSkillDraft.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxSkillDraftYourHero)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxSkillRadiantPicks)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxSkillDirePicks)).EndInit();
-            this.gbxSkillDraftTimeRemaining.ResumeLayout(false);
             this.tabDraftSummary.ResumeLayout(false);
-            this.tabDraftSummary.PerformLayout();
             this.gbxConfiguringMod.ResumeLayout(false);
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
@@ -2655,10 +1686,7 @@
             this.gbxSettingsClientLocation.ResumeLayout(false);
             this.tabServerWizard.ResumeLayout(false);
             this.tabServerWizard.PerformLayout();
-            this.tabMod.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.grdMods)).EndInit();
             this.pnlMain.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataMods)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2669,17 +1697,13 @@
         private System.Windows.Forms.WebBrowser webAdvertisement;
         private System.Windows.Forms.Timer ircListener;
         private System.Windows.Forms.Label lblMessageLeft;
-        private System.Windows.Forms.ToolTip ttpHeroDraftTooltips;
-        private System.Windows.Forms.ToolTip ttpSkillDraftTooltips;
         private System.ComponentModel.BackgroundWorker bgwGenerateNpcHeroesAutoexec;
         private System.Windows.Forms.OpenFileDialog ofdFindDotaExe;
         private System.Windows.Forms.Label lblVersionSubtitle;
         private System.Windows.Forms.OpenFileDialog ofdFindSrcdsExe;
         private System.Windows.Forms.PictureBox pbxBanner;
         private System.Windows.Forms.OpenFileDialog ofdFindSteam;
-        private System.Windows.Forms.NotifyIcon icoNotifyDraftTurn;
         private System.Windows.Forms.Label lblPlayersOnline;
-        private System.Windows.Forms.Timer timerPlayers;
         private System.Windows.Forms.Label lblPlayersInGame;
         private System.Windows.Forms.GroupBox gbxChat;
         private System.Windows.Forms.TabControl gbxGameSize;
@@ -2696,28 +1720,14 @@
         private System.Windows.Forms.Button btnFindLobby;
         private System.Windows.Forms.Button btnHostLobby;
         private System.Windows.Forms.TabPage tabHostLobby;
-        private System.Windows.Forms.GroupBox gbxAdditional;
-        private System.Windows.Forms.CheckBox cbxAllTalk;
-        private System.Windows.Forms.CheckBox cbxWTF;
-        private System.Windows.Forms.GroupBox gmxGameMode;
-        private System.Windows.Forms.ComboBox cbxGameMode;
-        private System.Windows.Forms.GroupBox gbxMap;
-        private System.Windows.Forms.ComboBox cbxMap;
         private System.Windows.Forms.GroupBox gbxLobbySize;
         private System.Windows.Forms.ComboBox cbxGameSize;
         private System.Windows.Forms.GroupBox gbxGamePassword;
         private System.Windows.Forms.TextBox tbxGamePassword;
         private System.Windows.Forms.Button btnCancelHosting;
         private System.Windows.Forms.Button btnHostGame;
-        private System.Windows.Forms.GroupBox gbxSkillMode;
-        private System.Windows.Forms.RadioButton radSkillDraft;
-        private System.Windows.Forms.RadioButton radSkillRandom;
         private System.Windows.Forms.GroupBox gbxGameName;
         private System.Windows.Forms.TextBox tbxGameName;
-        private System.Windows.Forms.GroupBox gbxHeroMode;
-        private System.Windows.Forms.RadioButton radHeroDraft;
-        private System.Windows.Forms.RadioButton radHeroRandom;
-        private System.Windows.Forms.RadioButton radHeroPick;
         private System.Windows.Forms.Label lblHostLobbyMessage;
         private System.Windows.Forms.TabPage tabJoin;
         private System.Windows.Forms.CheckBox cbxLocked;
@@ -2728,10 +1738,8 @@
         private System.Windows.Forms.DataGridView grdGamesList;
         private System.Windows.Forms.TabPage tabLobby;
         private System.Windows.Forms.GroupBox gbxGameInfo;
-        private System.Windows.Forms.Label lblAdditional;
         private System.Windows.Forms.Label labelMaxPlayers;
         private System.Windows.Forms.Label labelMap;
-        private System.Windows.Forms.Label labelHeroSkills;
         private System.Windows.Forms.Label labelHost;
         private System.Windows.Forms.CheckBox chkLobbyPlayerReady;
         private System.Windows.Forms.Button btnLobbyKick;
@@ -2749,58 +1757,12 @@
         private System.Windows.Forms.Button btnJoinRadiant;
         private System.Windows.Forms.ListBox lbxLobbyRadiantPlayers;
         private System.Windows.Forms.Label lblLobbyName;
-        private System.Windows.Forms.TabPage tabDraftHeroPick;
-        private System.Windows.Forms.Label lblHeroDraftPickingOrder;
-        private System.Windows.Forms.Label lblHeroDraftPicks;
-        private System.Windows.Forms.PictureBox pbxDraftRadiantPicks;
-        private System.Windows.Forms.PictureBox pbxDraftDirePicks;
-        private System.Windows.Forms.FlowLayoutPanel floDraftDireHeroes;
-        private System.Windows.Forms.Label lblDraftPlayerTurnText;
-        private System.Windows.Forms.FlowLayoutPanel floDraftRadiantHeroes;
-        private System.Windows.Forms.PictureBox pbxDraftHeroPickDire;
-        private System.Windows.Forms.PictureBox pbxDraftHeroPickRadiant;
-        private System.Windows.Forms.PictureBox pbxDraftHeroPickIntelligence;
-        private System.Windows.Forms.PictureBox pbxDraftHeroPickAgility;
-        private System.Windows.Forms.PictureBox pbxDraftHeroPickStrength;
-        private System.Windows.Forms.GroupBox gbxDraftHeroPickTimeRemaining;
-        private System.Windows.Forms.Label lblDraftHeroPickTimeRemaining;
-        private System.Windows.Forms.FlowLayoutPanel floDraftPlayerOrder;
-        private System.Windows.Forms.Label lblHeroSelectionDraft;
-        private System.Windows.Forms.FlowLayoutPanel floDraftHeroRadiantIntelligence;
-        private System.Windows.Forms.FlowLayoutPanel floDraftHeroDireIntelligence;
-        private System.Windows.Forms.FlowLayoutPanel floDraftHeroDireAgility;
-        private System.Windows.Forms.FlowLayoutPanel floDraftHeroRadiantAgility;
-        private System.Windows.Forms.FlowLayoutPanel floDraftHeroDireStrength;
-        private System.Windows.Forms.FlowLayoutPanel floDraftHeroRadiantStrength;
-        private System.Windows.Forms.TabPage tabSkillDraft;
-        private System.Windows.Forms.Button btnLeaveSkills;
-        private System.Windows.Forms.PictureBox pbxSkillDraftYourHero;
-        private System.Windows.Forms.Label lblSkillDraftSelection;
-        private System.Windows.Forms.FlowLayoutPanel floSkillDirePicks;
-        private System.Windows.Forms.FlowLayoutPanel floSkillRadiantPicks;
-        private System.Windows.Forms.Label lblSkillDraftPickingOrder;
-        private System.Windows.Forms.Label lblSkillDraftPicks;
-        private System.Windows.Forms.PictureBox pbxSkillRadiantPicks;
-        private System.Windows.Forms.PictureBox pbxSkillDirePicks;
-        private System.Windows.Forms.Label lblSkillDraftPlayerTurn;
-        private System.Windows.Forms.GroupBox gbxSkillDraftTimeRemaining;
-        private System.Windows.Forms.Label lblSkillDraftTimeRemaining;
-        private System.Windows.Forms.FlowLayoutPanel floSKillDraftPickingOrder;
-        private System.Windows.Forms.FlowLayoutPanel floSkillDraftUltimateSkills;
-        private System.Windows.Forms.Label lblSkillDraftUltimates;
-        private System.Windows.Forms.Label lblSkillDraftNormal;
-        private System.Windows.Forms.FlowLayoutPanel floSkillDraftNormalSkills;
         private System.Windows.Forms.TabPage tabDraftSummary;
         private System.Windows.Forms.GroupBox gbxConfiguringMod;
         private System.Windows.Forms.Button btnManualConnect;
         private System.Windows.Forms.Button btnDone;
         private System.Windows.Forms.Label lblConfigProgressMessage;
         private System.Windows.Forms.ProgressBar pgbConfigProgress;
-        private System.Windows.Forms.FlowLayoutPanel floDireTeamSummary;
-        private System.Windows.Forms.Label lblDraftDireTeamPicks;
-        private System.Windows.Forms.FlowLayoutPanel floRadiantTeamSummary;
-        private System.Windows.Forms.Label lblDraftRadiantTeamPicks;
-        private System.Windows.Forms.FlowLayoutPanel floPersonalSummary;
         private System.Windows.Forms.TabPage tabSettings;
         private System.Windows.Forms.Label lblSettings;
         private System.Windows.Forms.Button btnSettingsSaveReturn;
@@ -2847,36 +1809,17 @@
         private System.Windows.Forms.Button btnBanURLLoad;
         private System.Windows.Forms.GroupBox gbxServerOther;
         private System.Windows.Forms.CheckBox chkConDebug;
-        private System.Windows.Forms.ToolTip ttpWTF;
-        private System.Windows.Forms.ToolTip ttpX2;
-        private System.Windows.Forms.CheckBox cbxX2;
-        private System.Windows.Forms.GroupBox gbxCustomMod;
-        private System.Windows.Forms.Label lblCustomWarn;
-        private System.Windows.Forms.CheckBox chkCustomEnable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colChannel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPass;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colGameName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colHost;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSkillsHeroes;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPlayers;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMap;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCustomMod;
-        private System.Windows.Forms.CheckBox chkBalanced;
-        private System.Windows.Forms.ComboBox tbxCustomMod;
         private System.Windows.Forms.CheckBox cbxVersionFixDisable;
         private System.Windows.Forms.GroupBox gbxClientOther;
         private System.Windows.Forms.CheckBox chkFlashNew;
         private System.Windows.Forms.CheckBox chkBeepNew;
         private System.Windows.Forms.CheckBox chkBeepName;
         private System.Windows.Forms.CheckBox chkFlashName;
-        private System.Windows.Forms.TabPage tabMod;
-        private System.Windows.Forms.DataGridView grdMods;
-        private System.Data.DataSet dataMods;
-        private System.Windows.Forms.Button btnLoadMods;
-        private System.Windows.Forms.Button btnModDL;
-        private System.Windows.Forms.Button btnBackMods;
         private System.Windows.Forms.CheckBox chkDedicated;
-        private System.Windows.Forms.Timer timerDediCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colChannel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colGameName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colHost;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPlayers;
     }
 }

@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Definitions.cs" />
+    <Compile Include="Dota2ConfigModder.cs" />
     <Compile Include="Draft.cs" />
     <Compile Include="DraftHero.cs" />
     <Compile Include="DraftSkill.cs" />
@@ -123,10 +124,8 @@
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Game.cs" />
-    <Compile Include="GameBalanced.cs" />
     <Compile Include="GameSkipPicks.cs" />
     <Compile Include="Hero.cs" />
-    <Compile Include="Dota2ConfigModder.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

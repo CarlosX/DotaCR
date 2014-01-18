@@ -96,7 +96,7 @@ namespace Dota2CustomRealms
 
         public string GenerateDota2SkillName()
         {
-            return Dota2ConfigModder.ConvertSkillName(this);
+            return this.name;  //Dota2ConfigModder.ConvertSkillName(this);
         }
 
         public override string ToString()

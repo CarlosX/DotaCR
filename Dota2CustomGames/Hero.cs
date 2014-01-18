@@ -97,7 +97,7 @@ namespace Dota2CustomRealms
 
         public string GenerateDota2HeroName()
         {
-            return Dota2ConfigModder.ConvertHeroName(this);
+            return this.name; //Dota2ConfigModder.ConvertHeroName(this);
         }
 
         public override string ToString()
