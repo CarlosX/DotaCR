@@ -228,7 +228,7 @@ namespace Dota2CustomRealms
                     RevertMods();
 
 
-                    ResetPickBoxes();
+                    
 
                     lbxLobbyDirePlayers.Items.Clear();
                     lbxLobbyRadiantPlayers.Items.Clear();
@@ -857,8 +857,6 @@ namespace Dota2CustomRealms
 
             if (Game != null)
             {
-                Game.CheckTime();
-
                 Game.CheckCustomModStatus();
             }
 
@@ -1066,7 +1064,7 @@ namespace Dota2CustomRealms
             chkLobbyPlayerReady.Checked = false;
 
 
-            Game = new GameSkipPicks();
+            Game = new Game();
             
 
             Game.LobbyName = tbxGameName.Text;
@@ -1333,7 +1331,7 @@ namespace Dota2CustomRealms
                         }
                         else
                         {
-                            int rowid = grdGamesList.Rows.Add(new object[] { Game.Key, Lock, Game.Key.Substring(3).Replace("_", " "), Host, Game.Value + "/" + MaxPlayers});
+                            int rowid = grdGamesList.Rows.Add(new object[] { Game.Key, Lock, Game.Key.Substring(4).Replace("_", " "), Host, Game.Value + "/" + MaxPlayers});
                         }
                    }
                 }
@@ -1479,7 +1477,7 @@ namespace Dota2CustomRealms
                     }
 
 
-                    Game = new GameSkipPicks();
+                    Game = new Game();
                     
 
 
@@ -2225,19 +2223,7 @@ namespace Dota2CustomRealms
 
         #region Picking (needs updates)
 
-        void SkillBox_Click(object sender, EventArgs e)
-        {
-            Game.AttemptSkillPick((Skill)((Control)sender).Tag);
-
-
-        }
-
-        void HeroBox_Click(object sender, EventArgs e)
-        {
-
-            Game.AttemptHeroPick((Hero)((Control)sender).Tag);
-
-        }
+ 
 
 
 
@@ -2642,7 +2628,7 @@ namespace Dota2CustomRealms
             RevertMods();
 
 
-            ResetPickBoxes();
+            
 
             lbxLobbyDirePlayers.Items.Clear();
             lbxLobbyRadiantPlayers.Items.Clear();
@@ -3358,24 +3344,6 @@ namespace Dota2CustomRealms
 
         #endregion
 
-        private void ResetPickBoxes()
-        {
-            foreach (Skill aSkill in Skill.List)
-            {
-                aSkill.PickBox.Image = aSkill.Icon;
-                aSkill.PickBox.Enabled = true;
-            }
-            foreach (Skill aSkill in Skill.UltimateList)
-            {
-                aSkill.PickBox.Image = aSkill.Icon;
-                aSkill.PickBox.Enabled = true;
-            }
-            foreach (Hero aHero in Hero.List)
-            {
-                aHero.PickBox.Image = aHero.Portrait;
-                aHero.PickBox.Enabled = true;
-            }
-        }
 
 
 

@@ -1,9 +1,0 @@
-Shadow Fiend=Nevermore
-Clockwerk=Rattletrap
-Timbersaw=Shredder Timbersaw
-Centaur Warrunner=Centaur Warchief
-Centaur = Centaur Warchief
-Outworld Devourer=Obsidian Destroyer
-Nature's Prophet=Furion
-Anti-Mage=Antimage
-Lycanthrope=Lycan
