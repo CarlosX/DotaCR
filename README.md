@@ -1,8 +1,27 @@
 DotaCR
 ======
 
-Dota 2 Custom Realms
+Dota 2 Custom Realms - Frota branch
 
-C# program to automatically mod Dota 2 and manage creating servers abd game lobbies.
+Will hopefully make it easy to host and join Frota games.
 
-Made by Stealth107, Cheese and TheBloodSeeker.
+Made by
+
+* Stealth107
+* Cheese
+* DeadCake
+* TheBloodSeeker
+* Gubbe
+* Greenboxal
+* RightClickHarder
+
+Thanks to the following testers:
+
+* Prof Jacobsen
+* Maxzoo
+* Pyker
+* SubNoize
+* KiloSierra
+* The Disaster
+
+Also thanks to all the users who host games using DotaCR, and submitted bug reports. You know who you are!
