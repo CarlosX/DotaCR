@@ -1,0 +1,384 @@
+earthshaker fissure,tag=target,tag=longrange,tag=stun,tag=aoe
+earthshaker enchant totem,tag=active,tag=attackdamage,tag=lowcooldown
+earthshaker aftershock,tag=passive,tag=stun,tag=shortrange,tag=BanG6a,bantag=BanG6b,tag=BanG7b,bantag=BanG7a
+earthshaker echo slam,tag=active,tag=aoe,tag=ultimate,tag=scepter
+sven storm hammer,tag=target,tag=aoe,tag=stun
+sven great cleave,tag=passive,tag=aoeattack,tag=aoe,bantag=range,banherotag=range
+sven warcry,tag=active,tag=armor,tag=aoe,tag=ally,tag=movespeed
+sven gods strength,tag=active,tag=attackdamage,tag=ultimate
+tiny avalanche,tag=ground,tag=stun,tag=aoe,tag=BanG10b,bantag=BanG10a
+tiny toss,tag=target,tag=aoe,tag=longrange
+tiny craggy exterior,tag=passive,tag=stun,tag=evasion
+tiny grow,tag=passive,tag=attackdamage,tag=ultimate,banherotag=range,tag=scepter
+kunkka torrent,tag=ground,tag=longrange,tag=stun,tag=slow,tag=BanG10b,bantag=BanG10a
+kunkka tidebringer,tag=passive,tag=attackdamage,tag=aoeattack,tag=aoe,banherotag=range
+kunkka x marks the spot,tag=target,tag=trap
+kunkka ghostship,tag=ground,tag=longrange,tag=stun,tag=ally,tag=damageblock,tag=aoe,tag=ultimate
+beastmaster wild axes,tag=ground,tag=damagebkb,tag=longrange
+beastmaster call of the wild,tag=active,tag=summon,tag=slow
+beastmaster inner beast,tag=passive,tag=aoe,tag=ally,tag=attackspeed
+beastmaster primal roar,tag=target,tag=aoe,tag=slow,tag=stun,tag=stunbkb,tag=ultimate,tag=scepter
+dragon knight breathe fire,tag=ground,tag=aoe
+dragon knight dragon tail,tag=target,tag=stun,tag=shortrange
+dragon knight dragon blood,tag=passive,tag=armor,tag=regen
+dragon knight elder dragon form,tag=active,tag=morph,tag=attackaoe,tag=slow,tag=damagetower,tag=ultimate,tag=BanG3,bantag=BanG3,tag=BanG8b,bantag=BanG8a,banherotag=range
+clockwerk battery assault,tag=active,tag=stun,tag=shortrange,tag=aoe
+clockwerk power cogs,tag=active,tag=shortaoe,tag=summon,tag=manaburn,tag=trap,tag=stun
+clockwerk rocket flare,tag=ground,tag=global
+clockwerk hookshot,tag=ground,tag=longrange,tag=stun,tag=ultimate,tag=leap,tag=scepter
+omniknight purification,tag=target,tag=heal,tag=ally
+omniknight repel,tag=target,tag=ally,tag=bkb
+omniknight degen aura,tag=passive,tag=shortrange,tag=slow
+omniknight guardian angel,tag=active,tag=aoe,tag=ally,tag=regen,tag=damageblock,tag=ultimate
+treant protector Natures Guise,tag=target,tag=invis,tag=ally
+treant protector leech seed,tag=target,tag=heal,tag=slow
+treant protector living armor,tag=target,tag=ally,tag=regen,tag=damageblock,tag=global
+treant protector overgrowth,tag=active,tag=stun,tag=stunbkb,tag=aoe,tag=ultimate
+brewmaster thunder clap,tag=active,tag=slow,tag=shortrange
+brewmaster drunken haze,tag=target,tag=longrange,tag=misschance,tag=slow
+brewmaster drunken brawler,tag=passive,tag=evasion,tag=crit
+brewmaster primal split,tag=active,tag=ultimate,tag=summon,tag=scepter
+alchemist acid spray,tag=ground,tag=damagebkb,tag=aoe,tag=BanG7b,bantag=BanG7a,tag=BanG10b,bantag=BanG10a
+alchemist unstable concoction,tag=target,tag=stun,tag=longrange,tag=channel,tag=aoe
+alchemist goblins greed,tag=passive,tag=money,tag=creep
+alchemist chemical rage,tag=active,tag=morph,tag=attackdamage,tag=attackspeed,tag=movespeed,tag=ultimate,banherotag=range
+huskar inner vitality,tag=target,tag=ally,tag=heal
+huskar burning spear,tag=target,tag=orbattack,tag=damagebkb,tag=paylife,banherotag=melee,tag=BanG10b,bantag=BanG10a
+huskar berserkers blood,tag=passive,tag=attackdamage,tag=attackspeed
+huskar life break,tag=target,tag=longrange,tag=ultimate,tag=slow,tag=leap,tag=paylife,tag=scepter
+wisp tether,tag=target,tag=killtree,tag=ally,tag=heal,tag=movespeed,tag=aoe,tag=leap,tag=stun,tag=longrange
+wisp spirits,tag=active,tag=aoe,tag=slow,tag=longrange,tag=2slot,tag=BanG6b,bantag=BanG6a
+wisp overcharge,tag=active,tag=paylife,tag=toggle,tag=attackspeed,tag=BanG6b,bantag=BanG6a
+wisp relocate,tag=ground,tag=global,tag=teleport,tag=ally,tag=ultimate,tag=BanG4,bantag=BanG4
+centaur warrunner hoof stomp,tag=active,tag=stun,tag=aoe,tag=shortrange
+centaur warrunner double edge,tag=target,tag=paylife,tag=aoe,tag=shortrange
+centaur warrunner return,tag=passive,tag=damagetower
+centaur warrunner Stampede,tag=active,tag=global,tag=movespeed,tag=slow,tag=ultimate,tag=aoe
+timbersaw whirling death,tag=active,tag=shortrange,tag=aoe,tag=ampdamage
+timbersaw timber chain,tag=ground,tag=longrange,tag=leap,tag=aoe
+timbersaw reactive armor,tag=passive,tag=regen,tag=armor
+timbersaw chakram,tag=ground,tag=ultimate,tag=longrange,tag=channel,tag=aoe
+tusk ice shards,tag=ground,tag=longrange,tag=trap
+tusk snowball,tag=target,tag=stun,tag=longrange,tag=leap,tag=aoe
+tusk frozen sigil,tag=active,tag=summon,tag=slow,tag=aoe,tag=BanG7b,bantag=BanG7a
+tusk walrus punch,tag=active,tag=stun,tag=slow,tag=crit,tag=ultimate,banherotag=range
+axe berserkers call,tag=active,tag=stun,tag=armor,tag=aoe
+axe battle hunger,tag=target,tag=slow,tag=dot,tag=trap,tag=BanG10b,bantag=BanG10a
+axe counter helix,tag=passive,tag=trap,tag=aoe
+axe culling blade,tag=target,tag=instagib,tag=damagebkb,tag=ultimate,tag=scepter
+pudge meat hook,tag=ground,tag=trap,tag=stun,tag=BanG5a,bantag=BanG5b
+pudge rot,tag=active,tag=toggle,tag=slow,tag=paylife,tag=aoe,tag=BanG6b,bantag=BanG6a
+pudge flesh heap,tag=passive,tag=armor
+pudge dismember,tag=target,tag=stun,tag=stunbkb,tag=channel,tag=ultimate,tag=scepter
+sand king burrowstrike,tag=target,tag=ground,tag=stun,tag=leap,tag=aoe
+sand king sand storm,tag=active,tag=invis,tag=aoe
+sand king caustic finale,tag=passive,tag=trap,tag=creep,tag=aoe,banherotag=range
+sand king epicenter,tag=active,tag=channel,tag=ultimate,tag=aoe,tag=slow,tag=scepter
+slardar sprint,tag=active,tag=movespeed,tag=paylife
+slardar Slithereen Crush,tag=active,tag=stun,tag=slow,tag=aoe
+slardar bash,tag=passive,tag=stun,tag=stunbkb,tag=BanG2,bantag=BanG2,banherotag=range
+slardar amplify damage,tag=target,tag=truesight,tag=ampdamage,tag=ultimate
+tidehunter gush,tag=target,tag=slow,tag=ampdamage
+tidehunter kraken shell,tag=passive,tag=damageblock,tag=evasion
+tidehunter anchor smash,tag=active,tag=aoe,tag=damagebkb
+tidehunter ravage,tag=active,tag=aoe,tag=stun,tag=ultimate
+skeleton king hellfire blast,tag=target,tag=stun,tag=slow
+skeleton king vampiric aura,tag=passive,tag=lifesteal,tag=aoe,tag=ally
+skeleton king critical strike,tag=passive,tag=crit
+skeleton king reincarnation,tag=passive,tag=ultimate
+lifestealer rage,tag=active,tag=bkb,tag=attackspeed
+lifestealer feast,tag=passive,tag=lifesteal,banherotag=range
+lifestealer open wounds,tag=target,tag=heal,tag=slow
+night stalker void,tag=target,tag=stun,tag=slow
+night stalker crippling fear,tag=target,tag=silence,tag=misschance
+doom devour,tag=creep,tag=money
+doom scorched earth,tag=active,tag=aoe,tag=movespeed,tag=regen,tag=BanG10b,bantag=BanG10a
+doom lvl death,tag=target,tag=stun
+doom doom,tag=target,tag=silence,tag=stun,tag=dot,tag=deny,tag=ultimate,tag=scepter
+spirit breaker charge of darkness,tag=target,tag=global,tag=stun,tag=movespeed,tag=leap,tag=aoe
+spirit breaker empowering haste,tag=passive,tag=movespeed,tag=aoe
+spirit breaker greater bash,tag=passive,tag=stun,tag=stunbkb,tag=BanG2,bantag=BanG2,banherotag=range
+spirit breaker nether strike,tag=target,tag=longrange,tag=stun,tag=stunbkb,tag=ultimate,tag=scepter
+lycanthrope summon wolves,tag=active,tag=summon
+lycanthrope howl,tag=active,tag=global,tag=attackdamage
+lycanthrope feral impulse,tag=passive,tag=attackdamage,tag=attackspeed,tag=aoe,tag=ally
+lycanthrope shapeshift,tag=target,tag=morph,tag=crit,tag=armor,tag=movespeed,tag=ultimate,banherotag=range
+chaos knight chaos bolt,tag=target,tag=stun
+chaos knight reality rift,tag=target,tag=trap,tag=attackdamage
+chaos knight chaos strike,tag=passive,tag=crit
+chaos knight phantasm,tag=active,tag=illusion,tag=ultimate
+undying decay,tag=ground,tag=heal,tag=aoe,tag=ampdamage
+undying soul rip,tag=target,tag=heal,tag=all
+undying tombstone,tag=ground,tag=aoe,tag=summon,tag=slow,tag=trap,tag=BanG7b,bantag=BanG7a
+undying flesh golem,tag=active,tag=morph,tag=ampdamage,tag=slow,tag=heal,tag=aoe,tag=ultimate,banherotag=range,tag=scepter
+magnus shockwave,tag=ground,tag=aoe
+magnus empower,tag=target,tag=ally,tag=aoeattack,tag=aoe
+magnus skewer,tag=ground,tag=leap,tag=trap,tag=slow,tag=aoe,tag=longrange
+magnus reverse polarity,tag=active,tag=aoe,tag=stun,tag=stunbkb,tag=ultimate
+anti-mage mana break,tag=passive,tag=manaburn,tag=attackdamage,banherotag=range
+anti-mage blink,tag=ground,tag=BanG1,bantag=BanG1,tag=BanG5b,bantag=BanG5a
+anti-mage spell shield,tag=passive,tag=armor
+anti-mage mana void,tag=target,tag=aoe,tag=stun,tag=ultimate
+drow ranger frost arrows,tag=target,tag=orbattack,tag=slow,banherotag=melee
+drow ranger silence,tag=target,tag=aoe,tag=silence
+drow ranger trueshot,tag=passive,tag=aoe,tag=attackdamage
+drow ranger marksmanship,tag=passive,tag=attackdamage,tag=ultimate,banherotag=rangemid,banherotag=melee
+juggernaut blade fury,tag=active,tag=bkb,tag=shortrange
+juggernaut healing ward,tag=target,tag=summon,tag=heal
+juggernaut blade dance,tag=passive,tag=crit
+juggernaut omni slash,tag=target,tag=aoe,tag=stun,tag=ultimate,tag=scepter
+mirana starfall,tag=active,tag=aoe
+mirana arrow,tag=ground,tag=stun,tag=stun,tag=longrange
+mirana leap,tag=active,tag=leap,tag=movespeed
+mirana invis,tag=active,tag=global,tag=invis,tag=ally,tag=ultimate
+morphling waveform,tag=ground,tag=BanG1,bantag=BanG1
+morphling adaptive strike,tag=target,tag=stun
+morphling morph,tag=active,tag=heal,tag=1slot,tag=BanG6b,bantag=BanG6a
+morphling replicate,tag=target,tag=active,tag=leap,tag=ultimate
+phantom lancer spirit lance,tag=target,tag=slow,tag=illusion,tag=longrange
+phantom lancer doppelwalk,tag=active,tag=illusion,tag=invis
+phantom lancer juxtapose,tag=passive,tag=illusion
+vengeful spirit magic missile,tag=target,tag=stun
+vengeful spirit wave of terror,tag=ground,tag=ampdamage
+vengeful spirit command aura,tag=passive,tag=aoe,tag=attackdamage,tag=ally
+vengeful spirit nether swap,tag=target,tag=trap,tag=leap,tag=stun,tag=stunbkb,tag=ultimate,tag=BanG5a,bantag=BanG5b,tag=scepter
+riki smoke screen,tag=ground,tag=silence,tag=aoe,tag=misschance,tag=slow
+riki blink strike,tag=target,tag=longrange,tag=leap
+riki backstab,tag=passive,tag=attackdamage,banherotag=range
+riki permanent invisibility,tag=passive,tag=invis,tag=ultimate
+sniper shrapnel,tag=ground,tag=aoe,tag=damagetower,tag=longrange,tag=slow,tag=BanG7b,bantag=BanG7a,tag=BanG10b,bantag=BanG10a
+sniper headshot,tag=passive,tag=stun,tag=stunbkb,tag=damagebkb,tag=BanG2,bantag=BanG2
+sniper take aim,tag=passive,tag=attackrange,banherotag=rangefar,banherotag=melee
+sniper assassinate,tag=target,tag=truesight,tag=stun,tag=ultimate
+templar assassin refraction,tag=active,tag=evasion,tag=attackdamage
+templar assassin meld,tag=active,tag=invis,tag=trap,tag=ampdamage
+templar assassin psi blades,tag=passive,tag=attackrange,tag=aoeattack,banherotag=rangefar,banherotag=melee
+templar assassin psionic trap,tag=ground,tag=slow,tag=summon,tag=longrange,tag=1slot,tag=ultimate,tag=BanG6b,bantag=BanG6a
+luna lucent beam,tag=target,tag=stun
+luna moon glaive,tag=passive,tag=aoeattack,tag=BanG3,bantag=BanG3,tag=BanG8b,bantag=BanG8a,banherotag=rangefar,banherotag=melee
+luna lunar blessing,tag=passive,tag=aoe,tag=ally,tag=attackdamage
+bounty hunter shuriken toss,tag=target,tag=stun
+bounty hunter jinada,tag=passive,tag=slow,tag=crit
+bounty hunter wind walk,tag=active,tag=invis,banherotag=range
+bounty hunter track,tag=target,tag=truesight,tag=longrange,tag=movespeed,tag=aoe,tag=ally,tag=ultimate
+ursa earthshock,tag=active,tag=shortrange,tag=slow
+ursa overpower,tag=active,tag=attackspeed,tag=BanG8a,bantag=BanG8b
+ursa fury swipes,tag=target,tag=attackdamage,banherotag=range
+ursa enrage,tag=target,tag=attackdamage,tag=ultimate
+gyrocopter rocket barrage,tag=active,tag=shortrange,tag=BanG10b,bantag=BanG10a
+gyrocopter homing missile,tag=target,tag=stun,tag=trap
+gyrocopter flak cannon,tag=active,tag=aoeattack,tag=longrange,tag=BanG3,bantag=BanG3,banherotag=rangefar,banherotag=melee
+gyrocopter call down,tag=ground,tag=slow,tag=slowbkb,tag=scepter,tag=ultimate
+lone druid spirit bear,tag=active,tag=summon
+lone druid rabid,tag=active,tag=attackspeed,tag=movespeed
+lone druid true form,tag=active,tag=morph,tag=attackspeed,tag=armor,tag=1slot,tag=ultimate,banherotag=rangemid,banherotag=melee
+naga siren mirror image,tag=active,tag=illusion
+naga siren ensnare,tag=target,tag=stun,tag=stunbkb,tag=longrange
+naga siren rip tide,tag=active,tag=shortrange,tag=ampdamage,tag=aoe
+naga siren song of the siren,tag=active,tag=longrange,tag=aoe,tag=stun,tag=ultimate
+troll warlord berserkers rage,tag=active,tag=stun,tag=stunbkb,tag=attackrange,tag=BanG6b,bantag=BanG6a,banherotag=rangemid,banherotag=melee
+troll warlord 
+troll warlord fervor,tag=passive,tag=attackspeed
+troll warlord battle trance,tag=active,tag=ally,tag=global,tag=attackspeed,tag=movespeed,tag=ultimate
+bloodseeker bloodrage,tag=target,tag=attackdamage,tag=silence,tag=BanG10b,bantag=BanG10a
+bloodseeker blood bath,tag=passive,tag=heal,tag=creep
+bloodseeker thirst,tag=passive,tag=truesight,tag=aoe,tag=longrange,tag=ally,tag=movespeed
+bloodseeker rupture,tag=target,tag=longrange,tag=trap,tag=ultimate
+shadow fiend shadowraze,tag=active,tag=2slot,tag=aoe,tag=BanG6b,bantag=BanG6a
+shadow fiend necromastery,tag=passive,tag=attackdamage
+shadow fiend dark lord,tag=passive,tag=ampdamage,tag=aoe	
+razor plasma field,tag=active,tag=aoe
+razor static link,tag=target,tag=trap,tag=attackdamage
+razor unstable current,tag=passive,tag=slow,tag=purge
+razor eye of the storm,tag=active,tag=ampdamage,tag=aoe,tag=ultimate,tag=scepter
+venomancer venomous gale,tag=ground,tag=slow,tag=slowbkb,tag=dot,tag=aoe,tag=BanG10b,bantag=BanG10a
+venomancer poison sting,tag=passive,tag=dot,tag=slow,tag=BanG10b,bantag=BanG10a
+venomancer plague ward,tag=ground,tag=summon,tag=BanG6b,bantag=BanG6a
+venomancer poison nova,tag=active,tag=aoe,tag=dot,tag=ultimate,tag=scepter,tag=BanG10b,bantag=BanG10a
+faceless void time walk,tag=ground,tag=BanG1,tag=slow,tag=aoe,bantag=BanG1
+faceless void backtrack,tag=passive,tag=evasion
+faceless void time lock,tag=passive,tag=stun,tag=stunbkb,tag=attackdamage,tag=BanG2,bantag=BanG2,banherotag=range
+faceless void chronosphere,tag=ground,tag=aoe,tag=stun,tag=stunbkb,tag=truesight,tag=ultimate,tag=scepter
+phantom assassin stifling dagger,tag=target,tag=slow,tag=longrange
+phantom assassin phantom strike,tag=target,tag=attackspeed,tag=leap
+phantom assassin blur,tag=passive,tag=evasion
+phantom assassin coup de grace,tag=passive,tag=crit,tag=ultimate
+viper poison attack,tag=target,tag=orbattack,tag=slow,tag=dot,banherotag=melee,tag=BanG10b,bantag=BanG10a
+viper nethertoxin,tag=passive,tag=attackdamage
+viper corrosive skin,tag=passive,tag=slow,tag=dot
+viper viper strike,tag=target,tag=dot,tag=slowbkb,tag=ultimate,tag=scepter
+clinkz strafe,tag=active,tag=attackspeed,tag=BanG8a,bantag=BanG8b
+clinkz searing arrows,tag=target,tag=orbattack,tag=attackdamage,tag=damagetower,banherotag=melee
+clinkz wind walk,tag=active,tag=invis,tag=movespeed
+clinkz death pact,tag=creep,tag=money,tag=attackdamage,tag=heal,tag=ultimate
+broodmother spawn spiderlings,tag=target,tag=summon
+broodmother spin web,tag=ground,tag=regen,tag=movespeed,tag=invis
+broodmother incapacitating bite,tag=passive,tag=misschance,tag=slow,banherotag=range
+broodmother insatiable hunger,tag=active,tag=lifesteal,tag=attackdamage,tag=ultimate,banherotag=range
+weaver the swarm,tag=ground,tag=aoe,tag=dot,tag=ampdamage,tag=summon
+weaver shukuchi,tag=active,tag=invis,tag=movespeed
+weaver geminate attack,tag=passive,tag=attackdamage,banherotag=rangefar,banherotag=melee
+weaver time lapse,tag=active,tag=leap,tag=heal,tag=ultimate
+spectre spectral dagger,tag=target,tag=ground,tag=slow,tag=leap
+spectre desolate,tag=passive,tag=attackdamage,banherotag=range
+spectre dispersion,tag=passive,tag=damageblock,tag=aoe,tag=BanG10b,bantag=BanG10a
+spectre Haunt,tag=active,tag=1slot,tag=illusion,tag=global,tag=leap,tag=ultimate
+meepo earthbind,tag=ground,tag=stun,tag=longrange,tag=aoe
+meepo poof,tag=ground,tag=aoe,tag=shortrange
+meepo geostrike,tag=passive,tag=dot,tag=slow,banherotag=range,tag=BanG10b,bantag=BanG10a
+nyx assassin impale,tag=ground,tag=stun,tag=aoe
+nyx assassin mana burn,tag=target,tag=manaburn
+nyx assassin spiked carapace,tag=active,tag=stun,tag=evasion
+nyx assassin vendetta,tag=active,tag=invis,tag=movespeed,tag=attackdamage,tag=ultimate,banherotag=range
+slark dark pact,tag=active,tag=purge,tag=aoe,tag=shortrange,tag=BanG10b,bantag=BanG10a
+slark pounce,tag=active,tag=leap,tag=trap
+slark essence shift,tag=passive,tag=attackspeed
+slark shadow dance,tag=active,tag=invis,tag=regen,tag=movespeed,tag=ultimate
+medusa split shot,tag=active,tag=toggle,tag=aoeattack,tag=BanG3,bantag=BanG3,tag=BanG6b,bantag=BanG6a,banherotag=melee
+medusa mystic snake,tag=target,tag=manaburn
+medusa mana shield,tag=active,tag=toggle,tag=damageblock,tag=BanG6b,bantag=BanG6a
+medusa stone gaze,tag=active,tag=purge,tag=slow,tag=aoe,tag=trap,tag=ultimate
+crystal maiden crystal nova,tag=ground,tag=aoe,tag=slow
+crystal maiden frostbite,tag=target,tag=stun
+crystal maiden brilliance aura,tag=passive,tag=global
+crystal maiden freezing field,tag=active,tag=slow,tag=dot,tag=channel,tag=ultimate,tag=scepter
+puck illusory orb,tag=ground,tag=longrange,tag=leap,tag=BanG6b,bantag=BanG6a
+puck waning rift,tag=active,tag=aoe,tag=silence
+puck phase shift,tag=active,tag=evasion
+puck dream coil,tag=ground,tag=stun,tag=trap,tag=ultimate,tag=scepter
+storm spirit static remnant,tag=active
+storm spirit electric vortex,tag=target,tag=stun
+storm spirit overload,tag=passive,tag=slow,tag=attackdamage,tag=BanG6a,bantag=BanG6b
+storm spirit ball lightning,tag=ground,tag=BanG1,tag=ultimate,bantag=BanG1,tag=BanG6b,bantag=BanG6a
+windrunner shackleshot,tag=target,tag=stun
+windrunner powershot,tag=ground,tag=longrange,tag=aoe
+windrunner windrun,tag=active,tag=slow,tag=evasion,tag=aoe,tag=shortrange
+windrunner focusfire,tag=active,tag=attackspeed,tag=damagetower,tag=ultimate,banherotag=melee,tag=scepter
+zeus arc lightning,tag=target,tag=aoe
+zeus lightning bolt,tag=target,tag=truesight,tag=stun
+zeus static field,tag=passive,tag=aoe,tag=BanG6a,bantag=BanG6b,tag=BanG7b,bantag=BanG7a
+zeus thundergods wrath,tag=active,tag=global,tag=stun,tag=truesight,tag=scepter,tag=ultimate
+lina dragon slave,tag=ground,tag=longrange
+lina light strike array,tag=ground,tag=stun,tag=aoe
+lina fiery soul,tag=passive,tag=attackspeed,tag=movespeed,tag=BanG6a,bantag=BanG6b
+lina laguna blade,tag=target,tag=scepter,tag=ultimate
+shadow shaman ether shock,tag=target,tag=aoe
+shadow shaman voodoo,tag=target,tag=stun,tag=slow
+shadow shaman shackles,tag=target,tag=stun,tag=channel
+shadow shaman mass serpent ward,tag=ground,tag=summon,tag=damagetower,tag=scepter,tag=ultimate
+tinker laser,tag=target,tag=misschance
+tinker heat seeking missile,tag=active,tag=longrange
+tinker march of the machines,tag=ground,tag=aoe,tag=damagebkb
+tinker rearm,tag=active,tag=channel,tag=ultimate,tag=BanG7a,bantag=BanG7b
+nature's prophet sprout,tag=ground,tag=trap
+nature's prophet teleportation,tag=ground,tag=teleport,tag=channel,tag=BanG4,bantag=BanG4
+nature's prophet force of nature,tag=ground,tag=summon
+nature's prophet wrath of nature,tag=ground,tag=global,tag=aoe,tag=scepter,tag=ultimate
+enchantress untouchable,tag=passive,tag=slow,tag=evasion
+enchantress enchant,tag=target,tag=slow,tag=creep
+enchantress natures attendants,tag=active,tag=heal,tag=aoe,tag=ally
+enchantress impetus,tag=target,tag=orbattack,tag=attackdamage,tag=scepter,tag=ultimate,banherotag=melee
+jakiro dual breath,tag=ground,tag=slow,tag=dot,tag=aoe
+jakiro ice path,tag=ground,tag=aoe,tag=stun
+jakiro liquid fire,tag=passive,tag=dot,tag=aoe
+jakiro macropyre,tag=ground,tag=dot,tag=aoe,tag=scepter,tag=ultimate
+chen penitence,tag=target,tag=ampdamage,tag=slow
+chen test of faith,tag=target,tag=ally
+chen holy persuasion,tag=target,tag=creep
+chen hand of god,tag=active,tag=global,tag=heal,tag=ally,tag=ultimate,tag=scepter
+silencer curse of the silent,tag=ground,tag=aoe,tag=dot,tag=trap,tag=BanG10b,bantag=BanG10a
+silencer glaives of wisdom,tag=target,tag=orbattack,tag=attackdamage,banherotag=melee
+silencer last word,tag=target,tag=trap,tag=silence
+silencer global silence,tag=active,tag=silence,tag=global,tag=ultimate
+ogre magi fireblast,tag=target,tag=stun
+ogre magi ignite,tag=target,tag=aoe,tag=slow,tag=longrange,tag=BanG10b,bantag=BanG10a
+ogre magi bloodlust,tag=target,tag=ally,tag=attackspeed,tag=movespeed
+rubick telekinesis,tag=target,tag=stun,tag=trap,tag=aoe
+rubick fade bolt,tag=target,tag=aoe
+rubick null field,tag=passive,tag=aoe,tag=ally,tag=armor
+disruptor thunder strike,tag=target,tag=aoe,tag=longrange
+disruptor glimpse,tag=target,tag=longrange,tag=trap
+disruptor kinetic field,tag=ground,tag=aoe,tag=trap
+disruptor static storm,tag=ground,tag=aoe,tag=silence,tag=dot,tag=ultimate
+keeper of the light illuminate,tag=ground,tag=longrange
+keeper of the light mana leak,tag=target,tag=stun,tag=manaburn
+keeper of the light chakra magic,tag=target,tag=ally,tag=BanG7b,bantag=BanG7a
+bane enfeeble,tag=target,tag=trap
+bane brain sap,tag=target,tag=heal
+bane nightmare,tag=target,tag=stun,tag=dot,tag=evasion,tag=ally
+bane fiends grip,tag=target,tag=heal,tag=channel,tag=stun,tag=stunbkb,tag=scepter,tag=ultimate
+lich frost nova,tag=target,tag=aoe,tag=slow
+lich frost armor,tag=target,tag=slow,tag=armor
+lich dark ritual,tag=creep
+lich chain frost,tag=target,tag=aoe,tag=stun,tag=slow,tag=scepter,tag=ultimate
+lion impale,tag=ground,tag=aoe,tag=stun
+lion voodoo,tag=target,tag=stun,tag=slow
+lion mana drain,tag=target,tag=manaburn,tag=channel
+lion finger of death,tag=target,tag=scepter,tag=ultimate
+witch doctor paralyzing cask,tag=target,tag=aoe,tag=stun,tag=trap,tag=BanG7b,bantag=BanG7a
+witch doctor voodoo restoration,tag=active,tag=toggle,tag=heal,tag=aoe,tag=ally,tag=BanG6b,bantag=BanG6a
+witch doctor maledict,tag=ground,tag=aoe,tag=trap
+witch doctor death ward,tag=ground,tag=damagebkb,tag=summon,tag=channel,tag=scepter,tag=ultimate
+enigma malefice,tag=target,tag=stun
+enigma demonic conversion,tag=creep,tag=money,tag=summon
+enigma midnight pulse,tag=ground,tag=aoe,tag=damagebkb
+enigma black hole,tag=ground,tag=aoe,tag=stun,tag=stunbkb,tag=channel,tag=ultimate
+necrolyte death pulse,tag=active,tag=heal,tag=ally,tag=aoe
+necrolyte heartstopper aura,tag=passive,tag=aoe,tag=dot,tag=BanG10b,bantag=BanG10a
+necrolyte sadist,tag=passive,tag=regen
+necrolyte reapers scythe,tag=target,tag=stun,tag=stunbkb,tag=instagib,tag=scepter,tag=ultimate
+warlock fatal bonds,tag=target,tag=aoe,tag=ampdamage
+warlock shadow word,tag=target,tag=dot,tag=heal,tag=ally,tag=BanG10b,bantag=BanG10a
+warlock upheaval,tag=ground,tag=aoe,tag=slow
+warlock rain of chaos,tag=ground,tag=stun,tag=aoe,tag=scepter,tag=summon,tag=damagetower,tag=ultimate
+queen of pain shadow strike,tag=target,tag=slow,tag=dot
+queen of pain blink,tag=ground,tag=BanG1,bantag=BanG1,tag=BanG5b,bantag=BanG5a
+queen of pain scream of pain,tag=active,tag=aoe,tag=shortrange
+queen of pain sonic wave,tag=ground,tag=aoe,tag=scepter,tag=ultimate
+death prophet carrion swarm,tag=ground,tag=aoe
+death prophet silence,tag=ground,tag=aoe,tag=silence
+death prophet exorcism,tag=active,tag=summon,tag=trap,tag=ultimate
+pugna nether blast,tag=ground,tag=damagetower
+pugna decrepify,tag=target,tag=slow,tag=ampdamage
+pugna nether ward,tag=active,tag=summon,tag=manaburn
+pugna life drain,tag=target,tag=heal,tag=channel,tag=dot,tag=ultimate,tag=BanG6b,bantag=BanG6a,tag=scepter
+dazzle poison touch,tag=target,tag=stun,tag=dot,tag=slow,tag=BanG10b,bantag=BanG10a
+dazzle shallow grave,tag=target,tag=evasion,tag=ally
+dazzle shadow wave,tag=target,tag=heal,tag=aoe,tag=ally
+dazzle weave,tag=ground,tag=aoe,tag=armor,tag=ampdamage,tag=ultimate,tag=scepter
+leshrac split earth,tag=ground,tag=stun,tag=aoe
+leshrac diabolic edict,tag=active,tag=aoe,tag=damagetower,tag=BanG7b,bantag=BanG7a,tag=BanG10b,bantag=BanG10a
+leshrac lightning storm,tag=target,tag=aoe,tag=longrange
+leshrac pulse nova,tag=active,tag=aoe,tag=toggle,tag=scepter,tag=ultimate,tag=BanG6b,bantag=BanG6a
+dark seer vacuum,tag=ground,tag=stun,tag=aoe,tag=trap
+dark seer ion shell,tag=target,tag=ally,tag=dot,tag=BanG10b,bantag=BanG10a
+dark seer surge,tag=target,tag=movespeed,tag=ally
+dark seer wall of replica,tag=ground,tag=illusion,tag=trap,tag=scepter,tag=ultimate
+batrider sticky napalm,tag=ground,tag=slow,tag=aoe,tag=BanG6b,tag=BanG10a,bantag=BanG6a,bantag=BanG10b
+batrider flamebreak,tag=ground,tag=stun,tag=longrange,tag=trap
+batrider firefly,tag=active,tag=movespeed,tag=dot,tag=leap
+batrider flaming lasso,tag=target,tag=stun,tag=stunbkb,tag=trap,tag=ultimate
+ancient apparition cold feet,tag=target,tag=trap,tag=stun,tag=dot
+ancient apparition ice vortex,tag=ground,tag=slow,tag=ampdamage,tag=longrange,tag=aoe,tag=BanG7b,bantag=BanG7a
+ancient apparition chilling touch,tag=ground,tag=aoe,tag=ally,tag=attackdamage
+ancient apparition ice blast,tag=ground,tag=global,tag=instagib,tag=aoe,tag=ultimate
+outworld devourer arcane orb,tag=target,tag=orbattack,banherotag=melee
+outworld devourer astral imprisonment,tag=target,tag=stun
+outworld devourer essence aura,tag=passive,tag=aoe
+outworld devourer sanity eclipse,tag=ground,tag=aoe,tag=scepter,tag=ultimate
+shadow demon disruption,tag=target,tag=stun,tag=illusion
+shadow demon soul catcher,tag=ground,tag=aoe,tag=ampdamage
+shadow demon shadow poison,tag=ground,tag=aoe,tag=longrange,tag=dot,tag=trap,tag=BanG6b,bantag=BanG6a
+shadow demon demonic purge,tag=target,tag=slow,tag=purge,tag=ultimate
+visage grave chill,tag=target,tag=slow,tag=movespeed
+visage soul assumption,tag=target
+visage gravekeepers cloak,tag=passive,tag=armor
+visage summon familiars,tag=active,tag=summon,tag=stun,tag=ultimate,tag=scepter
+bristleback viscous nasal goo,tag=target,tag=slow,tag=ampdamage,tag=lowcooldown
+bristleback quill spray,tag=active,tag=aoe,tag=damagebkb,tag=lowcooldown
+bristleback bristleback,tag=passive,tag=aoe,tag=damagebkb,tag=damageblock
+bristleback warpath,tag=passive,tag=attackspeed,tag=movespeed,tag=ultimate
+skywrath mage arcane bolt,tag=target,tag=longrange
+skywrath mage concussive shot,tag=active,tag=aoe,tag=slow,tag=longrange
+skywrath mage ancient seal,tag=target,tag=silence,tag=ampdamage,tag=longrange
+skywrath mage mystic flare,tag=ground,tag=aoe,tag=ultimate,tag=BanG10b,bantag=BanG10a
