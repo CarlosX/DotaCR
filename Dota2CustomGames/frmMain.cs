@@ -274,6 +274,30 @@ namespace Dota2CustomRealms
                     Properties.Settings.Default.VersionStatus = "INCOMPATIBLE";
                     Properties.Settings.Default.Save();
                 }
+
+                //I guess just do frota check here???
+                string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+                string updateserver = "http://dota2cr.com";
+                string clientfrota = "";
+
+                try
+                {
+                    StreamReader version = new StreamReader(appPath + "dota\\addons\\frota\\version.txt");
+                    clientfrota = version.ReadLine().Trim();
+                }
+                catch (Exception ex)
+                {
+                    clientfrota = "Not Found";
+                }
+
+                string currentfrota = new WebClient().DownloadString(updateserver + "/curfrota.txt");
+
+                if (clientfrota != currentfrota)
+                {
+                    Properties.Settings.Default.VersionStatus = "INCOMPATIBLE";
+                    Properties.Settings.Default.Save();
+                }
+
                 VersionCheckSuccess = true;
                 VersionCheck();
             }
@@ -3355,7 +3379,7 @@ namespace Dota2CustomRealms
                 }
  
                 // FIXED: Make srcds bind to all available IPs on computer
-                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +map " + Game.Dotamap + debugcommand);
+                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_custom_enable 1 +dota_local_custom_game Frota +dota_local_custom_map Frota +dota_force_gamemode 15 +update_addon_paths"  + " +map " + Game.Dotamap + debugcommand);
 
                 serverStart.WorkingDirectory = Properties.Settings.Default.Dota2ServerPath.Substring(0, Properties.Settings.Default.Dota2ServerPath.Length - 1);
 
@@ -3397,7 +3421,7 @@ namespace Dota2CustomRealms
                                 SendKeys.SendWait("{ENTER}");
                             }
                             Thread.Sleep(2500);
-                            if (Game.AdditionalModes.Contains("WTF"))
+                        /*    if (Game.AdditionalModes.Contains("WTF"))
                             {
                                 SetForegroundWindow(ServerWindow);
                                 SendKeys.SendWait("sv_cheats 1");
@@ -3405,7 +3429,7 @@ namespace Dota2CustomRealms
                                 Thread.Sleep(150);
                                 SendKeys.SendWait("dota_ability_debug 1");
                                 SendKeys.SendWait("{ENTER}");
-                            }
+                            }*/
                             if (Game.AdditionalModes.Contains("AllTalk"))
                             {
                                 SetForegroundWindow(ServerWindow);

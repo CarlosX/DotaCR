@@ -33,24 +33,27 @@
             this.btnBegin = new System.Windows.Forms.Button();
             this.lblCurrentVersion = new System.Windows.Forms.Label();
             this.lblLatestVersion = new System.Windows.Forms.Label();
+            this.lblCurrentFrota = new System.Windows.Forms.Label();
+            this.lblLatestFrota = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 48);
+            this.progressBar1.Location = new System.Drawing.Point(12, 118);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(321, 23);
             this.progressBar1.TabIndex = 0;
             // 
             // btnBegin
             // 
-            this.btnBegin.Location = new System.Drawing.Point(258, 77);
+            this.btnBegin.Location = new System.Drawing.Point(258, 147);
             this.btnBegin.Name = "btnBegin";
             this.btnBegin.Size = new System.Drawing.Size(75, 23);
             this.btnBegin.TabIndex = 1;
             this.btnBegin.Text = "Begin";
             this.btnBegin.UseVisualStyleBackColor = true;
-            this.btnBegin.Click +=btnBegin_Click;
+            this.btnBegin.Click += btnBegin_Click;
             // 
             // lblCurrentVersion
             // 
@@ -70,11 +73,40 @@
             this.lblLatestVersion.TabIndex = 3;
             this.lblLatestVersion.Text = "Latest Version:";
             // 
+            // lblCurrentFrota
+            // 
+            this.lblCurrentFrota.AutoSize = true;
+            this.lblCurrentFrota.Location = new System.Drawing.Point(12, 49);
+            this.lblCurrentFrota.Name = "lblCurrentFrota";
+            this.lblCurrentFrota.Size = new System.Drawing.Size(109, 13);
+            this.lblCurrentFrota.TabIndex = 4;
+            this.lblCurrentFrota.Text = "Current Frota Version:";
+            // 
+            // lblLatestFrota
+            // 
+            this.lblLatestFrota.AutoSize = true;
+            this.lblLatestFrota.Location = new System.Drawing.Point(12, 62);
+            this.lblLatestFrota.Name = "lblLatestFrota";
+            this.lblLatestFrota.Size = new System.Drawing.Size(104, 13);
+            this.lblLatestFrota.TabIndex = 5;
+            this.lblLatestFrota.Text = "Latest Frota Version:";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Location = new System.Drawing.Point(12, 102);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(0, 13);
+            this.lblStatus.TabIndex = 6;
+            // 
             // frmUpdater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(345, 109);
+            this.ClientSize = new System.Drawing.Size(371, 212);
+            this.Controls.Add(this.lblStatus);
+            this.Controls.Add(this.lblLatestFrota);
+            this.Controls.Add(this.lblCurrentFrota);
             this.Controls.Add(this.lblLatestVersion);
             this.Controls.Add(this.lblCurrentVersion);
             this.Controls.Add(this.btnBegin);
@@ -94,6 +126,9 @@
         private System.Windows.Forms.Button btnBegin;
         private System.Windows.Forms.Label lblCurrentVersion;
         private System.Windows.Forms.Label lblLatestVersion;
+        private System.Windows.Forms.Label lblCurrentFrota;
+        private System.Windows.Forms.Label lblLatestFrota;
+        private System.Windows.Forms.Label lblStatus;
     }
 }
 
