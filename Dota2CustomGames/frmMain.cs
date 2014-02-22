@@ -2952,7 +2952,6 @@ namespace Dota2CustomRealms
             {
                 Properties.Settings.Default["Dota2ServerPath"] = ofdFindSrcdsExe.FileName.Substring(0, ofdFindSrcdsExe.FileName.Length - 9);
                 Properties.Settings.Default.Save();
-                File.Copy("Data\\items.txt", Properties.Settings.Default.Dota2ServerPath + @"\dota\scripts\npc\items.txt", true);
                 RefreshSettingsTab();
 
             }
