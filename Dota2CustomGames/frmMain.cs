@@ -3123,7 +3123,13 @@ namespace Dota2CustomRealms
 
             Directory.CreateDirectory(info.DotaServerPath + "dota\\addons");
             client.DownloadFile(uri, info.DotaServerPath + "dota\\addons\\frota.zip");
-            this.Log("Downloaded Frota!");
+            this.Log("Downloaded Frota! Waiting for file copy to complete...");
+
+            while(this.CopyThread != null && this.CopyThread.IsAlive)
+            {
+                Thread.Sleep(500);
+            }
+
             using (ZipFile zip = ZipFile.Read(info.DotaServerPath + "dota\\addons\\frota.zip"))
             {
                 int filesextracted = 0;
@@ -3144,8 +3150,7 @@ namespace Dota2CustomRealms
                         this.Log(x.FileName);
                         x.Extract(info.DotaServerPath + "dota\\addons\\frota\\", true);
                     }
-                    filesextracted++;
-                    
+                    this.SetProgress(filesextracted++, zip.Count);
                 }
             }
             File.Delete(info.DotaServerPath + "dota\\addons\\frota.zip");
@@ -3153,6 +3158,8 @@ namespace Dota2CustomRealms
             if ((this.ExtractThread == null || !this.ExtractThread.IsAlive) && (this.CopyThread == null || !this.CopyThread.IsAlive)) this.EnableButtons(true);
             Properties.Settings.Default.FrotaStatus = "COMPATIBLE";
             Properties.Settings.Default.Save();
+            this.EnableButtons(true);
+            this.Log("**** SERVER INSTALLATION WIZARD COMPLETE ****");
         }
 
         public void ExtractFiles(object oinfo)
@@ -3304,7 +3311,7 @@ namespace Dota2CustomRealms
                     this.SetProgress(++filescopied, max);
                 }
             }
-            this.Log(String.Format("Copy completed with {0} files and {1} directories trasnferred.", filescopied, dirscreated));
+            this.Log(String.Format("Copy completed with {0} files and {1} directories transferred.", filescopied, dirscreated));
 
             //Extract serverfiles.zip which contains srcds.exe, d2fixup, and metamod.
             using (ZipFile zip = ZipFile.Read("Data\\serverfiles.zip"))
@@ -3315,7 +3322,7 @@ namespace Dota2CustomRealms
                     filesextracted++;
                 }
             }
-            this.Log(String.Format("File extracted extraction complete, {0} files extracted.", filesextracted));
+            this.Log(String.Format("File extraction complete, {0} files extracted.", filesextracted));
 
             //Modify gameinfo.txt
             string[] full_file = File.ReadAllLines(info.DestinationPath + "\\dota\\gameinfo.txt");
@@ -3326,7 +3333,7 @@ namespace Dota2CustomRealms
             this.Log("Game info change written to gameinfo.txt");
 
             Properties.Settings.Default.Dota2ServerPath = info.DestinationPath; //Set the server path of settings as the server path selected in destination path.
-            this.Log("Server construction complete, wait for VPK extract.");
+            this.Log("Server construction complete, wait for Frota installation.");
             this.CopyThread.Abort(); //Abort thread once complete
         }
 
