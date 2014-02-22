@@ -72,6 +72,11 @@
             this.btnCancelJoining = new System.Windows.Forms.Button();
             this.btnGameListRefresh = new System.Windows.Forms.Button();
             this.grdGamesList = new System.Windows.Forms.DataGridView();
+            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabLobby = new System.Windows.Forms.TabPage();
             this.gbxGameInfo = new System.Windows.Forms.GroupBox();
             this.labelMaxPlayers = new System.Windows.Forms.Label();
@@ -152,11 +157,7 @@
             this.logText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnUpdateFrota = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).BeginInit();
             this.gbxChat.SuspendLayout();
             this.tabUISections.SuspendLayout();
@@ -673,6 +674,41 @@
             this.grdGamesList.TabIndex = 0;
             this.grdGamesList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdGamesList_CellContentClick);
             // 
+            // colChannel
+            // 
+            this.colChannel.HeaderText = "Channel";
+            this.colChannel.Name = "colChannel";
+            this.colChannel.ReadOnly = true;
+            this.colChannel.Visible = false;
+            // 
+            // colPass
+            // 
+            this.colPass.FillWeight = 25F;
+            this.colPass.HeaderText = "Lock";
+            this.colPass.Name = "colPass";
+            this.colPass.ReadOnly = true;
+            // 
+            // colGameName
+            // 
+            this.colGameName.FillWeight = 123F;
+            this.colGameName.HeaderText = "Game Name";
+            this.colGameName.Name = "colGameName";
+            this.colGameName.ReadOnly = true;
+            // 
+            // colHost
+            // 
+            this.colHost.FillWeight = 85.44905F;
+            this.colHost.HeaderText = "Host";
+            this.colHost.Name = "colHost";
+            this.colHost.ReadOnly = true;
+            // 
+            // colPlayers
+            // 
+            this.colPlayers.FillWeight = 50F;
+            this.colPlayers.HeaderText = "Players";
+            this.colPlayers.Name = "colPlayers";
+            this.colPlayers.ReadOnly = true;
+            // 
             // tabLobby
             // 
             this.tabLobby.BackColor = System.Drawing.SystemColors.Control;
@@ -1188,6 +1224,7 @@
             // 
             // gbxSettingsServerLocation
             // 
+            this.gbxSettingsServerLocation.Controls.Add(this.btnUpdateFrota);
             this.gbxSettingsServerLocation.Controls.Add(this.btnSettingServerInstallationWizard);
             this.gbxSettingsServerLocation.Controls.Add(this.lblSettingServerOptions);
             this.gbxSettingsServerLocation.Controls.Add(this.btnSettingsServerLocationChange);
@@ -1586,40 +1623,20 @@
             this.pnlMain.Size = new System.Drawing.Size(1165, 523);
             this.pnlMain.TabIndex = 1;
             // 
-            // colChannel
+            // btnUpdateFrota
             // 
-            this.colChannel.HeaderText = "Channel";
-            this.colChannel.Name = "colChannel";
-            this.colChannel.ReadOnly = true;
-            this.colChannel.Visible = false;
-            // 
-            // colPass
-            // 
-            this.colPass.FillWeight = 25F;
-            this.colPass.HeaderText = "Lock";
-            this.colPass.Name = "colPass";
-            this.colPass.ReadOnly = true;
-            // 
-            // colGameName
-            // 
-            this.colGameName.FillWeight = 123F;
-            this.colGameName.HeaderText = "Game Name";
-            this.colGameName.Name = "colGameName";
-            this.colGameName.ReadOnly = true;
-            // 
-            // colHost
-            // 
-            this.colHost.FillWeight = 85.44905F;
-            this.colHost.HeaderText = "Host";
-            this.colHost.Name = "colHost";
-            this.colHost.ReadOnly = true;
-            // 
-            // colPlayers
-            // 
-            this.colPlayers.FillWeight = 50F;
-            this.colPlayers.HeaderText = "Players";
-            this.colPlayers.Name = "colPlayers";
-            this.colPlayers.ReadOnly = true;
+            this.btnUpdateFrota.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnUpdateFrota.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnUpdateFrota.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnUpdateFrota.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnUpdateFrota.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdateFrota.Location = new System.Drawing.Point(226, 114);
+            this.btnUpdateFrota.Name = "btnUpdateFrota";
+            this.btnUpdateFrota.Size = new System.Drawing.Size(176, 23);
+            this.btnUpdateFrota.TabIndex = 8;
+            this.btnUpdateFrota.Text = "Update Frota";
+            this.btnUpdateFrota.UseVisualStyleBackColor = false;
+            this.btnUpdateFrota.Click += new System.EventHandler(this.btnUpdateFrota_Click);
             // 
             // frmMain
             // 
@@ -1821,5 +1838,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colGameName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colHost;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPlayers;
+        private System.Windows.Forms.Button btnUpdateFrota;
     }
 }

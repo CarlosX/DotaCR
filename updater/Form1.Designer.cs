@@ -33,8 +33,6 @@
             this.btnBegin = new System.Windows.Forms.Button();
             this.lblCurrentVersion = new System.Windows.Forms.Label();
             this.lblLatestVersion = new System.Windows.Forms.Label();
-            this.lblCurrentFrota = new System.Windows.Forms.Label();
-            this.lblLatestFrota = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -53,7 +51,6 @@
             this.btnBegin.TabIndex = 1;
             this.btnBegin.Text = "Begin";
             this.btnBegin.UseVisualStyleBackColor = true;
-            this.btnBegin.Click += btnBegin_Click;
             // 
             // lblCurrentVersion
             // 
@@ -73,24 +70,6 @@
             this.lblLatestVersion.TabIndex = 3;
             this.lblLatestVersion.Text = "Latest Version:";
             // 
-            // lblCurrentFrota
-            // 
-            this.lblCurrentFrota.AutoSize = true;
-            this.lblCurrentFrota.Location = new System.Drawing.Point(12, 49);
-            this.lblCurrentFrota.Name = "lblCurrentFrota";
-            this.lblCurrentFrota.Size = new System.Drawing.Size(109, 13);
-            this.lblCurrentFrota.TabIndex = 4;
-            this.lblCurrentFrota.Text = "Current Frota Version:";
-            // 
-            // lblLatestFrota
-            // 
-            this.lblLatestFrota.AutoSize = true;
-            this.lblLatestFrota.Location = new System.Drawing.Point(12, 62);
-            this.lblLatestFrota.Name = "lblLatestFrota";
-            this.lblLatestFrota.Size = new System.Drawing.Size(104, 13);
-            this.lblLatestFrota.TabIndex = 5;
-            this.lblLatestFrota.Text = "Latest Frota Version:";
-            // 
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
@@ -105,8 +84,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(371, 212);
             this.Controls.Add(this.lblStatus);
-            this.Controls.Add(this.lblLatestFrota);
-            this.Controls.Add(this.lblCurrentFrota);
             this.Controls.Add(this.lblLatestVersion);
             this.Controls.Add(this.lblCurrentVersion);
             this.Controls.Add(this.btnBegin);
@@ -116,7 +93,6 @@
             this.Text = "D2CR Updater";
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.Load +=frmUpdater_Load;
 
         }
 
@@ -126,8 +102,6 @@
         private System.Windows.Forms.Button btnBegin;
         private System.Windows.Forms.Label lblCurrentVersion;
         private System.Windows.Forms.Label lblLatestVersion;
-        private System.Windows.Forms.Label lblCurrentFrota;
-        private System.Windows.Forms.Label lblLatestFrota;
         private System.Windows.Forms.Label lblStatus;
     }
 }

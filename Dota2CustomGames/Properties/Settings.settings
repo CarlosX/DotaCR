@@ -56,5 +56,8 @@
     <Setting Name="Dedicated" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="FrotaStatus" Type="System.String" Scope="User">
+      <Value Profile="(Default)">UNKNOWN</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
