@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Dota2CustomRealms
 {
+
     enum HeroMode
     {
         Unknown = 0, All_Pick = 1, All_Random = 2, Draft = 3, NA = 4

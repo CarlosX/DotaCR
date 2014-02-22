@@ -26,6 +26,11 @@ namespace Dota2CustomRealms
 {
     public partial class frmMain : Form
     {
+
+
+        public const string FROTA_SERVER = "http://dota2cr.com"; //"http://dota.windrunner.mx/frota";
+
+
         public frmMain()
         {
             InitializeComponent();
@@ -1630,7 +1635,7 @@ namespace Dota2CustomRealms
                 {
 
                     string appPath = Path.GetDirectoryName(Application.ExecutablePath);
-                    string updateserver = "http://dota2cr.com";
+                    string updateserver = FROTA_SERVER;
                     string clientfrota = "";
 
                     try
@@ -3025,17 +3030,18 @@ namespace Dota2CustomRealms
 
         #region Extractor
         string filePath = "log.txt";
-        delegate void SetProgressDelegate(long percent);
-        private void SetProgress(long percent)
+        delegate void SetProgressDelegate(int amount, int max);
+        private void SetProgress(int amount, int max)
         {
             if (this.progressBar.InvokeRequired)
             {
                 SetProgressDelegate callback = new SetProgressDelegate(SetProgress);
-                this.Invoke(callback, new object[] { percent });
+                this.Invoke(callback, new object[] { amount, max });
                 return;
             }
 
-            this.progressBar.Value = (int)percent;
+            this.progressBar.Maximum = max;
+            this.progressBar.Value = amount;
         }
 
         delegate void LogDelegate(string message);
@@ -3106,7 +3112,7 @@ namespace Dota2CustomRealms
         {
             FrotaThreadInfo info = (FrotaThreadInfo)oinfo;
 
-            string zipp = "http://www.dota2cr.com/curfrota.zip";
+            string zipp = FROTA_SERVER + "/curfrota.zip";
             Uri uri = new Uri(zipp);
 
             WebClient client = new WebClient();
@@ -3151,7 +3157,7 @@ namespace Dota2CustomRealms
 
         public void ExtractFiles(object oinfo)
         {
-            long succeeded, failed, current;
+            /*long succeeded, failed, current;
             ExtractThreadInfo info = (ExtractThreadInfo)oinfo;
             Dictionary<string, Stream> archiveStreams = new Dictionary<string, Stream>();
 
@@ -3247,7 +3253,7 @@ namespace Dota2CustomRealms
 
 
 
-            this.EnableButtons(true);
+            this.EnableButtons(true);*/
         }
 
 
@@ -3278,7 +3284,7 @@ namespace Dota2CustomRealms
             //Copy all directories
             foreach (string dirPath in Directory.GetDirectories(info.dota2path, "*", SearchOption.AllDirectories))
             {
-                if (!dirPath.Contains("addons\\frota")) // Ensure we don't copy over a frota install the user has on their dota 2 client
+                if (!dirPath.ToLowerInvariant().Contains("addons\\frota")) // Ensure we don't copy over a frota install the user has on their dota 2 client
                 {
                     Directory.CreateDirectory(dirPath.Replace(info.dota2path, info.DestinationPath));
                     this.Log(dirPath + " dir copied.");
@@ -3286,15 +3292,16 @@ namespace Dota2CustomRealms
                 }
             }
 
-
+            string[] allfiles = Directory.GetFiles(info.dota2path, "*.*", SearchOption.AllDirectories);
+            int max = allfiles.Length;
             //Copy all the files
-            foreach (string files in Directory.GetFiles(info.dota2path, "*.*", SearchOption.AllDirectories))
+            foreach (string files in allfiles)
             {
-                if (!files.Contains("addons\\frota") && !files.Contains("pak01") && !files.EndsWith(".dem") && !files.EndsWith(".dmp"))
+                if (!files.ToLowerInvariant().Contains("addons\\frota") && !files.EndsWith(".dem") && !files.EndsWith(".dmp")) // Don't copy over the useless stuff
                 {
                     File.Copy(files, files.Replace(info.dota2path, info.DestinationPath), true);
                     this.Log(files + " copied.");
-                    filescopied++;
+                    this.SetProgress(++filescopied, max);
                 }
             }
             this.Log(String.Format("Copy completed with {0} files and {1} directories trasnferred.", filescopied, dirscreated));
@@ -3362,7 +3369,7 @@ namespace Dota2CustomRealms
             indexStream.Close();
 
             this.progressBar.Minimum = 0;
-            this.progressBar.Maximum = package.Entries.Count;
+            this.progressBar.Maximum = 380; // package.Entries.Count;
             this.progressBar.Value = 0;
             string basePath = indexName.Substring(0, indexName.Length - 8);
 
