@@ -2388,7 +2388,8 @@ namespace Dota2CustomRealms
                 }
 
                 // FIXED: Make srcds bind to all available IPs on computer
-                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_custom_enable 1 +dota_local_custom_game Frota +dota_local_custom_map Frota +dota_force_gamemode 15 +update_addon_paths"  + " +map " + Game.Dotamap + debugcommand);
+                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_custom_enable 1 +dota_local_custom_game Frota +dota_local_custom_map Frota +dota_force_gamemode 15 +update_addon_paths" + debugcommand);
+                //ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " -maxplayers " + Math.Max(10, Game.Players.Count));
 
                 serverStart.WorkingDirectory = Properties.Settings.Default.Dota2ServerPath.Substring(0, Properties.Settings.Default.Dota2ServerPath.Length - 1);
 
@@ -2417,7 +2418,7 @@ namespace Dota2CustomRealms
                             bgwGenerateNpcHeroesAutoexec.ReportProgress(70, "Dota 2 Server Loading...");
                             Dota2ServerWindow = ServerWindow;
                         }
-                        else if (Title.ToLowerInvariant() == Dota2ServerName.ToLowerInvariant()) // Server is working
+                        else if (Title.ToLowerInvariant() == Dota2ServerName.ToLowerInvariant() || Title.ToLowerInvariant() == "dota 2") // Server is working
                         {
                             if (!GameModeSent && Game.GameMode != GameMode.OMG && Game.GameMode != GameMode.LOD && Game.GameMode != GameMode.OMG_Balanced)
                             {
