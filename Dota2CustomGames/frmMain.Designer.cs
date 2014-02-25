@@ -1519,7 +1519,7 @@
             this.ServerToSettingsbutton.TabIndex = 18;
             this.ServerToSettingsbutton.Text = "Back";
             this.ServerToSettingsbutton.UseVisualStyleBackColor = true;
-            this.ServerToSettingsbutton.Click += new System.EventHandler(this.button3_Click);
+            this.ServerToSettingsbutton.Click += new System.EventHandler(this.ServerToSettingsbutton_click);
             // 
             // forwardButton
             // 

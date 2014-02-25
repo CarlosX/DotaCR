@@ -2551,7 +2551,7 @@ namespace Dota2CustomRealms
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://checkip.dyndns.org");
             WebResponse rep = req.GetResponse();
             string text = new StreamReader(rep.GetResponseStream()).ReadToEnd();
-            text = text.Substring(text.IndexOf(":") + 1);
+            text = text.Substring(text.IndexOf(":") + 2);
             text = text.Substring(0, text.IndexOf("<"));
             return text;
         }
@@ -3411,8 +3411,23 @@ namespace Dota2CustomRealms
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void ServerToSettingsbutton_click(object sender, EventArgs e)
         {
+            // Stop all threads if we go back
+            if (this.ExtractThread != null && this.ExtractThread.IsAlive)
+            {
+                this.ExtractThread.Abort();
+            }
+            if (this.CopyThread != null && this.CopyThread.IsAlive)
+            {
+                this.CopyThread.Abort();
+            }
+            if (this.FrotaThread != null && this.FrotaThread.IsAlive)
+            {
+                this.FrotaThread.Abort();
+            }
+            logText.Clear();
+
             lblDota2ClientLocation.Text = Properties.Settings.Default.Dota2Path;
             RefreshSettingsTab();
             tabUISections.SelectedTab = tabSettings;
