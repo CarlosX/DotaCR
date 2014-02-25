@@ -2312,11 +2312,7 @@ namespace Dota2CustomRealms
         #region Dota 2 Modding
 
         private void bgwGenerateNpcHeroesAutoexec_DoWork(object sender, DoWorkEventArgs e)
-        {
-
- 
-
-            
+        {         
             if (Game.IsHost)
             {
                 if (File.Exists(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\autoexec.cfg")) // Delete server autoexec
@@ -2324,39 +2320,18 @@ namespace Dota2CustomRealms
                     File.Delete(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\autoexec.cfg");
                 }
 
-                StringBuilder AutoHotkeyData = new StringBuilder();
-
-                AutoHotkeyData.AppendLine(Properties.Settings.Default.Dota2Path);
-                AutoHotkeyData.AppendLine(Game.Players[ircClient.Nickname].Side.ToString());
-                AutoHotkeyData.AppendLine(lblLobbyName.Text);
-                AutoHotkeyData.AppendLine("connect localhost:" + Properties.Settings.Default.ServerPort);
-                AutoHotkeyData.AppendLine(ircClient.Nickname);
-
-
-
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(30, "Determining External IP Address");
-
                 HostConnection = DetermineExternalIP() + ":" + Properties.Settings.Default.ServerPort;
-
-                AutoHotkeyData.AppendLine(HostConnection);
-
-                File.WriteAllText("options.ini", AutoHotkeyData.ToString());
-
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(40, "Informing Other Players");
 
                 //Properties.Settings.Default["Dota2ServerPath"] = "C:\\dotaserver\\";
                 //Properties.Settings.Default.Save();
 
                 ircClient.SendMessage(SendType.Notice, Game.Channel, "STARTDOTA=" + HostConnection);
 
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(50, "Saving Setup Commands");
-
                 // TODO: Apply below fix by determining computer's IP
                 //Dota2ConfigModder.AutoExecConnect(HostConnection);
                 // FIX: Users who can't connect to their external IP couldn't join their own game in Dota 2 client
 
-                //Dota2ConfigModder.SaveAutoHotKeyCommands();
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(60, "Starting Dota 2 Server");
+                //Dota2ConfigModder.SaveAutoHotKeyCommands()
 
                 Dota2ServerName = Dota2ConfigModder.DetermineServerName(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\\server.cfg");
                 string gamemodecommand = "";
@@ -2388,7 +2363,7 @@ namespace Dota2CustomRealms
                 }
 
                 // FIXED: Make srcds bind to all available IPs on computer
-                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_custom_enable 1 +dota_local_custom_game Frota +dota_local_custom_map Frota +dota_force_gamemode 15 +update_addon_paths" + debugcommand);
+                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_custom_enable 1 +dota_local_custom_game Frota +dota_local_custom_map Frota +dota_force_gamemode 15 +update_addon_paths +map riverofsouls");
                 //ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " -maxplayers " + Math.Max(10, Game.Players.Count));
 
                 serverStart.WorkingDirectory = Properties.Settings.Default.Dota2ServerPath.Substring(0, Properties.Settings.Default.Dota2ServerPath.Length - 1);
@@ -2424,11 +2399,11 @@ namespace Dota2CustomRealms
                             {
                                 SetForegroundWindow(ServerWindow);
                                 GameModeSent = true;
-                                SendKeys.SendWait(gamemodecommand.Substring(1));
-                                SendKeys.SendWait("{ENTER}");
+                      //          SendKeys.SendWait(gamemodecommand.Substring(1));
+                     //           SendKeys.SendWait("{ENTER}");
                                 Thread.Sleep(150);
-                                SendKeys.SendWait(gamemapcommand.Substring(2));
-                                SendKeys.SendWait("{ENTER}");
+                     //           SendKeys.SendWait(gamemapcommand.Substring(2));
+                     //           SendKeys.SendWait("{ENTER}");
                             }
                             Thread.Sleep(2500);
                         /*    if (Game.AdditionalModes.Contains("WTF"))
@@ -2447,58 +2422,27 @@ namespace Dota2CustomRealms
                                 SendKeys.SendWait("sv_alltalk 1");
                                 SendKeys.SendWait("{ENTER}");
                             }
-
-
-                            bgwGenerateNpcHeroesAutoexec.ReportProgress(80, "Starting ActivateConsole");
-                            Process Autohotkey = Process.Start("ActivateConsole.exe");
-
+                            
                             Thread.Sleep(1000);
 
-                            bgwGenerateNpcHeroesAutoexec.ReportProgress(90, "Starting Dota 2 Client...");
-                            Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk");
-
+                            Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://rungameid/570");
+                            Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/127.0.0.1:27015");
 
                             ircClient.SendMessage(SendType.Notice, Game.Channel, "SERVERREADY");
 
-                            Autohotkey.WaitForExit();
-  
-
-       
                             break;
                         }
                     }
-
 
                 }
             }
             else // NOT THE HOST
             {
 
-                StringBuilder AutoHotkeyData = new StringBuilder();
-
-                AutoHotkeyData.AppendLine(Properties.Settings.Default.Dota2Path);
-                AutoHotkeyData.AppendLine(Game.Players[ircClient.Nickname].Side.ToString());
-                AutoHotkeyData.AppendLine(lblLobbyName.Text);
-
-
-
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(50, "Waiting for game host...");
                 while (HostConnection == null) // Wait for the IRC command with the connection
                 {
                     Thread.Sleep(100);
                 }
-
-                AutoHotkeyData.AppendLine("connect " + HostConnection);
-                AutoHotkeyData.AppendLine(ircClient.Nickname);
-                AutoHotkeyData.AppendLine("none");
-
-                File.WriteAllText("options.ini", AutoHotkeyData.ToString());
-
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(60, "Saving Setup Commands");
-
-
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(70, "Waiting for game host...");
-
 
                 while (!ServerReady)
                 {
@@ -2506,29 +2450,10 @@ namespace Dota2CustomRealms
                 }
 
                 ServerReady = false;
-
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(80, "Starting ActivateConsole...");
-                Process Autohotkey = Process.Start("ActivateConsole.exe");
-
-                Thread.Sleep(1000);
-
-
-                bgwGenerateNpcHeroesAutoexec.ReportProgress(90, "Starting Dota 2...");
-
-                
+              
                 Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk");
-
-                Autohotkey.WaitForExit();
-
-
-
-            }
-
-  
-
-          
+            }         
         }
-
 
         private void bgwGenerateNpcHeroesAutoexec_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
