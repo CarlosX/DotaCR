@@ -105,6 +105,7 @@
             this.lblConfigProgressMessage = new System.Windows.Forms.Label();
             this.pgbConfigProgress = new System.Windows.Forms.ProgressBar();
             this.tabSettings = new System.Windows.Forms.TabPage();
+            this.btnUpdateFrota = new System.Windows.Forms.Button();
             this.lblSettings = new System.Windows.Forms.Label();
             this.btnSettingsSaveReturn = new System.Windows.Forms.Button();
             this.gbxSettingsServer = new System.Windows.Forms.GroupBox();
@@ -157,7 +158,7 @@
             this.logText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.btnUpdateFrota = new System.Windows.Forms.Button();
+            this.timerPlayers = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).BeginInit();
             this.gbxChat.SuspendLayout();
             this.tabUISections.SuspendLayout();
@@ -1016,6 +1017,7 @@
             // tabSettings
             // 
             this.tabSettings.BackColor = System.Drawing.SystemColors.Control;
+            this.tabSettings.Controls.Add(this.btnUpdateFrota);
             this.tabSettings.Controls.Add(this.lblSettings);
             this.tabSettings.Controls.Add(this.btnSettingsSaveReturn);
             this.tabSettings.Controls.Add(this.gbxSettingsServer);
@@ -1027,11 +1029,26 @@
             this.tabSettings.TabIndex = 8;
             this.tabSettings.Text = "Settings";
             // 
+            // btnUpdateFrota
+            // 
+            this.btnUpdateFrota.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnUpdateFrota.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnUpdateFrota.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnUpdateFrota.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnUpdateFrota.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdateFrota.Location = new System.Drawing.Point(228, 12);
+            this.btnUpdateFrota.Name = "btnUpdateFrota";
+            this.btnUpdateFrota.Size = new System.Drawing.Size(200, 23);
+            this.btnUpdateFrota.TabIndex = 9;
+            this.btnUpdateFrota.Text = "Update Frota";
+            this.btnUpdateFrota.UseVisualStyleBackColor = false;
+            this.btnUpdateFrota.Click += new System.EventHandler(this.btnUpdateFrota_Click);
+            // 
             // lblSettings
             // 
             this.lblSettings.AutoSize = true;
             this.lblSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSettings.Location = new System.Drawing.Point(318, 12);
+            this.lblSettings.Location = new System.Drawing.Point(124, 12);
             this.lblSettings.Name = "lblSettings";
             this.lblSettings.Size = new System.Drawing.Size(98, 25);
             this.lblSettings.TabIndex = 7;
@@ -1224,7 +1241,6 @@
             // 
             // gbxSettingsServerLocation
             // 
-            this.gbxSettingsServerLocation.Controls.Add(this.btnUpdateFrota);
             this.gbxSettingsServerLocation.Controls.Add(this.btnSettingServerInstallationWizard);
             this.gbxSettingsServerLocation.Controls.Add(this.lblSettingServerOptions);
             this.gbxSettingsServerLocation.Controls.Add(this.btnSettingsServerLocationChange);
@@ -1623,20 +1639,9 @@
             this.pnlMain.Size = new System.Drawing.Size(1165, 523);
             this.pnlMain.TabIndex = 1;
             // 
-            // btnUpdateFrota
+            // timerPlayers
             // 
-            this.btnUpdateFrota.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.btnUpdateFrota.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnUpdateFrota.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnUpdateFrota.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnUpdateFrota.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdateFrota.Location = new System.Drawing.Point(226, 114);
-            this.btnUpdateFrota.Name = "btnUpdateFrota";
-            this.btnUpdateFrota.Size = new System.Drawing.Size(176, 23);
-            this.btnUpdateFrota.TabIndex = 8;
-            this.btnUpdateFrota.Text = "Update Frota";
-            this.btnUpdateFrota.UseVisualStyleBackColor = false;
-            this.btnUpdateFrota.Click += new System.EventHandler(this.btnUpdateFrota_Click);
+            this.timerPlayers.Tick += new System.EventHandler(this.timerPlayers_Tick);
             // 
             // frmMain
             // 
@@ -1839,5 +1844,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colHost;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPlayers;
         private System.Windows.Forms.Button btnUpdateFrota;
+        private System.Windows.Forms.Timer timerPlayers;
     }
 }

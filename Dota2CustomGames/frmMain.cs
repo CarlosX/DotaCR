@@ -838,6 +838,8 @@ namespace Dota2CustomRealms
 
             ircListener.Enabled = true;
             ircListener.Interval = 50;
+            timerPlayers.Enabled = true;
+            timerPlayers.Interval = 2000;
 
             gbxChat.Visible = true;
 
@@ -913,7 +915,7 @@ namespace Dota2CustomRealms
             }
             catch
             {
-                 // WTF, apparently this causes crashes, but at least its safe to ignore them
+                // We don't really care if this causes errors (Jeez aren't we awful developers!)
             }
         }
 
@@ -1625,43 +1627,6 @@ namespace Dota2CustomRealms
                 {
                     MessageBox.Show("This version of Dota 2 Custom Realms is not supported. Please run the program again and update to continue.");
                     Application.Exit();
-                }
-            }
-            else
-            {
-                // Check Frota if relevant
-
-                if (Properties.Settings.Default.Dota2ServerPath != "" && File.Exists(Properties.Settings.Default.Dota2ServerPath + "srcds.exe"))
-                {
-
-                    string appPath = Path.GetDirectoryName(Application.ExecutablePath);
-                    string updateserver = FROTA_SERVER;
-                    string clientfrota = "";
-
-                    try
-                    {
-                        StreamReader version = new StreamReader(Properties.Settings.Default.Dota2ServerPath + "dota\\addons\\frota\\version.txt");
-                        clientfrota = version.ReadLine().Trim();
-                    }
-                    catch (Exception ex)
-                    {
-                        clientfrota = "Not Found";
-                    }
-
-                    string currentfrota = new WebClient().DownloadString(updateserver + "/curfrota.txt");
-
-                    if (clientfrota != currentfrota)
-                    {
-                        Properties.Settings.Default.FrotaStatus = "INCOMPATIBLE";
-                        Properties.Settings.Default.Save();
-                        MessageBox.Show("Your version of Frota is out of date.\nIf you want to host games you will need to update frota (you can do this in the settings menu)");
-                        btnHostLobby.Enabled = false;
-                    }
-                    else
-                    {
-                        Properties.Settings.Default.FrotaStatus = "COMPATIBLE";
-                        Properties.Settings.Default.Save();
-                    }
                 }
             }
         }
@@ -2775,6 +2740,56 @@ namespace Dota2CustomRealms
             btnSettingDota2ConsoleKeybindDetect.FlatAppearance.MouseOverBackColor = Color.FromArgb(255, 192, 192, 0);
 
 
+            // Check Frota if relevant
+            string currentfrota = new WebClient().DownloadString(FROTA_SERVER + "/curfrota.txt");
+            bool clientfrota = true; // Initialise as true so user is only bugged if can determine that they definitely don't have Frota
+            bool serverfrota = true;
+
+            if (Properties.Settings.Default.Dota2Path != "" && File.Exists(Properties.Settings.Default.Dota2Path + "dota.exe"))
+            { // Check the Dota 2 client for Frota
+                string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+                try
+                {
+                    StreamReader version = new StreamReader(Properties.Settings.Default.Dota2Path + "dota\\addons\\frota\\version.txt");
+                    clientfrota = version.ReadLine().Trim() == currentfrota;
+                }
+                catch (Exception ex)
+                {
+                    clientfrota = false;
+                    Server = false;
+                }
+            }
+
+            if (Properties.Settings.Default.Dota2ServerPath != "" && File.Exists(Properties.Settings.Default.Dota2ServerPath + "srcds.exe"))
+            { // Check the Dota 2 server for Frota
+
+                string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+                try
+                {
+                    StreamReader version = new StreamReader(Properties.Settings.Default.Dota2ServerPath + "dota\\addons\\frota\\version.txt");
+                    serverfrota = version.ReadLine().Trim() == currentfrota;
+                }
+                catch (Exception ex)
+                {
+                    serverfrota = false;
+                    Client = false;
+                }
+            }
+
+            if (!clientfrota || !serverfrota)
+            {
+                if (Properties.Settings.Default.FrotaStatus != "INCOMPATIBLE") MessageBox.Show("You need to install or update Frota. Please go to the Settings menu and update Frota :-)");
+                Properties.Settings.Default.FrotaStatus = "INCOMPATIBLE";
+                Properties.Settings.Default.Save();
+                btnUpdateFrota.Visible = true;
+            }
+            else
+            {
+                Properties.Settings.Default.FrotaStatus = "COMPATIBLE";
+                Properties.Settings.Default.Save();
+                btnUpdateFrota.Visible = false;
+            }
+
 
             if (Client)
             {
@@ -2799,22 +2814,6 @@ namespace Dota2CustomRealms
             {
                 Server = false;
                 btnSettingsServerLocationChange.BackColor = Color.FromArgb(255, 192, 0, 0);
-            }
-            if (File.Exists((string)Properties.Settings.Default["Dota2ServerPath"] + "srcds.exe"))
-            {
-                if (Properties.Settings.Default.FrotaStatus == "COMPATIBLE")
-                {
-                    btnUpdateFrota.Visible = false;
-                }
-                else
-                {
-                    Server = false;
-                    btnUpdateFrota.Visible = true;
-                }
-            }
-            else
-            {
-                Server = false;
             }
 
             // Port
@@ -3032,6 +3031,7 @@ namespace Dota2CustomRealms
         private class FrotaThreadInfo
         {
             public string DotaServerPath;
+            public string DotaClientPath;
         }
 
 
@@ -3045,11 +3045,33 @@ namespace Dota2CustomRealms
             WebClient client = new WebClient();
 
 
-            this.Log("Downloading Frota...");
+            this.Log("Downloading Frota... Please be patient!");
+
+            bool Client = File.Exists(info.DotaClientPath + "dota.exe");
+            bool Server = File.Exists(info.DotaServerPath + "srcds.exe");
+
+            string InitialExtractionTarget;
+
+            if (Client)
+            {
+                InitialExtractionTarget = info.DotaClientPath + "dota\\addons";
+            }
+            else if (Server)
+            {
+                InitialExtractionTarget = info.DotaServerPath + "dota\\addons";
+            }
+            else
+            {
+                this.EnableButtons(true);
+                this.Log("**** CAN'T UPDATE FROTA, PATHS FOR CLIENT AND SERVER INVALID ****");
+                return;
+            }
 
 
-            Directory.CreateDirectory(info.DotaServerPath + "dota\\addons");
-            client.DownloadFile(uri, info.DotaServerPath + "dota\\addons\\frota.zip");
+            Directory.CreateDirectory(InitialExtractionTarget);
+
+
+            client.DownloadFile(uri, "frota.zip");
             this.Log("Downloaded Frota! Waiting for file copy to complete...");
 
             while(this.CopyThread != null && this.CopyThread.IsAlive)
@@ -3057,7 +3079,7 @@ namespace Dota2CustomRealms
                 Thread.Sleep(500);
             }
 
-            using (ZipFile zip = ZipFile.Read(info.DotaServerPath + "dota\\addons\\frota.zip"))
+            using (ZipFile zip = ZipFile.Read("frota.zip"))
             {
                 int filesextracted = 0;
                 this.Log("Extracting Frota...");
@@ -3075,13 +3097,27 @@ namespace Dota2CustomRealms
                     if (Ignored == false)
                     {
                         this.Log(x.FileName);
-                        x.Extract(info.DotaServerPath + "dota\\addons\\frota\\", true);
+                        x.Extract(InitialExtractionTarget + "\\frota\\", true);
                     }
                     this.SetProgress(filesextracted++, zip.Count);
                 }
             }
-            File.Delete(info.DotaServerPath + "dota\\addons\\frota.zip");
+
+            File.Delete("frota.zip");
             this.Log("Completed Extracting Frota!");
+
+
+            if (Client && Server)
+            {
+
+                this.Log("Also copying Frota to server...");
+
+                // What a jolly way to copy a directory!
+                // http://stackoverflow.com/questions/58744/best-way-to-copy-the-entire-contents-of-a-directory-in-c-sharp
+                // Bit sad there isn't a Directory.Copy method
+                new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(info.DotaClientPath + "dota\\addons\\frota", info.DotaServerPath + "dota\\addons\\frota");
+            }
+
             if ((this.ExtractThread == null || !this.ExtractThread.IsAlive) && (this.CopyThread == null || !this.CopyThread.IsAlive)) this.EnableButtons(true);
             Properties.Settings.Default.FrotaStatus = "COMPATIBLE";
             Properties.Settings.Default.Save();
@@ -3318,6 +3354,7 @@ namespace Dota2CustomRealms
 
             FrotaThreadInfo frotainfo = new FrotaThreadInfo();
             frotainfo.DotaServerPath = DestinationPath;
+            frotainfo.DotaClientPath = dota2path;
 
             this.ExtractThread = new Thread(new ParameterizedThreadStart(ExtractFiles));
             this.ExtractThread.Start(info);
@@ -3333,6 +3370,7 @@ namespace Dota2CustomRealms
 
             FrotaThreadInfo frotainfo = new FrotaThreadInfo();
             frotainfo.DotaServerPath = Properties.Settings.Default.Dota2ServerPath;
+            frotainfo.DotaClientPath = Properties.Settings.Default.Dota2Path;
 
             this.EnableButtons(false);
 
