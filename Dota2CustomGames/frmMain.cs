@@ -2426,7 +2426,7 @@ namespace Dota2CustomRealms
                             Thread.Sleep(1000);
 
                             Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://rungameid/570");
-                            Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/" + HostConnection);
+                            Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/" + HostConnection.Substring(1));
 
                             ircClient.SendMessage(SendType.Notice, Game.Channel, "SERVERREADY");
 
@@ -2452,7 +2452,7 @@ namespace Dota2CustomRealms
                 ServerReady = false;
               
                 Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk");
-                Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/" + HostConnection);
+                Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/" + HostConnection.Substring(1));
             }         
         }
 
