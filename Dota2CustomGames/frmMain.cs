@@ -2420,7 +2420,7 @@ namespace Dota2CustomRealms
                         }
                         else if (Title.ToLowerInvariant() == Dota2ServerName.ToLowerInvariant() || Title.ToLowerInvariant() == "dota 2") // Server is working
                         {
-                            if (!GameModeSent && Game.GameMode != GameMode.OMG && Game.GameMode != GameMode.LOD && Game.GameMode != GameMode.OMG_Balanced)
+                           /* if (!GameModeSent && Game.GameMode != GameMode.OMG && Game.GameMode != GameMode.LOD && Game.GameMode != GameMode.OMG_Balanced)
                             {
                                 SetForegroundWindow(ServerWindow);
                                 GameModeSent = true;
@@ -2430,7 +2430,7 @@ namespace Dota2CustomRealms
                                 SendKeys.SendWait(gamemapcommand.Substring(2));
                                 SendKeys.SendWait("{ENTER}");
                             }
-                            Thread.Sleep(2500);
+                            Thread.Sleep(2500);*/
                         /*    if (Game.AdditionalModes.Contains("WTF"))
                             {
                                 SetForegroundWindow(ServerWindow);
