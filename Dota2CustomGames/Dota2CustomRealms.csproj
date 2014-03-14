@@ -140,22 +140,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ActivateConsole\Activate 5.2.ahk" />
-    <None Include="ActivateConsole\Activate 5.3.ahk" />
-    <None Include="ActivateConsole\Activate 5.5.ahk" />
-    <None Include="ActivateConsole\Activate 5.8.ahk" />
-    <None Include="ActivateConsole\Activate 5.81.ahk" />
-    <None Include="ActivateConsole\Activate 5.972.ahk" />
-    <None Include="ActivateConsole\Activate 5.973.ahk" />
-    <None Include="ActivateConsole\Activate 5.974.ahk" />
-    <None Include="ActivateConsole\ActivateConsole.exe.old" />
-    <None Include="ActivateConsole\Decompiled ActivateConsole.ahk" />
     <None Include="app.config" />
-    <Content Include="ActivateConsole.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ActivateConsole\ActivateConsole.exe" />
-    <Content Include="ActivateConsole\Exe2Ahk.exe" />
     <Content Include="Data\serverfiles.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
