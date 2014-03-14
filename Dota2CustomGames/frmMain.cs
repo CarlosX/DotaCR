@@ -1068,6 +1068,16 @@ namespace Dota2CustomRealms
                 MessageBox.Show("Game Password cannot be long than 12 characters in length!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+            if (cbxAddonType.SelectedIndex == -1)
+            {
+                MessageBox.Show("You need to select an addon to use!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (cbxAddonMap.SelectedIndex == -1)
+            {
+                MessageBox.Show("You need to select a map to use!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             chkLobbyPlayerReady.Checked = false;
 
@@ -1085,6 +1095,8 @@ namespace Dota2CustomRealms
             Game.MaxLobbySize = int.Parse(cbxGameSize.Text);
 
             //Game.Dotamap = cbxMap.Text;
+            Game.Dotamap = cbxAddonMap.Text;
+            Game.CustomMod = cbxAddonType.Text;
 
             Player Self = new Player();
             Self.Name = ircClient.Nickname;
@@ -1174,6 +1186,8 @@ namespace Dota2CustomRealms
                 btnLobbyRandomiseTeams.Show();
                 labelHost.Text = "Host: " + ircClient.Nickname;
                 labelMaxPlayers.Text = "Max Players: " + Game.MaxLobbySize.ToString();
+                labelMap.Text = "Map: " + cbxAddonMap.Text;
+                labelAddon.Text = "Addon: " + cbxAddonType.Text;
             }
             else
             {
@@ -1294,6 +1308,7 @@ namespace Dota2CustomRealms
                     int MaxPlayers = 0;
                     string pass = "";
                     string version = Properties.Settings.Default.MyVersion;
+                    string addon = "", map = "";
                     //int ping = 999;
                     //IPAddress ip = null;
 
@@ -1321,6 +1336,15 @@ namespace Dota2CustomRealms
                         {
                             version = GameProp.Substring(4);
                         }
+
+                        if (GameProp.StartsWith("CUSTOMMOD="))
+                        {
+                            addon = GameProp.Substring(10);
+                        }
+                        if (GameProp.StartsWith("MAP="))
+                        {
+                            map = GameProp.Substring(4);
+                        }
                         
                         //if (GameProp.StartsWith("IP="))
                         //{
@@ -1339,7 +1363,7 @@ namespace Dota2CustomRealms
                         }
                         else
                         {
-                            int rowid = grdGamesList.Rows.Add(new object[] { Game.Key, Lock, Game.Key.Substring(4).Replace("_", " "), Host, Game.Value + "/" + MaxPlayers});
+                            int rowid = grdGamesList.Rows.Add(new object[] { Game.Key, Lock, Game.Key.Substring(4).Replace("_", " "), Host, Game.Value + "/" + MaxPlayers, addon, map});
                         }
                    }
                 }
@@ -1453,6 +1477,7 @@ namespace Dota2CustomRealms
             {
 
                 string Host = null;
+                string Addon = "", Map = "";
 
                 string[] GameProperties = Topics[Channel].Split(' ');
 
@@ -1468,6 +1493,14 @@ namespace Dota2CustomRealms
                     if (GameProp.StartsWith("SIZE="))
                     {
                         MaxPlayers = int.Parse(GameProp.Substring(5));
+                    }
+                    if (GameProp.StartsWith("MAP="))
+                    {
+                        Map = GameProp.Substring(4);
+                    }
+                    if (GameProp.StartsWith("CUSTOMMOD="))
+                    {
+                        Addon = GameProp.Substring(10);
                     }
                 }
 
@@ -1493,6 +1526,10 @@ namespace Dota2CustomRealms
                     Game.Channel = Channel;
                     Game.LobbyName = Channel.Substring(3);
                     Game.HostName = Host;
+                    Game.CustomMod = Addon;
+                    Game.Dotamap = Map;
+                    labelMap.Text = "Map: " + Map ;
+                    labelAddon.Text = "Addon: " + Addon;
                     lblLobbyName.Text = Game.LobbyName;
                     AttachGameEvents(Game);
                     btnStart.Enabled = false;
@@ -2326,9 +2363,8 @@ namespace Dota2CustomRealms
                 {
                     debugcommand = " -condebug";
                 }
-
                 // FIXED: Make srcds bind to all available IPs on computer
-                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_custom_enable 1 +dota_local_custom_game Frota +dota_local_custom_map Frota +dota_force_gamemode 15 +update_addon_paths +map riverofsouls");
+                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_custom_enable 1 +dota_local_custom_game " + Game.CustomMod + " +dota_local_custom_map " + Game.CustomMod + " +dota_force_gamemode 15 +update_addon_paths +map " + Game.Dotamap);
                 //ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " -maxplayers " + Math.Max(10, Game.Players.Count));
 
                 serverStart.WorkingDirectory = Properties.Settings.Default.Dota2ServerPath.Substring(0, Properties.Settings.Default.Dota2ServerPath.Length - 1);
@@ -2842,6 +2878,8 @@ namespace Dota2CustomRealms
             {
                 lblSettingsServerStatus.BackColor = Color.FromArgb(255, 0, 192, 0);
                 lblSettingsServerStatus.Text = "Setup Complete";
+                RegenerateAddonMapsCombo();
+                RegenerateAddonTypesCombo();
             }
             else
             {
@@ -3603,6 +3641,53 @@ namespace Dota2CustomRealms
             {
                 Properties.Settings.Default.Dedicated = false;
                 Properties.Settings.Default.Save();
+            }
+        }
+
+        private void cbxAddonType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RegenerateAddonMapsCombo();    
+        }
+
+        private void RegenerateAddonMapsCombo()
+        {
+            if (string.IsNullOrEmpty(cbxAddonType.Text))
+            {
+                cbxAddonMap.Items.Clear();
+                return;
+            }
+
+            string[] Maps = Directory.GetFiles(Properties.Settings.Default.Dota2ServerPath + "dota\\addons\\" + cbxAddonType.Text + "\\maps", "*.bsp");
+            string SelectedItem = cbxAddonMap.Text;
+            cbxAddonMap.Items.Clear();
+            foreach (string Map in Maps)
+            {
+                cbxAddonMap.Items.Add(Map.Substring(Properties.Settings.Default.Dota2ServerPath.Length + "dota\\addons\\".Length  + cbxAddonType.Text.Length + "\\maps\\".Length).Replace(".bsp", ""));
+            }
+            if (Maps.Contains(SelectedItem)) cbxAddonMap.Text = SelectedItem;
+
+            if (cbxAddonMap.Items.Count == 1) cbxAddonMap.SelectedIndex = 0;
+        }
+
+        private void RegenerateAddonTypesCombo()
+        {
+            // TODO: Way to determine what commands to pass to server to use each addon
+
+            string SelectedItem = cbxAddonType.Text;
+            cbxAddonType.Items.Clear();
+
+            string[] Addons = Directory.GetDirectories(Properties.Settings.Default.Dota2ServerPath + "dota\\addons");
+            foreach (string Addon in Addons)
+            {
+                if(Directory.Exists(Addon + "\\maps") && Directory.GetFiles(Addon + "\\maps", "*.bsp").Length > 0)
+                {
+                    cbxAddonType.Items.Add(Addon.Substring(Properties.Settings.Default.Dota2ServerPath.Length + "dota\\addons\\".Length));
+                }
+            }
+
+            if (cbxAddonType.Items.Count == 1)
+            {
+                cbxAddonType.SelectedIndex = 0;
             }
         }
     }

@@ -364,7 +364,7 @@ namespace Dota2CustomRealms
         {
             if (Players.ContainsKey(MyName) && CustomMod != null)
             {
-                if(Directory.Exists("data\\custom\\" + CustomMod) && Directory.GetFiles("data\\custom\\" + CustomMod).Count() >= 3)
+                if(Directory.Exists(Properties.Settings.Default.Dota2Path + "dota\\addons\\" + CustomMod))
                 {
                     if (!Players[MyName].HasMod)
                     {
