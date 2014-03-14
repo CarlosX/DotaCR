@@ -2423,10 +2423,10 @@ namespace Dota2CustomRealms
                                 SendKeys.SendWait("sv_alltalk 1");
                                 SendKeys.SendWait("{ENTER}");
                             }
-                            
-                            Thread.Sleep(1000);
-
                             Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://rungameid/570");
+
+                            Thread.Sleep(5000);
+
                             Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/" + HostConnection);
 
                             ircClient.SendMessage(SendType.Notice, Game.Channel, "SERVERREADY");
@@ -2453,6 +2453,9 @@ namespace Dota2CustomRealms
                 ServerReady = false;
               
                 Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk");
+
+                Thread.Sleep(5000);
+
                 Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/" + HostConnection);
             }         
         }
@@ -3153,6 +3156,7 @@ namespace Dota2CustomRealms
                 // What a jolly way to copy a directory!
                 // http://stackoverflow.com/questions/58744/best-way-to-copy-the-entire-contents-of-a-directory-in-c-sharp
                 // Bit sad there isn't a Directory.Copy method
+
                 new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(info.DotaClientPath + "dota\\addons\\frota", info.DotaServerPath + "dota\\addons\\frota");
             }
 
