@@ -3685,7 +3685,7 @@ namespace Dota2CustomRealms
             {
                 if(Directory.Exists(Addon + "\\maps") && Directory.GetFiles(Addon + "\\maps", "*.bsp").Length > 0)
                 {
-                    cbxAddonType.Items.Add(Addon.Substring(Properties.Settings.Default.Dota2ServerPath.Length + "dota\\addons\\".Length));
+                    cbxAddonType.Items.Add(Addon.Substring(Properties.Settings.Default.Dota2ServerPath.Length + "dota\\addons\\".Length).Replace("frota", "Frota")); // TODO: Less hacky fix for Frota capitalisation
                 }
             }
 
