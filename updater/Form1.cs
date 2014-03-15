@@ -42,11 +42,12 @@ namespace updater
         private void btnBegin_Click(object sender, EventArgs e)
         {
             client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(client_DownloadProgressChanged);
-            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_DownloadFileCompleted);
+            client.DownloadFileCompleted += new AsyncCompletedEventHandler(client_ProgramFileCompleted);
 
             string zipp = updateserver + "/current.zip";
             Uri uri = new Uri(zipp);
             client.DownloadFileAsync(uri, appPath + "\\data\\current.zip");
+
 
             btnBegin.Text = "Working";
             btnBegin.Enabled = false;
@@ -61,12 +62,12 @@ namespace updater
             progressBar1.Value = int.Parse(Math.Truncate(percentage).ToString());
         }
 
-        void client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        void client_ProgramFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
 
             string[] IgnoreFiles = new string[] {".dll", "updater.exe" };
 
-            if (File.Exists("data\\current.zip"))
+           if (File.Exists("data\\current.zip"))
             {
                 progressBar1.Value = 0;
                 int filesextracted = 0;
@@ -85,23 +86,30 @@ namespace updater
                         }
                         if (Ignored == false)
                         {
-                            x.Extract(appPath, true);
+                            try
+                            {
+                                x.Extract(appPath, true);
+                            }
+                            catch(Exception ex)
+                            {
+                                continue;
+                            }
+                            
                         }
                         filesextracted++;
                         double percentage = filesextracted / zip.Count * 100;
                         progressBar1.Value = int.Parse(Math.Truncate(percentage).ToString());
                     }
                 }
+
                 File.Delete("data\\current.zip");
 
-                MessageBox.Show("Download Completed");
+                lblStatus.Text = "Program update complete. Downloading Frota...";
 
-                btnBegin.Text = "Begin";
-                btnBegin.Enabled = true;
             }
         }
 
-
+    
 
 
     }
