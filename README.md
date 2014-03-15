@@ -14,6 +14,7 @@ Made by
 * Gubbe
 * Greenboxal
 * RightClickHarder
+* Tet
 
 Thanks to the following testers:
 
