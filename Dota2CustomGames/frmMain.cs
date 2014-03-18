@@ -2817,7 +2817,7 @@ namespace Dota2CustomRealms
 
             if (!clientfrota || !serverfrota)
             {
-                if (Properties.Settings.Default.FrotaStatus != "INCOMPATIBLE") MessageBox.Show("You need to install or update your Addon package. Please go to the Settings menu and update Frota :-)");
+                if (Properties.Settings.Default.FrotaStatus != "INCOMPATIBLE") MessageBox.Show("You need to install or update your Addon package. Please go to the Settings menu and click \"Update Addons\" :-)");
                 Properties.Settings.Default.FrotaStatus = "INCOMPATIBLE";
                 Properties.Settings.Default.Save();
                 btnUpdateFrota.Visible = true;

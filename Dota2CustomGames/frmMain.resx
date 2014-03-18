@@ -500,15 +500,6 @@
   <metadata name="AddonMap.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="lblSettingServerOptions.Text" xml:space="preserve">
-    <value>The Dota 2 Server directory must be different from the Dota 2 directory!
-
-If you don't have a Dota 2 server set up, the server installation wizard can guide you through the process.
-Be aware that this process may take a long time.</value>
-  </data>
-  <metadata name="timerPlayers.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1230, 17</value>
-  </metadata>
   <metadata name="colChannel.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -523,6 +514,15 @@ Be aware that this process may take a long time.</value>
   </metadata>
   <metadata name="AddonMap.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <data name="lblSettingServerOptions.Text" xml:space="preserve">
+    <value>The Dota 2 Server directory must be different from the Dota 2 directory!
+
+If you don't have a Dota 2 server set up, the server installation wizard can guide you through the process.
+Be aware that this process may take a long time.</value>
+  </data>
+  <metadata name="timerPlayers.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>1230, 17</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>55</value>

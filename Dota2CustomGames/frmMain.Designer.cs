@@ -166,18 +166,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.timerPlayers = new System.Windows.Forms.Timer(this.components);
-            this.cbxAddonType = new System.Windows.Forms.ComboBox();
-            this.gbxAddonType = new System.Windows.Forms.GroupBox();
-            this.cbxAddonMap = new System.Windows.Forms.ComboBox();
-            this.gbxAddonMap = new System.Windows.Forms.GroupBox();
-            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AddonType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AddonMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.labelAddon = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).BeginInit();
             this.gbxChat.SuspendLayout();
             this.tabUISections.SuspendLayout();
@@ -212,8 +200,6 @@
             this.gbxSettingsClientLocation.SuspendLayout();
             this.tabServerWizard.SuspendLayout();
             this.pnlMain.SuspendLayout();
-            this.gbxAddonType.SuspendLayout();
-            this.gbxAddonMap.SuspendLayout();
             this.SuspendLayout();
             // 
             // webAdvertisement
@@ -531,6 +517,7 @@
             this.cbxAddonType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxAddonType.FormattingEnabled = true;
             this.cbxAddonType.Items.AddRange(new object[] {
+            "Frota",
             "Frota"});
             this.cbxAddonType.Location = new System.Drawing.Point(7, 19);
             this.cbxAddonType.Name = "cbxAddonType";
@@ -1735,105 +1722,6 @@
             // 
             this.timerPlayers.Tick += new System.EventHandler(this.timerPlayers_Tick);
             // 
-            // cbxAddonType
-            // 
-            this.cbxAddonType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxAddonType.FormattingEnabled = true;
-            this.cbxAddonType.Items.AddRange(new object[] {
-            "Frota"});
-            this.cbxAddonType.Location = new System.Drawing.Point(7, 19);
-            this.cbxAddonType.Name = "cbxAddonType";
-            this.cbxAddonType.Size = new System.Drawing.Size(349, 21);
-            this.cbxAddonType.Sorted = true;
-            this.cbxAddonType.TabIndex = 3;
-            this.cbxAddonType.SelectedIndexChanged += new System.EventHandler(this.cbxAddonType_SelectedIndexChanged);
-            // 
-            // gbxAddonType
-            // 
-            this.gbxAddonType.Controls.Add(this.cbxAddonType);
-            this.gbxAddonType.Location = new System.Drawing.Point(11, 242);
-            this.gbxAddonType.Name = "gbxAddonType";
-            this.gbxAddonType.Size = new System.Drawing.Size(362, 51);
-            this.gbxAddonType.TabIndex = 9;
-            this.gbxAddonType.TabStop = false;
-            this.gbxAddonType.Text = "Addon";
-            // 
-            // cbxAddonMap
-            // 
-            this.cbxAddonMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxAddonMap.FormattingEnabled = true;
-            this.cbxAddonMap.Location = new System.Drawing.Point(7, 19);
-            this.cbxAddonMap.Name = "cbxAddonMap";
-            this.cbxAddonMap.Size = new System.Drawing.Size(349, 21);
-            this.cbxAddonMap.Sorted = true;
-            this.cbxAddonMap.TabIndex = 3;
-            // 
-            // gbxAddonMap
-            // 
-            this.gbxAddonMap.Controls.Add(this.cbxAddonMap);
-            this.gbxAddonMap.Location = new System.Drawing.Point(11, 299);
-            this.gbxAddonMap.Name = "gbxAddonMap";
-            this.gbxAddonMap.Size = new System.Drawing.Size(362, 51);
-            this.gbxAddonMap.TabIndex = 10;
-            this.gbxAddonMap.TabStop = false;
-            this.gbxAddonMap.Text = "Map";
-            // 
-            // colChannel
-            // 
-            this.colChannel.HeaderText = "Channel";
-            this.colChannel.Name = "colChannel";
-            this.colChannel.ReadOnly = true;
-            this.colChannel.Visible = false;
-            // 
-            // colPass
-            // 
-            this.colPass.FillWeight = 25F;
-            this.colPass.HeaderText = "Lock";
-            this.colPass.Name = "colPass";
-            this.colPass.ReadOnly = true;
-            // 
-            // colGameName
-            // 
-            this.colGameName.FillWeight = 123F;
-            this.colGameName.HeaderText = "Game Name";
-            this.colGameName.Name = "colGameName";
-            this.colGameName.ReadOnly = true;
-            // 
-            // colHost
-            // 
-            this.colHost.FillWeight = 85.44905F;
-            this.colHost.HeaderText = "Host";
-            this.colHost.Name = "colHost";
-            this.colHost.ReadOnly = true;
-            // 
-            // colPlayers
-            // 
-            this.colPlayers.FillWeight = 50F;
-            this.colPlayers.HeaderText = "Players";
-            this.colPlayers.Name = "colPlayers";
-            this.colPlayers.ReadOnly = true;
-            // 
-            // AddonType
-            // 
-            this.AddonType.HeaderText = "Addon";
-            this.AddonType.Name = "AddonType";
-            this.AddonType.ReadOnly = true;
-            // 
-            // AddonMap
-            // 
-            this.AddonMap.HeaderText = "Map";
-            this.AddonMap.Name = "AddonMap";
-            this.AddonMap.ReadOnly = true;
-            // 
-            // labelAddon
-            // 
-            this.labelAddon.AutoSize = true;
-            this.labelAddon.Location = new System.Drawing.Point(7, 45);
-            this.labelAddon.Name = "labelAddon";
-            this.labelAddon.Size = new System.Drawing.Size(44, 13);
-            this.labelAddon.TabIndex = 5;
-            this.labelAddon.Text = "Addon: ";
-            // 
             // frmMain
             // 
             this.AcceptButton = this.btnConnectIRC;
@@ -1902,8 +1790,6 @@
             this.tabServerWizard.ResumeLayout(false);
             this.tabServerWizard.PerformLayout();
             this.pnlMain.ResumeLayout(false);
-            this.gbxAddonType.ResumeLayout(false);
-            this.gbxAddonMap.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
