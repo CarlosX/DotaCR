@@ -56,6 +56,10 @@
             this.btnFindLobby = new System.Windows.Forms.Button();
             this.btnHostLobby = new System.Windows.Forms.Button();
             this.tabHostLobby = new System.Windows.Forms.TabPage();
+            this.gbxAddonMap = new System.Windows.Forms.GroupBox();
+            this.cbxAddonMap = new System.Windows.Forms.ComboBox();
+            this.gbxAddonType = new System.Windows.Forms.GroupBox();
+            this.cbxAddonType = new System.Windows.Forms.ComboBox();
             this.gbxLobbySize = new System.Windows.Forms.GroupBox();
             this.cbxGameSize = new System.Windows.Forms.ComboBox();
             this.gbxGamePassword = new System.Windows.Forms.GroupBox();
@@ -72,8 +76,16 @@
             this.btnCancelJoining = new System.Windows.Forms.Button();
             this.btnGameListRefresh = new System.Windows.Forms.Button();
             this.grdGamesList = new System.Windows.Forms.DataGridView();
+            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AddonType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AddonMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabLobby = new System.Windows.Forms.TabPage();
             this.gbxGameInfo = new System.Windows.Forms.GroupBox();
+            this.labelAddon = new System.Windows.Forms.Label();
             this.labelMaxPlayers = new System.Windows.Forms.Label();
             this.labelMap = new System.Windows.Forms.Label();
             this.labelHost = new System.Windows.Forms.Label();
@@ -173,6 +185,8 @@
             this.gbxConnect.SuspendLayout();
             this.tabConnected.SuspendLayout();
             this.tabHostLobby.SuspendLayout();
+            this.gbxAddonMap.SuspendLayout();
+            this.gbxAddonType.SuspendLayout();
             this.gbxLobbySize.SuspendLayout();
             this.gbxGamePassword.SuspendLayout();
             this.gbxGameName.SuspendLayout();
@@ -482,6 +496,49 @@
             this.tabHostLobby.TabIndex = 2;
             this.tabHostLobby.Text = "Host";
             // 
+            // gbxAddonMap
+            // 
+            this.gbxAddonMap.Controls.Add(this.cbxAddonMap);
+            this.gbxAddonMap.Location = new System.Drawing.Point(11, 299);
+            this.gbxAddonMap.Name = "gbxAddonMap";
+            this.gbxAddonMap.Size = new System.Drawing.Size(362, 51);
+            this.gbxAddonMap.TabIndex = 10;
+            this.gbxAddonMap.TabStop = false;
+            this.gbxAddonMap.Text = "Map";
+            // 
+            // cbxAddonMap
+            // 
+            this.cbxAddonMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxAddonMap.FormattingEnabled = true;
+            this.cbxAddonMap.Location = new System.Drawing.Point(7, 19);
+            this.cbxAddonMap.Name = "cbxAddonMap";
+            this.cbxAddonMap.Size = new System.Drawing.Size(349, 21);
+            this.cbxAddonMap.Sorted = true;
+            this.cbxAddonMap.TabIndex = 3;
+            // 
+            // gbxAddonType
+            // 
+            this.gbxAddonType.Controls.Add(this.cbxAddonType);
+            this.gbxAddonType.Location = new System.Drawing.Point(11, 242);
+            this.gbxAddonType.Name = "gbxAddonType";
+            this.gbxAddonType.Size = new System.Drawing.Size(362, 51);
+            this.gbxAddonType.TabIndex = 9;
+            this.gbxAddonType.TabStop = false;
+            this.gbxAddonType.Text = "Addon";
+            // 
+            // cbxAddonType
+            // 
+            this.cbxAddonType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxAddonType.FormattingEnabled = true;
+            this.cbxAddonType.Items.AddRange(new object[] {
+            "Frota"});
+            this.cbxAddonType.Location = new System.Drawing.Point(7, 19);
+            this.cbxAddonType.Name = "cbxAddonType";
+            this.cbxAddonType.Size = new System.Drawing.Size(349, 21);
+            this.cbxAddonType.Sorted = true;
+            this.cbxAddonType.TabIndex = 3;
+            this.cbxAddonType.SelectedIndexChanged += new System.EventHandler(this.cbxAddonType_SelectedIndexChanged);
+            // 
             // gbxLobbySize
             // 
             this.gbxLobbySize.Controls.Add(this.cbxGameSize);
@@ -688,6 +745,53 @@
             this.grdGamesList.TabIndex = 0;
             this.grdGamesList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdGamesList_CellContentClick);
             // 
+            // colChannel
+            // 
+            this.colChannel.HeaderText = "Channel";
+            this.colChannel.Name = "colChannel";
+            this.colChannel.ReadOnly = true;
+            this.colChannel.Visible = false;
+            // 
+            // colPass
+            // 
+            this.colPass.FillWeight = 25F;
+            this.colPass.HeaderText = "Lock";
+            this.colPass.Name = "colPass";
+            this.colPass.ReadOnly = true;
+            // 
+            // colGameName
+            // 
+            this.colGameName.FillWeight = 123F;
+            this.colGameName.HeaderText = "Game Name";
+            this.colGameName.Name = "colGameName";
+            this.colGameName.ReadOnly = true;
+            // 
+            // colHost
+            // 
+            this.colHost.FillWeight = 85.44905F;
+            this.colHost.HeaderText = "Host";
+            this.colHost.Name = "colHost";
+            this.colHost.ReadOnly = true;
+            // 
+            // colPlayers
+            // 
+            this.colPlayers.FillWeight = 50F;
+            this.colPlayers.HeaderText = "Players";
+            this.colPlayers.Name = "colPlayers";
+            this.colPlayers.ReadOnly = true;
+            // 
+            // AddonType
+            // 
+            this.AddonType.HeaderText = "Addon";
+            this.AddonType.Name = "AddonType";
+            this.AddonType.ReadOnly = true;
+            // 
+            // AddonMap
+            // 
+            this.AddonMap.HeaderText = "Map";
+            this.AddonMap.Name = "AddonMap";
+            this.AddonMap.ReadOnly = true;
+            // 
             // tabLobby
             // 
             this.tabLobby.BackColor = System.Drawing.SystemColors.Control;
@@ -722,6 +826,15 @@
             this.gbxGameInfo.TabIndex = 12;
             this.gbxGameInfo.TabStop = false;
             this.gbxGameInfo.Text = "Game Info";
+            // 
+            // labelAddon
+            // 
+            this.labelAddon.AutoSize = true;
+            this.labelAddon.Location = new System.Drawing.Point(7, 45);
+            this.labelAddon.Name = "labelAddon";
+            this.labelAddon.Size = new System.Drawing.Size(44, 13);
+            this.labelAddon.TabIndex = 5;
+            this.labelAddon.Text = "Addon: ";
             // 
             // labelMaxPlayers
             // 
@@ -1019,7 +1132,7 @@
             this.btnUpdateFrota.Name = "btnUpdateFrota";
             this.btnUpdateFrota.Size = new System.Drawing.Size(200, 23);
             this.btnUpdateFrota.TabIndex = 9;
-            this.btnUpdateFrota.Text = "Update Frota";
+            this.btnUpdateFrota.Text = "Update Addons";
             this.btnUpdateFrota.UseVisualStyleBackColor = false;
             this.btnUpdateFrota.Click += new System.EventHandler(this.btnUpdateFrota_Click);
             // 
@@ -1751,6 +1864,8 @@
             this.tabConnected.ResumeLayout(false);
             this.tabHostLobby.ResumeLayout(false);
             this.tabHostLobby.PerformLayout();
+            this.gbxAddonMap.ResumeLayout(false);
+            this.gbxAddonType.ResumeLayout(false);
             this.gbxLobbySize.ResumeLayout(false);
             this.gbxGamePassword.ResumeLayout(false);
             this.gbxGamePassword.PerformLayout();

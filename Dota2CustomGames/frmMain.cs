@@ -2817,7 +2817,7 @@ namespace Dota2CustomRealms
 
             if (!clientfrota || !serverfrota)
             {
-                if (Properties.Settings.Default.FrotaStatus != "INCOMPATIBLE") MessageBox.Show("You need to install or update Frota. Please go to the Settings menu and update Frota :-)");
+                if (Properties.Settings.Default.FrotaStatus != "INCOMPATIBLE") MessageBox.Show("You need to install or update your Addon package. Please go to the Settings menu and update Frota :-)");
                 Properties.Settings.Default.FrotaStatus = "INCOMPATIBLE";
                 Properties.Settings.Default.Save();
                 btnUpdateFrota.Visible = true;
@@ -3086,7 +3086,7 @@ namespace Dota2CustomRealms
             WebClient client = new WebClient();
 
 
-            this.Log("Downloading Frota... Please be patient!");
+            this.Log("Downloading Addons... Please be patient!");
 
             bool Client = File.Exists(info.DotaClientPath + "dota.exe");
             bool Server = File.Exists(info.DotaServerPath + "srcds.exe");
@@ -3104,7 +3104,7 @@ namespace Dota2CustomRealms
             else
             {
                 this.EnableButtons(true);
-                this.Log("**** CAN'T UPDATE FROTA, PATHS FOR CLIENT AND SERVER INVALID ****");
+                this.Log("**** CAN'T UPDATE ADDONS, PATHS FOR CLIENT AND SERVER INVALID ****");
                 return;
             }
 
@@ -3113,7 +3113,7 @@ namespace Dota2CustomRealms
 
 
             client.DownloadFile(uri, "frota.zip");
-            this.Log("Downloaded Frota! Waiting for file copy to complete...");
+            this.Log("Downloaded Addons! Waiting for file copy to complete...");
 
             while(this.CopyThread != null && this.CopyThread.IsAlive)
             {
