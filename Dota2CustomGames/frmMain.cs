@@ -3309,7 +3309,7 @@ namespace Dota2CustomRealms
             //Copy all the files
             foreach (string files in allfiles)
             {
-                if (!files.ToLowerInvariant().Contains("addons\\frota") && !files.EndsWith(".dem") && !files.EndsWith(".dmp")) // Don't copy over the useless stuff
+                if (!files.ToLowerInvariant().Contains("addons\\frota") && !files.EndsWith(".dem") && !files.EndsWith(".dmp") && !files.EndsWith(".mdmp") && !files.EndsWith(".cab")) // Don't copy over the useless stuff
                 {
                     File.Copy(files, files.Replace(info.dota2path, info.DestinationPath), true);
                     this.Log(files + " copied.");
