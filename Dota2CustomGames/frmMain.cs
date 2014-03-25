@@ -2830,8 +2830,7 @@ namespace Dota2CustomRealms
 
                 try
                 {
-                    StreamReader version = new StreamReader(Properties.Settings.Default.Dota2ServerPath + "dota\\addons\\serverfiles.txt");
-                    HasValidServerFiles = version.ReadLine().Trim() == CurrentServerFiles;
+                    HasValidServerFiles = File.ReadAllText(Properties.Settings.Default.Dota2ServerPath + "dota\\addons\\serverfiles.txt") == CurrentServerFiles;
                     Server = Server && HasValidServerFiles;
                     if (!HasValidServerFiles) File.Delete("Data\\serverfiles.zip");
                 }
@@ -3123,16 +3122,18 @@ namespace Dota2CustomRealms
             WebClient client = new WebClient();
 
 
-            this.Log("Downloading Addons... Please be patient!");
+            this.Log("Downloading Frota... Please be patient!");
+            client.DownloadFile(uri, "frota.zip");
 
             bool Client = File.Exists(info.DotaClientPath + "dota.exe");
             bool Server = File.Exists(info.DotaServerPath + "srcds.exe");
 
-            string InitialExtractionTarget;
+            string InitialExtractionTarget, OtherExtractionTarget = null;
 
             if (Client)
             {
                 InitialExtractionTarget = info.DotaClientPath + "dota\\addons";
+                if (Server) OtherExtractionTarget = info.DotaServerPath + "dota\\addons";
             }
             else if (Server)
             {
@@ -3149,8 +3150,8 @@ namespace Dota2CustomRealms
             Directory.CreateDirectory(InitialExtractionTarget);
 
 
-            client.DownloadFile(uri, "frota.zip");
-            this.Log("Downloaded Addons! Waiting for file copy to complete...");
+            
+            this.Log("Downloaded Frota! Waiting for file copy to complete...");
 
             while(this.CopyThread != null && this.CopyThread.IsAlive)
             {
@@ -3193,15 +3194,14 @@ namespace Dota2CustomRealms
                 // What a jolly way to copy a directory!
                 // http://stackoverflow.com/questions/58744/best-way-to-copy-the-entire-contents-of-a-directory-in-c-sharp
                 // Bit sad there isn't a Directory.Copy method
-
+                Directory.CreateDirectory(info.DotaServerPath + "dota\\addons\\frota");
                 new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(info.DotaClientPath + "dota\\addons\\frota", info.DotaServerPath + "dota\\addons\\frota");
             }
 
-            if ((this.ExtractThread == null || !this.ExtractThread.IsAlive) && (this.CopyThread == null || !this.CopyThread.IsAlive)) this.EnableButtons(true);
             Properties.Settings.Default.FrotaStatus = "COMPATIBLE";
             Properties.Settings.Default.Save();
-            this.EnableButtons(true);
             this.Log("**** SERVER INSTALLATION WIZARD COMPLETE ****");
+            if ((this.ExtractThread == null || !this.ExtractThread.IsAlive) && (this.CopyThread == null || !this.CopyThread.IsAlive)) this.EnableButtons(true);
         }
 
         public void ExtractFiles(object oinfo)
@@ -3252,7 +3252,14 @@ namespace Dota2CustomRealms
 
             Properties.Settings.Default.Dota2ServerPath = info.SavePath; //Set the server path of settings as the server path selected in destination path.
 
-            if ((this.FrotaThread == null || !this.FrotaThread.IsAlive) && (this.CopyThread == null || !this.CopyThread.IsAlive)) this.EnableButtons(true);
+            if ((this.FrotaThread == null || !this.FrotaThread.IsAlive) && (this.CopyThread == null || !this.CopyThread.IsAlive))
+            {
+                this.EnableButtons(true);
+            }
+            else if ((this.FrotaThread != null && this.FrotaThread.IsAlive))
+            {
+                this.Log("PLEASE WAIT, still downloading Frota...");
+            }
         }
 
 
@@ -3385,9 +3392,10 @@ namespace Dota2CustomRealms
         {
             tabUISections.SelectedTab = tabServerWizard;
 
-            this.EnableButtons(false);
+            this.createButton.Enabled = false;
+            this.cancelButton.Enabled = true;
 
-            if (Properties.Settings.Default.FrotaStatus != "COMPATIBLE")
+            if (Properties.Settings.Default.FrotaStatus != "COMPATIBLE" || !File.Exists(Properties.Settings.Default.Dota2Path + "dota\\addons\\frota\\version.txt") || !File.Exists(Properties.Settings.Default.Dota2ServerPath + "dota\\addons\\frota\\version.txt"))
             {
                 FrotaThreadInfo frotainfo = new FrotaThreadInfo();
                 frotainfo.DotaServerPath = Properties.Settings.Default.Dota2ServerPath;
