@@ -112,7 +112,7 @@
             this.lblConfigProgressMessage = new System.Windows.Forms.Label();
             this.pgbConfigProgress = new System.Windows.Forms.ProgressBar();
             this.tabSettings = new System.Windows.Forms.TabPage();
-            this.btnUpdateFrota = new System.Windows.Forms.Button();
+            this.btnUpdateAddons = new System.Windows.Forms.Button();
             this.lblSettings = new System.Windows.Forms.Label();
             this.btnSettingsSaveReturn = new System.Windows.Forms.Button();
             this.gbxSettingsServer = new System.Windows.Forms.GroupBox();
@@ -1096,7 +1096,7 @@
             // tabSettings
             // 
             this.tabSettings.BackColor = System.Drawing.SystemColors.Control;
-            this.tabSettings.Controls.Add(this.btnUpdateFrota);
+            this.tabSettings.Controls.Add(this.btnUpdateAddons);
             this.tabSettings.Controls.Add(this.lblSettings);
             this.tabSettings.Controls.Add(this.btnSettingsSaveReturn);
             this.tabSettings.Controls.Add(this.gbxSettingsServer);
@@ -1108,20 +1108,20 @@
             this.tabSettings.TabIndex = 8;
             this.tabSettings.Text = "Settings";
             // 
-            // btnUpdateFrota
+            // btnUpdateAddons
             // 
-            this.btnUpdateFrota.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnUpdateFrota.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnUpdateFrota.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnUpdateFrota.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.btnUpdateFrota.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdateFrota.Location = new System.Drawing.Point(228, 12);
-            this.btnUpdateFrota.Name = "btnUpdateFrota";
-            this.btnUpdateFrota.Size = new System.Drawing.Size(200, 23);
-            this.btnUpdateFrota.TabIndex = 9;
-            this.btnUpdateFrota.Text = "Update Addons";
-            this.btnUpdateFrota.UseVisualStyleBackColor = false;
-            this.btnUpdateFrota.Click += new System.EventHandler(this.btnUpdateFrota_Click);
+            this.btnUpdateAddons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnUpdateAddons.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnUpdateAddons.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnUpdateAddons.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnUpdateAddons.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpdateAddons.Location = new System.Drawing.Point(228, 12);
+            this.btnUpdateAddons.Name = "btnUpdateAddons";
+            this.btnUpdateAddons.Size = new System.Drawing.Size(200, 23);
+            this.btnUpdateAddons.TabIndex = 9;
+            this.btnUpdateAddons.Text = "Update Addons";
+            this.btnUpdateAddons.UseVisualStyleBackColor = false;
+            this.btnUpdateAddons.Click += new System.EventHandler(this.btnUpdateAddons_Click);
             // 
             // lblSettings
             // 
@@ -1919,7 +1919,7 @@
         private System.Windows.Forms.CheckBox chkBeepName;
         private System.Windows.Forms.CheckBox chkFlashName;
         private System.Windows.Forms.CheckBox chkDedicated;
-        private System.Windows.Forms.Button btnUpdateFrota;
+        private System.Windows.Forms.Button btnUpdateAddons;
         private System.Windows.Forms.Timer timerPlayers;
         private System.Windows.Forms.GroupBox gbxAddonMap;
         private System.Windows.Forms.ComboBox cbxAddonMap;

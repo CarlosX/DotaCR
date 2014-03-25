@@ -28,7 +28,7 @@ namespace Dota2CustomRealms
     {
 
 
-        public const string FROTA_SERVER = "http://dota2cr.com"; //"http://dota.windrunner.mx/frota";
+        public const string UPDATE_SERVER = "http://dota2cr.com"; //"http://dota.windrunner.mx/frota";
 
 
         public frmMain()
@@ -2780,9 +2780,18 @@ namespace Dota2CustomRealms
 
 
             // Check Frota if relevant
-            string currentfrota = new WebClient().DownloadString(FROTA_SERVER + "/curfrota.txt");
-            bool clientfrota = true; // Initialise as true so user is only bugged if can determine that they definitely don't have Frota
-            bool serverfrota = true;
+            string[] CurrentVersions = new WebClient().DownloadString(UPDATE_SERVER + "/current.txt").Split(',');
+            string CurrentFrota = "", CurrentServerFiles = "";
+            foreach (string ValuePair in CurrentVersions) // Determine versions
+            {
+                string[] SplitValuePair = ValuePair.Split('=');
+                if (SplitValuePair[0] == "Frota") CurrentFrota = SplitValuePair[1];
+                if (SplitValuePair[0] == "ServerFiles") CurrentServerFiles = SplitValuePair[1];
+            }
+            
+            bool ClientFrota = true; // Initialise as true so user is only notified if we can determine that they definitely don't have Frota
+            bool ServerFrota = true;
+            bool HasValidServerFiles = true;
 
             if (Properties.Settings.Default.Dota2Path != "" && File.Exists(Properties.Settings.Default.Dota2Path + "dota.exe"))
             { // Check the Dota 2 client for Frota
@@ -2790,12 +2799,13 @@ namespace Dota2CustomRealms
                 try
                 {
                     StreamReader version = new StreamReader(Properties.Settings.Default.Dota2Path + "dota\\addons\\frota\\version.txt");
-                    clientfrota = version.ReadLine().Trim() == currentfrota;
+                    ClientFrota = version.ReadLine().Trim() == CurrentFrota;
+                    Client = Client && ClientFrota;
                 }
                 catch (Exception ex)
                 {
-                    clientfrota = false;
-                    Server = false;
+                    ClientFrota = false;
+                    Client = false;
                 }
             }
 
@@ -2803,30 +2813,57 @@ namespace Dota2CustomRealms
             { // Check the Dota 2 server for Frota
 
                 string appPath = Path.GetDirectoryName(Application.ExecutablePath);
+
                 try
                 {
                     StreamReader version = new StreamReader(Properties.Settings.Default.Dota2ServerPath + "dota\\addons\\frota\\version.txt");
-                    serverfrota = version.ReadLine().Trim() == currentfrota;
+                    ServerFrota = version.ReadLine().Trim() == CurrentFrota;
+                    Server = Server && ServerFrota;
                 }
                 catch (Exception ex)
                 {
-                    serverfrota = false;
-                    Client = false;
+                    ServerFrota = false;
+                    Server = false;
                 }
+
+                // Check the Dota 2 server for up to date server files
+
+                try
+                {
+                    StreamReader version = new StreamReader(Properties.Settings.Default.Dota2ServerPath + "dota\\addons\\serverfiles.txt");
+                    HasValidServerFiles = version.ReadLine().Trim() == CurrentServerFiles;
+                    Server = Server && HasValidServerFiles;
+                    if (!HasValidServerFiles) File.Delete("Data\\serverfiles.zip");
+                }
+                catch (Exception ex)
+                {
+                    ServerFrota = false;
+                    Server = false;
+                }
+
             }
 
-            if (!clientfrota || !serverfrota)
+            if (!ClientFrota || !ServerFrota)
             {
                 if (Properties.Settings.Default.FrotaStatus != "INCOMPATIBLE") MessageBox.Show("You need to install or update your Addon package. Please go to the Settings menu and click \"Update Addons\" :-)");
                 Properties.Settings.Default.FrotaStatus = "INCOMPATIBLE";
                 Properties.Settings.Default.Save();
-                btnUpdateFrota.Visible = true;
+                btnUpdateAddons.Visible = true;
             }
             else
             {
                 Properties.Settings.Default.FrotaStatus = "COMPATIBLE";
                 Properties.Settings.Default.Save();
-                btnUpdateFrota.Visible = false;
+
+                if (!HasValidServerFiles)
+                {
+                    MessageBox.Show("You need to install or update your server files. Please go to the Settings menu and click \"Update Addons\" :-)");
+                    btnUpdateAddons.Visible = true;
+                }
+                else
+                {
+                    btnUpdateAddons.Visible = false;
+                }
             }
 
 
@@ -3080,7 +3117,7 @@ namespace Dota2CustomRealms
         {
             FrotaThreadInfo info = (FrotaThreadInfo)oinfo;
 
-            string zipp = FROTA_SERVER + "/curfrota.zip";
+            string zipp = UPDATE_SERVER + "/curfrota.zip";
             Uri uri = new Uri(zipp);
 
             WebClient client = new WebClient();
@@ -3169,103 +3206,49 @@ namespace Dota2CustomRealms
 
         public void ExtractFiles(object oinfo)
         {
-            /*long succeeded, failed, current;
+            if (!File.Exists("Data\\serverfiles.zip"))
+            {
+
+                this.Log("Downloading new serverfiles.zip...");
+
+                Uri uri = new Uri(UPDATE_SERVER + "/serverfiles.zip");
+
+                WebClient downloader = new WebClient();
+
+                downloader.DownloadFile(uri, "Data\\serverfiles.zip");
+
+                this.Log("serverfile.zip download complete, extracting files...");
+
+            }
+
+
             ExtractThreadInfo info = (ExtractThreadInfo)oinfo;
-            Dictionary<string, Stream> archiveStreams = new Dictionary<string, Stream>();
-
-            succeeded = failed = current = 0;
-
-            this.Log(String.Format("{0} files in package.", info.Package.Entries.Count));
-
-            foreach (PackageEntry entry in info.Package.Entries)
+            int filesextracted = 0;
+            //Extract serverfiles.zip which contains srcds.exe, d2fixup, and metamod.
+            using (ZipFile zip = ZipFile.Read("Data\\serverfiles.zip"))
             {
-                this.SetProgress(++current);
-
-                if (entry.Size == 0 && entry.SmallData.Length > 0)
+                foreach (ZipEntry x in zip)
                 {
-                    Directory.CreateDirectory(Path.Combine(info.SavePath, entry.DirectoryName));
-                    string smallDataName = Path.Combine(entry.DirectoryName, Path.ChangeExtension(entry.FileName, entry.TypeName));
-                    this.Log(smallDataName);
-                    Stream smallDataStream = File.OpenWrite(Path.Combine(info.SavePath, smallDataName));
-                    smallDataStream.Write(entry.SmallData, 0, entry.SmallData.Length);
-                    smallDataStream.Close();
-                    succeeded++;
-                }
-                else
-                {
-                    string archiveName = string.Format("{0}_{1:D3}.vpk", info.BasePath, entry.ArchiveIndex);
-                    Stream archiveStream;
-
-                    if (archiveStreams.ContainsKey(archiveName) == true)
-                    {
-                        if (archiveStreams[archiveName] == null)
-                        {
-                            failed++;
-                            continue;
-                        }
-
-                        archiveStream = archiveStreams[archiveName];
-                    }
-                    else
-                    {
-                        if (File.Exists(archiveName) == false)
-                        {
-                            this.Log(String.Format("Missing package {0}", Path.GetFileName(archiveName)));
-                            archiveStreams[archiveName] = null;
-                            failed++;
-                            continue;
-                        }
-
-                        archiveStream = File.OpenRead(archiveName);
-                        archiveStreams[archiveName] = archiveStream;
-                    }
-
-                    archiveStream.Seek(entry.Offset, SeekOrigin.Begin);
-
-                    string outputName = Path.Combine(entry.DirectoryName, Path.ChangeExtension(entry.FileName, entry.TypeName));
-                    this.Log(outputName);
-
-                    Directory.CreateDirectory(Path.Combine(info.SavePath, entry.DirectoryName));
-                    Stream outputStream = File.OpenWrite(Path.Combine(info.SavePath, outputName));
-
-                    long left = entry.Size;
-                    byte[] data = new byte[4096];
-                    while (left > 0)
-                    {
-                        int block = (int)(Math.Min(left, 4096));
-                        archiveStream.Read(data, 0, block);
-                        outputStream.Write(data, 0, block);
-                        left -= block;
-                    }
-
-                    outputStream.Close();
-
-                    if (entry.SmallData.Length > 0)
-                    {
-                        string smallDataName = Path.Combine(info.SavePath, Path.ChangeExtension(outputName, entry.TypeName + ".smalldata"));
-                        Stream smallDataStream = File.OpenWrite(smallDataName);
-                        smallDataStream.Write(entry.SmallData, 0, entry.SmallData.Length);
-                        smallDataStream.Close();
-                    }
-
-                    succeeded++;
+                    this.Log(x.FileName);
+                    x.Extract(info.SavePath, true);
+                    filesextracted++;
                 }
             }
+            this.Log(String.Format("File extraction complete, {0} files extracted.", filesextracted));
 
-            foreach (Stream stream in archiveStreams.Values)
+            //Modify gameinfo.txt
+            string[] full_file = File.ReadAllLines(info.SavePath + "\\dota\\gameinfo.txt");
+
+            if (!full_file.Contains("			GameBin				|gameinfo_path|addons/metamod/bin"))
             {
-                if (stream != null)
-                {
-                    stream.Close();
-                }
+                List<string> l = new List<string>();
+                l.AddRange(full_file);
+                l.Insert(37, "			GameBin				|gameinfo_path|addons/metamod/bin");
+                File.WriteAllLines(info.SavePath + "\\dota\\gameinfo.txt", l.ToArray());
+                this.Log("Game info change written to gameinfo.txt");
             }
 
-            this.Log(String.Format("Done, {0} succeeded, {1} failed, {2} total. At most 4 should fail with the Dota 2 VPKs.", succeeded, failed, info.Package.Entries.Count));
-
-
-
-
-            this.EnableButtons(true);*/
+            Properties.Settings.Default.Dota2ServerPath = info.SavePath; //Set the server path of settings as the server path selected in destination path.
         }
 
 
@@ -3290,7 +3273,6 @@ namespace Dota2CustomRealms
         {
             int filescopied = 0;
             int dirscreated = 0;
-            int filesextracted = 0;
             CopyThreadInfo info = (CopyThreadInfo)oinfo;
 
             //Copy all directories
@@ -3318,28 +3300,14 @@ namespace Dota2CustomRealms
             }
             this.Log(String.Format("Copy completed with {0} files and {1} directories transferred.", filescopied, dirscreated));
 
-            //Extract serverfiles.zip which contains srcds.exe, d2fixup, and metamod.
-            using (ZipFile zip = ZipFile.Read("Data\\serverfiles.zip"))
-            {
-                foreach (ZipEntry x in zip)
-                {
-                    x.Extract(info.DestinationPath, true);
-                    filesextracted++;
-                }
-            }
-            this.Log(String.Format("File extraction complete, {0} files extracted.", filesextracted));
 
-            //Modify gameinfo.txt
-            string[] full_file = File.ReadAllLines(info.DestinationPath + "\\dota\\gameinfo.txt");
-            List<string> l = new List<string>();
-            l.AddRange(full_file);
-            l.Insert(37, "			GameBin				|gameinfo_path|addons/metamod/bin");
-            File.WriteAllLines(info.DestinationPath + "\\dota\\gameinfo.txt", l.ToArray());
-            this.Log("Game info change written to gameinfo.txt");
+            ExtractThreadInfo exinfo = new ExtractThreadInfo();
+            exinfo.SavePath = info.DestinationPath;
 
-            Properties.Settings.Default.Dota2ServerPath = info.DestinationPath; //Set the server path of settings as the server path selected in destination path.
+            this.ExtractFiles(exinfo);
+
             this.Log("Server construction complete, wait for Frota installation.");
-            this.CopyThread.Abort(); //Abort thread once complete
+
         }
 
         private void createButton_Click(object sender, EventArgs e)
@@ -3398,26 +3366,38 @@ namespace Dota2CustomRealms
             frotainfo.DotaServerPath = DestinationPath;
             frotainfo.DotaClientPath = dota2path;
 
-            this.ExtractThread = new Thread(new ParameterizedThreadStart(ExtractFiles));
-            this.ExtractThread.Start(info);
+            // Now started by the CopyThread
+            //this.ExtractThread = new Thread(new ParameterizedThreadStart(ExtractFiles));
+            //this.ExtractThread.Start(info);
             this.CopyThread = new Thread(new ParameterizedThreadStart(CopyFiles));
             this.CopyThread.Start(copyinfo);
             this.FrotaThread = new Thread(new ParameterizedThreadStart(UpdateFrota));
             this.FrotaThread.Start(frotainfo);
         }
 
-        private void btnUpdateFrota_Click(object sender, EventArgs e)
+        private void btnUpdateAddons_Click(object sender, EventArgs e)
         {
             tabUISections.SelectedTab = tabServerWizard;
 
-            FrotaThreadInfo frotainfo = new FrotaThreadInfo();
-            frotainfo.DotaServerPath = Properties.Settings.Default.Dota2ServerPath;
-            frotainfo.DotaClientPath = Properties.Settings.Default.Dota2Path;
-
             this.EnableButtons(false);
 
-            this.FrotaThread = new Thread(new ParameterizedThreadStart(UpdateFrota));
-            this.FrotaThread.Start(frotainfo);
+            if (Properties.Settings.Default.FrotaStatus != "COMPATIBLE")
+            {
+                FrotaThreadInfo frotainfo = new FrotaThreadInfo();
+                frotainfo.DotaServerPath = Properties.Settings.Default.Dota2ServerPath;
+                frotainfo.DotaClientPath = Properties.Settings.Default.Dota2Path;
+                this.FrotaThread = new Thread(new ParameterizedThreadStart(UpdateFrota));
+                this.FrotaThread.Start(frotainfo);
+            }
+
+            if (File.Exists(Properties.Settings.Default.Dota2ServerPath + "srcds.exe"))
+            {
+                ExtractThreadInfo exinfo = new ExtractThreadInfo();
+                exinfo.BasePath = Properties.Settings.Default.Dota2ServerPath;
+                exinfo.SavePath = Properties.Settings.Default.Dota2ServerPath;
+                this.ExtractThread = new Thread(new ParameterizedThreadStart(ExtractFiles));
+                this.ExtractThread.Start(exinfo);
+            }
         }
 
         private string IPCheck()
