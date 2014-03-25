@@ -16,7 +16,7 @@ namespace updater
 {
     public partial class frmUpdater : Form
     {
-        string updateserver = "http://dota2cr.com";
+        string updateserver = "http://www.dota2cr.com";
         string currentversion = "";
         string latestversion = "";
         string appPath = Path.GetDirectoryName(Application.ExecutablePath);
@@ -46,7 +46,7 @@ namespace updater
 
             string zipp = updateserver + "/current.zip";
             Uri uri = new Uri(zipp);
-            client.DownloadFileAsync(uri, appPath + "\\data\\current.zip");
+            client.DownloadFileAsync(uri, "data\\current.zip");
 
 
             btnBegin.Text = "Working";
@@ -65,7 +65,7 @@ namespace updater
         void client_ProgramFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
 
-            string[] IgnoreFiles = new string[] {".dll", "updater.exe" };
+            string[] IgnoreFiles = new string[] {"Ionic.Zlib.dll", "Ionic.Zip.dll", "updater.exe" };
 
            if (File.Exists("data\\current.zip"))
             {
@@ -78,7 +78,7 @@ namespace updater
                         bool Ignored = false;
                         foreach (string Ignore in IgnoreFiles)
                         {
-                            if (x.FileName.EndsWith(Ignore))
+                            if (x.FileName == Ignore)
                             {
                                 Ignored = true;
                                 break;
@@ -92,6 +92,7 @@ namespace updater
                             }
                             catch(Exception ex)
                             {
+                                MessageBox.Show("ERROR:" + ex.Message);
                                 continue;
                             }
                             
@@ -104,7 +105,7 @@ namespace updater
 
                 File.Delete("data\\current.zip");
 
-                lblStatus.Text = "Program update complete. Downloading Frota...";
+                lblStatus.Text = "Program update complete.";
 
             }
         }

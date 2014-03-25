@@ -51,6 +51,7 @@
             this.btnBegin.TabIndex = 1;
             this.btnBegin.Text = "Begin";
             this.btnBegin.UseVisualStyleBackColor = true;
+            this.btnBegin.Click += new System.EventHandler(this.btnBegin_Click);
             // 
             // lblCurrentVersion
             // 
@@ -91,6 +92,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmUpdater";
             this.Text = "D2CR Updater";
+            this.Load += new System.EventHandler(this.frmUpdater_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
