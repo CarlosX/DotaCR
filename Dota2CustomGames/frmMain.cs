@@ -3209,6 +3209,8 @@ namespace Dota2CustomRealms
             if (!File.Exists("Data\\serverfiles.zip"))
             {
 
+                if (!Directory.Exists("Data")) Directory.CreateDirectory("Data");
+
                 this.Log("Downloading new serverfiles.zip...");
 
                 Uri uri = new Uri(UPDATE_SERVER + "/serverfiles.zip");
@@ -3249,6 +3251,8 @@ namespace Dota2CustomRealms
             }
 
             Properties.Settings.Default.Dota2ServerPath = info.SavePath; //Set the server path of settings as the server path selected in destination path.
+
+            if ((this.FrotaThread == null || !this.FrotaThread.IsAlive) && (this.CopyThread == null || !this.CopyThread.IsAlive)) this.EnableButtons(true);
         }
 
 
@@ -3307,6 +3311,8 @@ namespace Dota2CustomRealms
             this.ExtractFiles(exinfo);
 
             this.Log("Server construction complete, wait for Frota installation.");
+
+            if ((this.FrotaThread == null || !this.FrotaThread.IsAlive) && (this.ExtractThread == null || !this.ExtractThread.IsAlive)) this.EnableButtons(true);
 
         }
 
