@@ -3195,7 +3195,7 @@ namespace Dota2CustomRealms
                 // http://stackoverflow.com/questions/58744/best-way-to-copy-the-entire-contents-of-a-directory-in-c-sharp
                 // Bit sad there isn't a Directory.Copy method
                 Directory.CreateDirectory(info.DotaServerPath + "dota\\addons\\frota");
-                new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(info.DotaClientPath + "dota\\addons\\frota", info.DotaServerPath + "dota\\addons\\frota");
+                new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(info.DotaClientPath + "dota\\addons\\frota", info.DotaServerPath + "dota\\addons\\frota", true);
             }
 
             Properties.Settings.Default.FrotaStatus = "COMPATIBLE";
@@ -3296,7 +3296,6 @@ namespace Dota2CustomRealms
                     dirscreated++;
                 }
             }
-
             string[] allfiles = Directory.GetFiles(info.dota2path, "*.*", SearchOption.AllDirectories);
             int max = allfiles.Length;
             //Copy all the files
