@@ -2317,9 +2317,9 @@ namespace Dota2CustomRealms
         {         
             if (Game.IsHost)
             {
-                if (File.Exists(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\autoexec.cfg")) // Delete server autoexec
+                if (File.Exists(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\\autoexec.cfg")) // Delete server autoexec
                 {
-                    File.Delete(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\autoexec.cfg");
+                    File.Delete(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\\autoexec.cfg");
                 }
 
                 HostConnection = DetermineExternalIP() + ":" + Properties.Settings.Default.ServerPort;
