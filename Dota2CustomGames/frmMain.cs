@@ -861,6 +861,9 @@ namespace Dota2CustomRealms
             gbxConnect.Enabled = true;
             btnConnectIRC.Text = "Connect";
             MessageBox.Show("There was a problem connecting to the server!\n" + e.Error.Message);
+            tabUISections.SelectedTab = tabPreConnect;
+
+            // TODO: Cleanup rest of UI
         }
 
         private void ircListener_Tick(object sender, EventArgs e)

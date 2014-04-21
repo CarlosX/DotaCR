@@ -115,7 +115,14 @@ namespace Clockwerk
             Output.Add("Type", ServerRequestType.Chat.ToString());
             Output.Add("Msg", Message);
             if (Target != RealmConnector.GLOBAL_CHANNEL) Output.Add("To", Target);
-            client.Send(JsonConvert.SerializeObject(Output));
+            try
+            {
+                client.Send(JsonConvert.SerializeObject(Output));
+            }
+            catch(Exception ex)
+            {
+                if (OnError != null) OnError(this, new ClockwerkError(ex));
+            }
         }
 
         public void Connect(string Name)
