@@ -185,6 +185,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Clockwerk\Clockwerk.csproj">
+      <Project>{7174822e-ded5-429f-830e-b68e21046b18}</Project>
+      <Name>Clockwerk</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tinker\Tinker.csproj">
       <Project>{b64e67ef-1d96-4460-bcaf-874dd9d3c94d}</Project>
       <Name>Tinker</Name>

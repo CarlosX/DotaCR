@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KVLib", "KVLib\KVLib\KVLib.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprache", "KVLib\Sprache\src\Sprache\Sprache.csproj", "{DF5FE6F0-5ABE-4363-9184-EB6EF64F0F61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clockwerk", "Clockwerk\Clockwerk.csproj", "{7174822E-DED5-429F-830E-B68E21046B18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,12 @@ Global
 		{DF5FE6F0-5ABE-4363-9184-EB6EF64F0F61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF5FE6F0-5ABE-4363-9184-EB6EF64F0F61}.Release|x86.ActiveCfg = Release|x86
 		{DF5FE6F0-5ABE-4363-9184-EB6EF64F0F61}.Release|x86.Build.0 = Release|x86
+		{7174822E-DED5-429F-830E-B68E21046B18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7174822E-DED5-429F-830E-B68E21046B18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7174822E-DED5-429F-830E-B68E21046B18}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7174822E-DED5-429F-830E-B68E21046B18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7174822E-DED5-429F-830E-B68E21046B18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7174822E-DED5-429F-830E-B68E21046B18}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

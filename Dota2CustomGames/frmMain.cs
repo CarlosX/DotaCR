@@ -22,6 +22,7 @@ using Gibbed.Valve.FileFormats;
 using Microsoft.VisualBasic;
 using System.Net.NetworkInformation;
 using Tinker;
+using Clockwerk;
 
 namespace Dota2CustomRealms
 {
@@ -102,7 +103,10 @@ namespace Dota2CustomRealms
 
         Dictionary<string, TabPage> ChatChannels = new Dictionary<string, TabPage>();
 
-        IrcClient ircClient;
+        //IrcClient ircClient;
+        RealmConnector ServerConnection;
+
+        
 
         /// <summary>
         /// Helper function to filter non alphanumeric chars from nicks
@@ -147,39 +151,52 @@ namespace Dota2CustomRealms
                 gbxBanList.Visible = false;
                 Properties.Settings.Default.NickName = tbxChooseNick.Text;
 
-                ircClient = new IrcClient();
-                ircClient.ActiveChannelSyncing = true;
-                ircClient.SendDelay = 200;
-                ircClient.AutoRetry = false; // TODO: Maybe turn back on?
+                ServerConnection = new RealmConnector();
+                ServerConnection.OnError += ServerConnection_OnError;
+                ServerConnection.OnAuthenticationSuccess += ServerConnection_OnAuthenticationSuccess;
+                ServerConnection.OnChatMessage += ServerConnection_OnChatMessage;
+                ServerConnection.OnAuthenticationFailure += ServerConnection_OnAuthenticationFailure;
 
-                ircClient.OnConnectionError += new EventHandler(ircClient_OnConnectionError);
-                ircClient.OnConnected += new EventHandler(ircClient_OnConnected);
-                ircClient.OnJoin += new JoinEventHandler(ircClient_OnJoin);
-                ircClient.OnNames += new NamesEventHandler(ircClient_OnNames);
-                ircClient.OnChannelMessage += new IrcEventHandler(ircClient_OnChannelMessage);
-                ircClient.OnRawMessage += new IrcEventHandler(ircClient_OnRawMessage);
-                ircClient.OnChannelNotice += new IrcEventHandler(ircClient_OnChannelNotice);
-                ircClient.OnQueryNotice += new IrcEventHandler(ircClient_OnQueryNotice);
-                ircClient.OnPart += new PartEventHandler(ircClient_OnPart);
-                ircClient.OnQuit += new QuitEventHandler(ircClient_OnQuit);
-
-                ircClient.OnKick += new KickEventHandler(ircClient_OnKick);
                 //ircClient.Connect("localhost", 6667);
                 try
                 {
-                    ircClient.Connect("d2cr.id10ts.info", 8646);
+                    ServerConnection.Connect(tbxChooseNick.Text);
                 }
                 catch
                 {
                     MessageBox.Show("There was an error connecting to the server. Please check your internet connection and try again.");
                     Application.Exit();
                 }
-                ircClient.OnMotd += new MotdEventHandler(ircClient_OnMotd);
                 if (!Properties.Settings.Default.ClientSetupComplete)
                 {
                     MessageBox.Show("Before you are able to join or host games, you need to go to the settings interface and set up some options.");
                 }
             }
+        }
+
+        void ServerConnection_OnAuthenticationFailure(object sender, ServerResponse e)
+        {
+            if (gbxConnect.InvokeRequired)
+            {
+                gbxConnect.Invoke(new EventHandler<Clockwerk.ServerResponse>(ServerConnection_OnAuthenticationFailure), new object[] { sender, e });
+                return;
+            }
+
+            gbxConnect.Enabled = true;
+            btnConnectIRC.Text = "Connect";
+            MessageBox.Show("Can't use that username!\n" + e.Message);
+        }
+
+
+        void ServerConnection_OnChatMessage(object sender, ServerResponse e)
+        {
+            if (e.Source == ServerConnection.Nickname) return;
+            if (gbxConnect.InvokeRequired)
+            {
+                gbxConnect.Invoke(new EventHandler<Clockwerk.ServerResponse>(ServerConnection_OnChatMessage), new object[] { sender, e });
+                return;
+            }
+            AddChatMessage("Realm", e.Source + ": " + e.Message);
         }
 
         void ircClient_OnQuit(object sender, QuitEventArgs e)
@@ -224,13 +241,13 @@ namespace Dota2CustomRealms
 
                     ircPart(Game.Channel);
 
-                    if (Game.Players[ircClient.Nickname].Side == PlayerSide.Dire)
+                    /*if (Game.Players[ServerConnection.Nickname].Side == PlayerSide.Dire)
                         ircPart(Game.DireChannel);
-                    if (Game.Players[ircClient.Nickname].Side == PlayerSide.Radiant)
+                    if (Game.Players[ServerConnection.Nickname].Side == PlayerSide.Radiant)
                         ircPart(Game.RadiantChannel);
-                    if (Game.Players[ircClient.Nickname].Side == PlayerSide.Spectator)
+                    if (Game.Players[ServerConnection.Nickname].Side == PlayerSide.Spectator)
                         ircPart(Game.SpectatorChannel);
-
+                    */
                     RevertMods();
 
 
@@ -293,30 +310,6 @@ namespace Dota2CustomRealms
             }
         }
 
-        /// <summary>
-        /// Triggers when someone is kicked in IRC
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ircClient_OnKick(object sender, KickEventArgs e)
-        {
-            if (Game != null && e.Data.Channel.ToLowerInvariant() == Game.Channel)
-            {
-                Game.PlayerLeftChannel(e.Whom);
-                AddChatMessage(Game.Channel, e.Whom + " was removed from the lobby");
-            }
-            if (ircClient.Nickname == e.Whom.ToLowerInvariant())
-            {
-                if (Game != null)
-                {
-                    LeaveGame();
-                }
-                tabUISections.SelectedTab = tabConnected;
-                lbxLobbyDirePlayers.Items.Clear();
-                lbxLobbyRadiantPlayers.Items.Clear();
-                lbxLobbySpectators.Items.Clear();
-            }
-        }
         protected void Link_Clicked (object sender, System.Windows.Forms.LinkClickedEventArgs e)
         {
             Process.Start(e.LinkText);
@@ -421,11 +414,11 @@ namespace Dota2CustomRealms
                             if (MessageInitiator == Player.Key)
                             {
                                 ChatMessageSender = Player.Value;
-                                if (Game.Players.ContainsKey(ircClient.Nickname) && Game.Players[ircClient.Nickname].Side != ChatMessageSender.Side)
+                                if (Game.Players.ContainsKey(ServerConnection.Nickname) && Game.Players[ServerConnection.Nickname].Side != ChatMessageSender.Side)
                                 {
                                     Enemy = true;
                                 }
-                                if (ChatMessageSender.Name == ircClient.Nickname)
+                                if (ChatMessageSender.Name == ServerConnection.Nickname)
                                 {
                                     Self = true;
                                 }
@@ -433,7 +426,7 @@ namespace Dota2CustomRealms
                             }
                         }
                     }
-                    else if (MessageInitiator == ircClient.Nickname)
+                    else if (MessageInitiator == ServerConnection.Nickname)
                     {
                         Self = true;
                     }
@@ -674,38 +667,6 @@ namespace Dota2CustomRealms
             //}
         }
         List<String[]> channelsstuff = new List<String[]>();
-        void ircClient_OnRawMessage(object sender, IrcEventArgs e)
-        {
-
-            //File.AppendAllText("irc.log", e.Data.RawMessage + "\r\n");
-
-            if (e.Data.Type == ReceiveType.List)
-            {
-                if (e.Data.RawMessage.Contains("Channel :Users  Name"))
-                {
-                    ChannelList.Clear();
-                    channelsstuff.Clear();
-                    Topics.Clear();
-                    FilledList = false;
-                }
-                else if (e.Data.Message == "End of /LIST")
-                {
-                    FilledList = true;
-                }
-                else
-                {
-                    ChannelList.Add(e.Data.RawMessageArray[3], int.Parse(e.Data.RawMessageArray[4]));
-                    channelsstuff.Add(e.Data.RawMessageArray);
-                    StringBuilder topic = new StringBuilder();
-                    for (int i = 6; i < e.Data.RawMessageArray.Length; i++)
-                    {
-                        topic.Append(" ");
-                        topic.Append(e.Data.RawMessageArray[i]);
-                    }
-                    Topics.Add(e.Data.RawMessageArray[3], topic.ToString().Trim());
-                }
-            }
-        }
 
         void ircClient_OnChannelMessage(object sender, IrcEventArgs e)
         {
@@ -716,7 +677,7 @@ namespace Dota2CustomRealms
             else
             {
                 AddChatMessage(e.Data.Channel, e.Data.Nick + ": " + e.Data.Message);
-                bool contains = e.Data.Message.IndexOf(ircClient.Nickname, StringComparison.OrdinalIgnoreCase) >= 0;
+                bool contains = e.Data.Message.IndexOf(ServerConnection.Nickname, StringComparison.OrdinalIgnoreCase) >= 0;
                 if (contains)
                 {
                     if (Properties.Settings.Default.BeepName)
@@ -740,7 +701,7 @@ namespace Dota2CustomRealms
 
         void ircClient_OnJoin(object sender, JoinEventArgs e)
         {
-            if (e.Data.Nick == ircClient.Nickname)
+            if (e.Data.Nick == ServerConnection.Nickname)
             {
 
 
@@ -764,12 +725,12 @@ namespace Dota2CustomRealms
                         {
                             gamemodes += mode + "/";
                         }
-                        string topicstr = "MODE=" + Game.GameMode + " SIZE=" + Game.MaxLobbySize + " HOST=" + ircClient.Nickname + " PASS=" + Game.Password + " MAP=" + Game.Dotamap + " VER=" + Properties.Settings.Default.MyVersion + " ADD=" + gamemodes;//+ " IP=" + DetermineExternalIP().Substring(1));
+                        string topicstr = "MODE=" + Game.GameMode + " SIZE=" + Game.MaxLobbySize + " HOST=" + ServerConnection.Nickname + " PASS=" + Game.Password + " MAP=" + Game.Dotamap + " VER=" + Properties.Settings.Default.MyVersion + " ADD=" + gamemodes;//+ " IP=" + DetermineExternalIP().Substring(1));
                         if (Game.CustomMod != null && Game.CustomMod.Length > 0)
                         {
                             topicstr += " CUSTOMMOD=" + Game.CustomMod;
                         }
-                        ircClient.RfcTopic(e.Channel, topicstr); 
+                        //ircClient.RfcTopic(e.Channel, topicstr); 
                     }
                     else if (Game != null)
                     {
@@ -829,13 +790,18 @@ namespace Dota2CustomRealms
         }
 
  
-        void ircClient_OnConnected(object sender, EventArgs e)
+        
+        void ServerConnection_OnAuthenticationSuccess(object sender, ServerResponse e)
         {
+
+            if (gbxConnect.InvokeRequired)
+            {
+                gbxConnect.Invoke(new EventHandler<ServerResponse>(ServerConnection_OnAuthenticationSuccess), new object[] { sender, e });
+                return;
+            }
+
+
             gbxConnect.Enabled = true;
-
-            ircClient.Login(tbxChooseNick.Text, tbxChooseNick.Text);
-
-            ircJoin("#General");
 
             ircListener.Enabled = true;
             ircListener.Interval = 50;
@@ -844,24 +810,62 @@ namespace Dota2CustomRealms
 
             gbxChat.Visible = true;
 
-            lblMessageLeft.Text = "Welcome, " + ircClient.Nickname + "!";
+            lblMessageLeft.Text = "Welcome, " + e.Target + "!";
             tabUISections.SelectedTab = tabConnected;
 
-            //Self.Name = ircClient.Nickname;
+
+
+            gbxChat.Visible = true;
+            gbxConnect.Enabled = true;
+
+            //ircListener.Enabled = true;
+            //ircListener.Interval = 50;
+            //timerPlayers.Enabled = true;
+            //timerPlayers.Interval = 2000;
+
+            //gbxChat.Visible = true;
+
+
+
+
+            lblMessageLeft.Text = "Welcome!";
+            tabUISections.SelectedTab = tabConnected;
+
+            ChatChannels.Add("Realm", new TabPage());
+            gbxGameSize.Controls.Add(ChatChannels["Realm"]);
+            ChatChannels["Realm"].Tag = "Realm";
+            RichTextBox rtxChannelChat = new RichTextBox();
+            rtxChannelChat.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(Link_Clicked);
+
+            rtxChannelChat.Text = "";
+            rtxChannelChat.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang5129{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}}" + CHAT_COLOURS + "\r\n\\viewkind4\\uc1\\pard\\f0\\fs17\\par\r\n}";
+
+
+            rtxChannelChat.Parent = ChatChannels["Realm"];
+            rtxChannelChat.Dock = DockStyle.Fill;
+            rtxChannelChat.WordWrap = true;
+            rtxChannelChat.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
+            rtxChannelChat.ReadOnly = true;
+            gbxGameSize.SelectedTab = ChatChannels["Realm"];
+
 
         }
-        void ircClient_OnConnectionError(object sender, EventArgs e)
+        void ServerConnection_OnError(object sender, ClockwerkError e)
         {
+            if (gbxConnect.InvokeRequired)
+            {
+                gbxConnect.Invoke(new EventHandler<ClockwerkError>(ServerConnection_OnError), new object[]{sender, e});
+                return;
+            }
+
             gbxConnect.Enabled = true;
             btnConnectIRC.Text = "Connect";
-            ircClient.OnConnectionError -= ircClient_OnConnectionError;
-            MessageBox.Show("There was a problem connecting to the server!\nThis could mean:\nThe server is full\nThe server is down\nYou are banned\nYour internet is down");
-            Application.Exit();
+            MessageBox.Show("There was a problem connecting to the server!\n" + e.Error.Message);
         }
 
         private void ircListener_Tick(object sender, EventArgs e)
         {
-            ircClient.Listen(false);
+            //ircClient.Listen(false);
 
 
             if (Game != null)
@@ -909,7 +913,7 @@ namespace Dota2CustomRealms
             }
             try
             {
-                lblPlayersOnline.Text = "Players Online: " + ircClient.GetChannel("#General").Users.Count;
+                //lblPlayersOnline.Text = "Players Online: " + ircClient.GetChannel("#General").Users.Count;
                 lblPlayersOnline.Enabled = true;
                 lblPlayersInGame.Text = "Players Ingame: " + playersingame;
                 lblPlayersInGame.Enabled = true;
@@ -999,8 +1003,10 @@ namespace Dota2CustomRealms
             tbxChatMessage.Text = tbxChatMessage.Text.Replace("\r", "").Replace("\n", "");
             if (tbxChatMessage.Text.Trim().Length > 0)
             {
-                AddChatMessage((string)gbxGameSize.SelectedTab.Tag, ircClient.Nickname + ": " + tbxChatMessage.Text);
-                ircClient.SendMessage(SendType.Message, (string)gbxGameSize.SelectedTab.Tag, tbxChatMessage.Text);
+                //AddChatMessage((string)gbxGameSize.SelectedTab.Tag, ServerConnection.Nickname + ": " + tbxChatMessage.Text);
+                //ircClient.SendMessage(SendType.Message, (string)gbxGameSize.SelectedTab.Tag, tbxChatMessage.Text);
+                AddChatMessage("Realm", ServerConnection.Nickname + ": " + tbxChatMessage.Text);
+                ServerConnection.SendChatMessage(tbxChatMessage.Text);
                 tbxChatMessage.Clear();
                 tbxChatMessage.Select();
             }
@@ -1017,14 +1023,14 @@ namespace Dota2CustomRealms
         /// <param name="Channel"></param>
         private void ircJoin(string Channel)
         {
-            ircClient.JoinedChannels.Add(Channel);
-            ircClient.RfcJoin(Channel); // channel syncing isn't implemented in meeby irc yet, so we need to manually call this
+            //ircClient.JoinedChannels.Add(Channel);
+            //ircClient.RfcJoin(Channel); // channel syncing isn't implemented in meeby irc yet, so we need to manually call this
         }
 
         private void ircPart(string Channel)
         {
-            ircClient.JoinedChannels.Remove(Channel);
-            ircClient.RfcPart(Channel);
+            //ircClient.JoinedChannels.Remove(Channel);
+            //ircClient.RfcPart(Channel);
 
             if (ChatChannels.ContainsKey(Channel))
             {
@@ -1041,10 +1047,10 @@ namespace Dota2CustomRealms
             ircListTimeout.Reset();
             ircListTimeout.Start();
             FilledList = false;
-            ircClient.RfcList("");
+            //ircClient.RfcList("");
             while (FilledList == false && ircListTimeout.ElapsedMilliseconds < 2500)
             {
-                ircClient.ListenOnce(false);
+                //ircClient.ListenOnce(false);
                 Thread.Sleep(0);
             }
             ircListTimeout.Stop();
@@ -1090,8 +1096,8 @@ namespace Dota2CustomRealms
             lblLobbyName.Text = tbxGameName.Text;
             
             Game.IsHost = true;
-            Game.HostName = ircClient.Nickname;
-            Game.MyName = ircClient.Nickname;
+            Game.HostName = ServerConnection.Nickname;
+            Game.MyName = ServerConnection.Nickname;
             Game.Password = tbxGamePassword.Text;
             Game.MaxLobbySize = int.Parse(cbxGameSize.Text);
 
@@ -1100,7 +1106,7 @@ namespace Dota2CustomRealms
             Game.CustomMod = cbxAddonType.Text;
 
             Player Self = new Player();
-            Self.Name = ircClient.Nickname;
+            Self.Name = ServerConnection.Nickname;
 
 
 
@@ -1185,7 +1191,7 @@ namespace Dota2CustomRealms
                 btnLobbyRandomiseTeams.Text = "Scramble Teams";
                 btnLobbyKick.Show();
                 btnLobbyRandomiseTeams.Show();
-                labelHost.Text = "Host: " + ircClient.Nickname;
+                labelHost.Text = "Host: " + ServerConnection.Nickname;
                 labelMaxPlayers.Text = "Max Players: " + Game.MaxLobbySize.ToString();
                 labelMap.Text = "Map: " + cbxAddonMap.Text;
                 labelAddon.Text = "Addon: " + cbxAddonType.Text;
@@ -1208,17 +1214,17 @@ namespace Dota2CustomRealms
             AttachGameEvents(Game);
 
 
-            Game.Players.Add(ircClient.Nickname, Self);
+            Game.Players.Add(ServerConnection.Nickname, Self);
             if (Game.AdditionalModes.Contains("Dedicated"))
             {
-                Game.Players[ircClient.Nickname].Dedi = true;
+                Game.Players[ServerConnection.Nickname].Dedi = true;
             }
             tabUISections.SelectedTab = tabLobby;
 
             //UpdatePlayerReadyCount();
             if (tbxGamePassword.Text == "")
             {
-                ircClient.SendMessage(SendType.Notice, "#General", "NEWLOBBY" + Properties.Settings.Default.MyVersion);
+                //ircClient.SendMessage(SendType.Notice, "#General", "NEWLOBBY" + Properties.Settings.Default.MyVersion);
             }
             if (!cbxVersionFixDisable.Checked)
             {
@@ -1523,7 +1529,7 @@ namespace Dota2CustomRealms
                     
 
 
-                    Game.MyName = ircClient.Nickname;
+                    Game.MyName = ServerConnection.Nickname;
                     Game.Channel = Channel;
                     Game.LobbyName = Channel.Substring(3);
                     Game.HostName = Host;
@@ -1609,7 +1615,7 @@ namespace Dota2CustomRealms
             try
             {
                 Debug.Assert(Game != null, "Game can't be null at lobby tab!");
-                if (Game.Players[ircClient.Nickname].Side != PlayerSide.Radiant)
+                if (Game.Players[ServerConnection.Nickname].Side != PlayerSide.Radiant)
                 {
                     Game.AttemptSideChange(PlayerSide.Radiant);
                 }
@@ -1630,7 +1636,7 @@ namespace Dota2CustomRealms
             try
             {
                 Debug.Assert(Game != null, "Game can't be null at lobby tab!");
-                if (Game.Players[ircClient.Nickname].Side != PlayerSide.Dire)
+                if (Game.Players[ServerConnection.Nickname].Side != PlayerSide.Dire)
                 {
                     Game.AttemptSideChange(PlayerSide.Dire);
                 }
@@ -1671,6 +1677,7 @@ namespace Dota2CustomRealms
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+
             lblPlayersOnline.Enabled = false;
             lblPlayersInGame.Enabled = false;
 
@@ -1790,12 +1797,12 @@ namespace Dota2CustomRealms
 
         void Game_SendPlayerNotice(object sender, Game.SendMessageEventArgs e)
         {
-            ircClient.SendMessage(SendType.Notice, e.Target, e.Message);
+            //ircClient.SendMessage(SendType.Notice, e.Target, e.Message);
         }
 
         void Game_SendChannelNotice(object sender, Game.SendMessageEventArgs e)
         {
-            ircClient.SendMessage(SendType.Notice, e.Target, e.Message);
+            //ircClient.SendMessage(SendType.Notice, e.Target, e.Message);
         }
 
         private void AttachGameEvents(Game aGame)
@@ -1812,7 +1819,7 @@ namespace Dota2CustomRealms
         {
             if (Game.IsHost)
             {
-                ircClient.RfcKick(Game.Channel, e.key);
+                //ircClient.RfcKick(Game.Channel, e.key);
             }
         }
 
@@ -1892,9 +1899,9 @@ namespace Dota2CustomRealms
 
                         lblLobbyPlayerReadyCount.Text = PlayersReady.ToString() + "/" + Game.Players.Count + " Players Ready";
 
-                        if (Game.Players.ContainsKey(ircClient.Nickname))
+                        if (Game.Players.ContainsKey(ServerConnection.Nickname))
                         {
-                            switch (Game.Players[ircClient.Nickname].Side)
+                            switch (Game.Players[ServerConnection.Nickname].Side)
                             {
                                 case PlayerSide.Radiant:
                                     {
@@ -2061,16 +2068,16 @@ namespace Dota2CustomRealms
                 return;
             }
 
-            if (Game != null && Game.Channel != null  && Game.Channel != ""  && Game.Players.ContainsKey(ircClient.Nickname))
+            if (Game != null && Game.Channel != null  && Game.Channel != ""  && Game.Players.ContainsKey(ServerConnection.Nickname))
             {
-                PlayerStatus(Game.Players[ircClient.Nickname].Name, chkLobbyPlayerReady.Checked);
+                PlayerStatus(Game.Players[ServerConnection.Nickname].Name, chkLobbyPlayerReady.Checked);
                 if (chkLobbyPlayerReady.Checked)
                 {
-                    ircClient.SendMessage(SendType.Notice, Game.Channel, "READY!");
+                    //ircClient.SendMessage(SendType.Notice, Game.Channel, "READY!");
                 }
                 else
                 {
-                    ircClient.SendMessage(SendType.Notice, Game.Channel, "NOTREADYYET!");
+                    //ircClient.SendMessage(SendType.Notice, Game.Channel, "NOTREADYYET!");
                 }
                 UpdatePlayerReadyCount();
             }
@@ -2084,7 +2091,7 @@ namespace Dota2CustomRealms
 
                 if (name != Game.HostName)
                 {
-                    ircClient.RfcKick(Game.Channel, name);
+                    //ircClient.RfcKick(Game.Channel, name);
                     Game.Players.Remove(name);
                 }
             }
@@ -2110,7 +2117,7 @@ namespace Dota2CustomRealms
                 else
                 {
                     Game.Blacklist.Add(SelectedPlayer.Name); // Ban player from rejoining game
-                    ircClient.RfcKick(Game.Channel, SelectedPlayer.Name);
+                    //ircClient.RfcKick(Game.Channel, SelectedPlayer.Name);
                     if (Game.Players.ContainsKey(SelectedPlayer.Name))
                     {
                         Game.Players.Remove(SelectedPlayer.Name);
@@ -2196,7 +2203,7 @@ namespace Dota2CustomRealms
             }
             Game.SyncPlayerList();
             Game_UpdateUI(Game, new EventArgs());
-            ircClient.SendMessage(SendType.Message, Game.Channel, "Teams have been scrambled!");
+            //ircClient.SendMessage(SendType.Message, Game.Channel, "Teams have been scrambled!");
             AddChatMessage(Game.Channel, "Teams have been scrambled!");
         }
 
@@ -2293,7 +2300,7 @@ namespace Dota2CustomRealms
                     return;
                 }
 
-                ircClient.RfcTopic(Game.Channel, ""); // Remove the topic, so that the game cannot appear in the games list, regardless of what bugs may occur
+               // ircClient.RfcTopic(Game.Channel, ""); // Remove the topic, so that the game cannot appear in the games list, regardless of what bugs may occur
 
                 Game.ProgressGameStage();
             //}
@@ -2328,7 +2335,7 @@ namespace Dota2CustomRealms
                 //Properties.Settings.Default["Dota2ServerPath"] = "C:\\dotaserver\\";
                 //Properties.Settings.Default.Save();
 
-                ircClient.SendMessage(SendType.Notice, Game.Channel, "STARTDOTA=" + HostConnection);
+               // ircClient.SendMessage(SendType.Notice, Game.Channel, "STARTDOTA=" + HostConnection);
 
                 // TODO: Apply below fix by determining computer's IP
                 //Dota2ConfigModder.AutoExecConnect(HostConnection);
@@ -2430,7 +2437,7 @@ namespace Dota2CustomRealms
 
                             Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/" + HostConnection);
 
-                            ircClient.SendMessage(SendType.Notice, Game.Channel, "SERVERREADY");
+                           // ircClient.SendMessage(SendType.Notice, Game.Channel, "SERVERREADY");
 
                             break;
                         }
@@ -2591,11 +2598,11 @@ namespace Dota2CustomRealms
             ircPart(Game.Channel);
             //try
             //{
-                if (Game.Players[ircClient.Nickname].Side == PlayerSide.Dire)
+                if (Game.Players[ServerConnection.Nickname].Side == PlayerSide.Dire)
                     ircPart(Game.DireChannel);
-                if (Game.Players[ircClient.Nickname].Side == PlayerSide.Radiant)
+                if (Game.Players[ServerConnection.Nickname].Side == PlayerSide.Radiant)
                     ircPart(Game.RadiantChannel);
-                if (Game.Players[ircClient.Nickname].Side == PlayerSide.Spectator)
+                if (Game.Players[ServerConnection.Nickname].Side == PlayerSide.Spectator)
                     ircPart(Game.SpectatorChannel);
             //}
             //catch { }
@@ -3516,10 +3523,6 @@ namespace Dota2CustomRealms
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (ircClient != null && ircClient.IsConnected)
-            {
-                ircClient.Disconnect();
-            }
             RevertMods();
         }
 

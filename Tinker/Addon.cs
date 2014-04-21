@@ -12,6 +12,21 @@ namespace Tinker
     public class Addon
     {
 
+
+        private string AddonName, AddonVersion;
+
+        public string Version
+        {
+            get { return AddonVersion; }
+            private set { AddonVersion = value; }
+        }
+
+        public string Name
+        {
+            get { return AddonName; }
+            private set { AddonName = value; }
+        }
+
         private string BaseFolder;
 
         private const string ConfigFile = "DotaCR.txt";
@@ -38,7 +53,26 @@ namespace Tinker
 
             KeyValue[] Data = KVParser.ParseAllKVRootNodes(File.ReadAllText(BasePath + ConfigFile));
 
-            // So far it compiles, that's gotta be a plus!
+            foreach(KeyValue Link in Data)
+            {
+                switch(Link.Key.ToLowerInvariant())
+                {
+                    case "modname":
+                        {
+                            this.Name = Link.GetString();
+                            break;
+                        }
+                    case "version":
+                        {
+                            this.Version = Link.GetString();
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+            }
 
         }
 
