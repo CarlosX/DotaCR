@@ -1,0 +1,3 @@
+[submodule "Sprache"]
+	path = Sprache
+	url = git@github.com:SergeantHawke/Sprache.git
