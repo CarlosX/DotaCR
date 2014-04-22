@@ -42,7 +42,7 @@ namespace Clockwerk
             protected set { nickname = value; }
         }
 
-        public RealmConnector(string Server = "game.windrunner.mx", int Port = 8080)
+        public RealmConnector(string Server = "game.windrunner.mx", int Port = 8000)
         {
             client = new WebSocket("ws://" + Server + ":" + Port.ToString() +  "/");
             client.Opened += client_Opened;
