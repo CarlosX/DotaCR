@@ -14,7 +14,7 @@ namespace Clockwerk
     public class RealmConnector
     {
 
-        public const string GLOBAL_CHANNEL = "<G>";
+        public const string GLOBAL_CHANNEL = "";
 
         public event EventHandler OnConnect;
         public event EventHandler<ServerResponse> OnChatMessage;

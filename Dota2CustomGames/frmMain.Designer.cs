@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.webAdvertisement = new System.Windows.Forms.WebBrowser();
-            this.ircListener = new System.Windows.Forms.Timer(this.components);
             this.lblMessageLeft = new System.Windows.Forms.Label();
             this.bgwGenerateNpcHeroesAutoexec = new System.ComponentModel.BackgroundWorker();
             this.ofdFindDotaExe = new System.Windows.Forms.OpenFileDialog();
@@ -42,9 +40,6 @@
             this.lblPlayersOnline = new System.Windows.Forms.Label();
             this.lblPlayersInGame = new System.Windows.Forms.Label();
             this.gbxChat = new System.Windows.Forms.GroupBox();
-            this.gbxGameSize = new System.Windows.Forms.TabControl();
-            this.btnSendMessage = new System.Windows.Forms.Button();
-            this.tbxChatMessage = new System.Windows.Forms.TextBox();
             this.tabUISections = new System.Windows.Forms.TabControl();
             this.tabPreConnect = new System.Windows.Forms.TabPage();
             this.gbxConnect = new System.Windows.Forms.GroupBox();
@@ -165,9 +160,7 @@
             this.logText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
-            this.timerPlayers = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).BeginInit();
-            this.gbxChat.SuspendLayout();
             this.tabUISections.SuspendLayout();
             this.tabPreConnect.SuspendLayout();
             this.gbxConnect.SuspendLayout();
@@ -217,10 +210,6 @@
             this.webAdvertisement.TabIndex = 0;
             this.webAdvertisement.Url = new System.Uri("", System.UriKind.Relative);
             this.webAdvertisement.WebBrowserShortcutsEnabled = false;
-            // 
-            // ircListener
-            // 
-            this.ircListener.Tick += new System.EventHandler(this.ircListener_Tick);
             // 
             // lblMessageLeft
             // 
@@ -309,9 +298,6 @@
             // 
             this.gbxChat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbxChat.Controls.Add(this.gbxGameSize);
-            this.gbxChat.Controls.Add(this.btnSendMessage);
-            this.gbxChat.Controls.Add(this.tbxChatMessage);
             this.gbxChat.Location = new System.Drawing.Point(872, 0);
             this.gbxChat.Name = "gbxChat";
             this.gbxChat.Size = new System.Drawing.Size(293, 522);
@@ -319,40 +305,6 @@
             this.gbxChat.TabStop = false;
             this.gbxChat.Text = "Chat";
             this.gbxChat.Visible = false;
-            // 
-            // gbxGameSize
-            // 
-            this.gbxGameSize.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbxGameSize.Location = new System.Drawing.Point(9, 20);
-            this.gbxGameSize.Name = "gbxGameSize";
-            this.gbxGameSize.SelectedIndex = 0;
-            this.gbxGameSize.Size = new System.Drawing.Size(277, 462);
-            this.gbxGameSize.TabIndex = 2;
-            // 
-            // btnSendMessage
-            // 
-            this.btnSendMessage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSendMessage.Location = new System.Drawing.Point(265, 488);
-            this.btnSendMessage.Name = "btnSendMessage";
-            this.btnSendMessage.Size = new System.Drawing.Size(22, 22);
-            this.btnSendMessage.TabIndex = 1;
-            this.btnSendMessage.Text = ">";
-            this.btnSendMessage.UseVisualStyleBackColor = true;
-            this.btnSendMessage.Click += new System.EventHandler(this.btnSendMessage_Click);
-            // 
-            // tbxChatMessage
-            // 
-            this.tbxChatMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbxChatMessage.Location = new System.Drawing.Point(6, 490);
-            this.tbxChatMessage.Multiline = true;
-            this.tbxChatMessage.Name = "tbxChatMessage";
-            this.tbxChatMessage.Size = new System.Drawing.Size(264, 20);
-            this.tbxChatMessage.TabIndex = 0;
-            this.tbxChatMessage.TextChanged += new System.EventHandler(this.tbxChatMessage_TextChanged);
-            this.tbxChatMessage.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tbxChatMessage_PreviewKeyDown);
             // 
             // tabUISections
             // 
@@ -1718,10 +1670,6 @@
             this.pnlMain.Size = new System.Drawing.Size(1165, 523);
             this.pnlMain.TabIndex = 1;
             // 
-            // timerPlayers
-            // 
-            this.timerPlayers.Tick += new System.EventHandler(this.timerPlayers_Tick);
-            // 
             // frmMain
             // 
             this.AcceptButton = this.btnConnectIRC;
@@ -1743,8 +1691,6 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
             this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).EndInit();
-            this.gbxChat.ResumeLayout(false);
-            this.gbxChat.PerformLayout();
             this.tabUISections.ResumeLayout(false);
             this.tabPreConnect.ResumeLayout(false);
             this.gbxConnect.ResumeLayout(false);
@@ -1798,7 +1744,6 @@
         #endregion
 
         private System.Windows.Forms.WebBrowser webAdvertisement;
-        private System.Windows.Forms.Timer ircListener;
         private System.Windows.Forms.Label lblMessageLeft;
         private System.ComponentModel.BackgroundWorker bgwGenerateNpcHeroesAutoexec;
         private System.Windows.Forms.OpenFileDialog ofdFindDotaExe;
@@ -1809,9 +1754,6 @@
         private System.Windows.Forms.Label lblPlayersOnline;
         private System.Windows.Forms.Label lblPlayersInGame;
         private System.Windows.Forms.GroupBox gbxChat;
-        private System.Windows.Forms.TabControl gbxGameSize;
-        private System.Windows.Forms.Button btnSendMessage;
-        private System.Windows.Forms.TextBox tbxChatMessage;
         private System.Windows.Forms.TabControl tabUISections;
         private System.Windows.Forms.TabPage tabPreConnect;
         private System.Windows.Forms.GroupBox gbxConnect;
@@ -1920,7 +1862,6 @@
         private System.Windows.Forms.CheckBox chkFlashName;
         private System.Windows.Forms.CheckBox chkDedicated;
         private System.Windows.Forms.Button btnUpdateAddons;
-        private System.Windows.Forms.Timer timerPlayers;
         private System.Windows.Forms.GroupBox gbxAddonMap;
         private System.Windows.Forms.ComboBox cbxAddonMap;
         private System.Windows.Forms.GroupBox gbxAddonType;

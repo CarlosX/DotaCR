@@ -119,7 +119,7 @@ namespace Clockwerk
         protected class RawServerResponse
         {
             public string Msg, Data, Type, User;
-            public string From, To;
+            public string From = "", To = "";
             bool Admin = false, Emote = false;
 
 

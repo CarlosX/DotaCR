@@ -99,12 +99,11 @@ namespace Dota2CustomRealms
         string Dota2ServerName;
         volatile string HostConnection = null;
 
-
-
-        Dictionary<string, TabPage> ChatChannels = new Dictionary<string, TabPage>();
-
         //IrcClient ircClient;
+
+
         RealmConnector ServerConnection;
+        ChatController ChatController;
 
         
 
@@ -156,6 +155,10 @@ namespace Dota2CustomRealms
                 ServerConnection.OnAuthenticationSuccess += ServerConnection_OnAuthenticationSuccess;
                 ServerConnection.OnChatMessage += ServerConnection_OnChatMessage;
                 ServerConnection.OnAuthenticationFailure += ServerConnection_OnAuthenticationFailure;
+                ServerConnection.OnUserConnect += ServerConnection_OnUserConnect;
+                ServerConnection.OnUserDisconnect += ServerConnection_OnUserDisconnect;
+                ServerConnection.OnUserJoinChannel += ServerConnection_OnUserJoinChannel;
+                ServerConnection.OnUserPartChannel += ServerConnection_OnUserPartChannel;
 
                 //ircClient.Connect("localhost", 6667);
                 try
@@ -172,6 +175,42 @@ namespace Dota2CustomRealms
                     MessageBox.Show("Before you are able to join or host games, you need to go to the settings interface and set up some options.");
                 }
             }
+        }
+
+        void ServerConnection_OnUserPartChannel(object sender, ServerResponse e)
+        {
+            if (e.Source == ServerConnection.Nickname)
+            {
+                ChatController.RemoveChannel(e.Target);
+            }
+            else
+            {
+                ChatController.AddMessage(e.Source, "has left the channel.", e.Target); 
+            }
+        }
+
+        void ServerConnection_OnUserJoinChannel(object sender, ServerResponse e)
+        {
+            if (e.Source == ServerConnection.Nickname)
+            {
+                if (e.Target == "") ChatController.AddChannel(e.Target, "<Global>");  else ChatController.AddChannel(e.Target);
+            }
+            else
+            {
+                ChatController.AddMessage(e.Source, "has joined the channel.", e.Target);
+            }
+        }
+
+        void ServerConnection_OnUserDisconnect(object sender, ServerResponse e)
+        {
+            ChatController.AddChannel(e.Target, "<Global>");
+            ChatController.AddMessage(e.Source, "has disconnected.", e.Target);
+        }
+
+        void ServerConnection_OnUserConnect(object sender, ServerResponse e)
+        {
+            ChatController.AddChannel(e.Target, "<Global>");
+            ChatController.AddMessage(e.Source, "has connected.", e.Target);
         }
 
         void ServerConnection_OnAuthenticationFailure(object sender, ServerResponse e)
@@ -191,40 +230,14 @@ namespace Dota2CustomRealms
         void ServerConnection_OnChatMessage(object sender, ServerResponse e)
         {
             if (e.Source == ServerConnection.Nickname) return;
-            if (gbxConnect.InvokeRequired)
+            /*if (gbxConnect.InvokeRequired)
             {
                 gbxConnect.Invoke(new EventHandler<Clockwerk.ServerResponse>(ServerConnection_OnChatMessage), new object[] { sender, e });
                 return;
-            }
-            AddChatMessage("Realm", e.Source + ": " + e.Message);
+            }*/
+            ChatController.AddMessage(e.Source, e.Message, e.Target);
         }
 
-        void ircClient_OnQuit(object sender, QuitEventArgs e)
-        {
-            if (Game != null)
-            {
-
-                if (Game != null && Game.Players.ContainsKey(e.Who))
-                {
-                    Game_DisplayUserMessage(Game, new Game.SendMessageEventArgs(null, e.Who + " has disconnected"));
-                }
-
-                Game.PlayerLeftChannel(e.Who);
-                if (Game.HostName == e.Who)
-                {
-                    LeaveGame();
-                    RevertMods(); // Just in case this is their second game this session and they didn't click the done button
-                    MessageBox.Show("The host has quit, therefore this lobby has been disbanded.");
-                }
-
-            }
-
-            AddChatMessage("#General", e.Who + " has disconnected");
-
-
-
-
-        }
 
         private void btnLeaveSkills_Click(object sender, EventArgs e)
         {
@@ -239,7 +252,7 @@ namespace Dota2CustomRealms
                     HostConnection = null;
                     tabUISections.SelectedTab = tabConnected;
 
-                    ircPart(Game.Channel);
+                    //ircPart(Game.Channel);
 
                     /*if (Game.Players[ServerConnection.Nickname].Side == PlayerSide.Dire)
                         ircPart(Game.DireChannel);
@@ -310,485 +323,10 @@ namespace Dota2CustomRealms
             }
         }
 
-        protected void Link_Clicked (object sender, System.Windows.Forms.LinkClickedEventArgs e)
-        {
-            Process.Start(e.LinkText);
-        }
-
-        private void AddChatMessage(string Channel, string Message)
-        {
-            if (ChatChannels.ContainsKey(Channel))
-            {
-                RichTextBox rtxChatMessages = (RichTextBox)ChatChannels[Channel].Controls[0];
-
-                /*if (rtxChatMessages.Text.Length > 0)
-                {
-                    rtxChatMessages.Text += "\n";
-                }*/
-                string strRTF;
-                if (rtxChatMessages.Tag != null)
-                {
-                    strRTF = rtxChatMessages.Tag.ToString();
-                }
-                else
-                {
-                    strRTF = rtxChatMessages.Rtf;
-                }
-
-                // Colour code grabbed from http://www.codeproject.com/Articles/15038/C-Formatting-Text-in-a-RichTextBox-by-Parsing-the
-
-                /* 
-                 * ADD COLOUR TABLE TO THE HEADER FIRST 
-                 * */
-
-                // Search for colour table info, if it exists (which it shouldn't)
-                // remove it and replace with our one
-                int iCTableStart = strRTF.IndexOf("colortbl;");
-
-                // MR. RTF stuffed up, this can't run more than once or it breaks the rtf formatting :P
-                //if (iCTableStart != -1) //then colortbl exists
-                //{
-                //    //find end of colortbl tab by searching
-                //    //forward from the colortbl tab itself
-                //    int iCTableEnd = strRTF.IndexOf('}', iCTableStart);
-                //    strRTF = strRTF.Remove(iCTableStart, iCTableEnd - iCTableStart);
-
-                //    //now insert new colour table at index of old colortbl tag
-                //    strRTF = strRTF.Insert(iCTableStart,
-                //        // CHANGE THIS STRING TO ALTER COLOUR TABLE
-                //        CHAT_COLOURS);
-                //}
-
-                ////colour table doesn't exist yet, so let's make one
-                //else
-                if(iCTableStart == -1)
-                {
-                    // find index of start of header
-                    int iRTFLoc = strRTF.IndexOf("\\rtf");
-                    // get index of where we'll insert the colour table
-                    // try finding opening bracket of first property of header first                
-                    int iInsertLoc = strRTF.IndexOf('{', iRTFLoc);
-
-                    // if there is no property, we'll insert colour table
-                    // just before the end bracket of the header
-                    if (iInsertLoc == -1) iInsertLoc = strRTF.IndexOf('}', iRTFLoc) - 1;
-
-                    // insert the colour table at our chosen location                
-                    strRTF = strRTF.Insert(iInsertLoc,
-                        // CHANGE THIS STRING TO ALTER COLOUR TABLE
-                        CHAT_COLOURS);
-                }
-
-                // colours
-                //1 = self
-                //2 = self / otherplayer text
-                //3 = otherplayer
-                //4 = connected
-                //5 = admin
-                //6 = otheropponent
-                //7 = Verified Hosts
-                //8 - left / dc'ed (only for non #General channels)
-                //9 - Is hosting a new game message
-
-                Message = Message.Replace("\\", "\\\\").Replace("{", "\\{").Replace("}", "\\}");
-
-                // Lets format the text!
-
-                Player ChatMessageSender = null;
-                bool Enemy = false;
-                bool Self = false;
 
 
-                string MessageInitiator;
-                //int IndexOfSpace = Message.IndexOf(' ');
-                int IndexOfColon = Message.IndexOf(':');
 
-                if (IndexOfColon != -1)
-                {
-                    MessageInitiator = Message.Substring(0, IndexOfColon);
-
-                    if (Game != null)
-                    {
-                        foreach (KeyValuePair<string, Player> Player in Game.Players)
-                        {
-                            if (MessageInitiator == Player.Key)
-                            {
-                                ChatMessageSender = Player.Value;
-                                if (Game.Players.ContainsKey(ServerConnection.Nickname) && Game.Players[ServerConnection.Nickname].Side != ChatMessageSender.Side)
-                                {
-                                    Enemy = true;
-                                }
-                                if (ChatMessageSender.Name == ServerConnection.Nickname)
-                                {
-                                    Self = true;
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    else if (MessageInitiator == ServerConnection.Nickname)
-                    {
-                        Self = true;
-                    }
-                }
-
-                if (IndexOfColon != -1) // Chat message
-                {
-                    string ChatName = Message.Substring(0, Message.IndexOf(':')).Replace("_", " ");
-                    string ChatMessage = Message.Substring(ChatName.Length);
-                    if(ChatName.StartsWith("[CR]")) // ADMIN
-                    {
-                        Message = "\\b\\cf5" + ChatName + "\\b0" + ChatMessage;
-                    }
-                    else if (ChatName.StartsWith("[VHost]")) // VERIFIED HOSTS
-                    {
-                        Message = "\\b\\cf7" + ChatName + "\\b0\\cf2" + ChatMessage;
-                    }
-                    else if (Self)
-                    {
-                        Message = "\\b\\cf1 " + ChatName + "\\b0\\cf2 " + ChatMessage;
-                    }
-                    else if (Enemy)
-                    {
-                        Message = "\\b\\cf6 " + ChatName + "\\b0\\cf2 " + ChatMessage;
-                    }
-                    else
-                    {
-                        Message = "\\b\\cf3 " + ChatName + "\\b0\\cf2 " + ChatMessage;
-                    }
-                }
-                else // Some other kind of message
-                {
-                    if (Channel != "#General" && (Message.EndsWith(" has quit") || Message.EndsWith(" has disconnected") || Message.EndsWith(" has left")))
-                    {
-                        Message = "\\b\\cf8" + Message + "\\b0";
-                    }
-                    else if (Message.EndsWith(" is hosting a new game lobby."))
-                    {
-                        Message = "\\cf9" + Message;
-                    }
-                    else if (Message.EndsWith(" is hosting a new game lobby!"))
-                    {
-                        Message = "\\b\\cf7" + Message + "\\b0";
-                    }
-                    else
-                    {
-                        Message = "\\cf4" + Message;
-                    }
-                }
-                Message = Message.Replace("\n", "\\par\r\n");
-                Message += "\\cf0\\par\r\n}";
-
-                strRTF = strRTF.Remove(strRTF.LastIndexOf('}')) + Message;
-
-                rtxChatMessages.Rtf = strRTF;
-                rtxChatMessages.Tag = strRTF;
-                //rtxChatMessages.Rtf = rtxChatMessages.Rtf.Remove(rtxChatMessages.Rtf.LastIndexOf('}')) + Message;
-
-
-                if (!RichTextBoxesThatNeedScrolling.Contains(rtxChatMessages))
-                {
-                    RichTextBoxesThatNeedScrolling.Add(rtxChatMessages);
-                }
-            }
-        }
-
-
-        void ircClient_OnPart(object sender, PartEventArgs e)
-        {
-            AddChatMessage(e.Channel, e.Who + " has left");
-            if (Game != null && e.Data.Channel.ToLowerInvariant() == Game.Channel.ToLowerInvariant())
-            {
-                if (Game != null && Game.Channel == e.Channel && Game.Players.ContainsKey(e.Who))
-                {
-                    Game.Players.Remove(e.Who);
-                    if (Game.HostName == e.Who)
-                    {
-                        LeaveGame();
-                        RevertMods(); // Just in case this is their second game this session and they didn't click the done button
-                        MessageBox.Show("The host has left the lobby, therefore this lobby has been disbanded.");
-                    }
-                }
-
-            }
-        }
-
-        void ircClient_OnQueryNotice(object sender, IrcEventArgs e)
-        {
-            //if (Enum.IsDefined(typeof(PlayerSide), e.Data.Message) == true)
-            //{
-            //    SwitchSide(e.Data.Nick, e.Data.Message);
-            //}
-            //if (e.Data.Message.Contains("SIDE?"))
-            //{
-            //    ircClient.SendMessage(SendType.Notice, e.Data.Nick, Self.Side.ToString());
-            //}
-            //if (e.Data.Message.Contains("READY?"))
-            //{
-            //    ircClient.SendMessage(SendType.Notice, e.Data.Nick, (Self.Ready ? "READY!" : "NOTREADYYET!"));
-            //}
-            if (e.Data.Message == "READY!")
-            {
-                PlayerStatus(e.Data.Nick, true);
-            }
-            if (e.Data.Message == "NOTREADYYET!")
-            {
-                PlayerStatus(e.Data.Nick, false);
-            }
-            if (Game != null)
-            {
-                Game.ReceivePlayerNotice(e.Data.Nick, e.Data.Message);
-            }
-        }
-
-        void ircClient_OnChannelNotice(object sender, IrcEventArgs e)
-        {
-            if (e.Data.Channel.ToLowerInvariant() == "#general" && e.Data.Message.StartsWith("NEWLOBBY"))
-            {
-                if (!e.Data.Message.Substring(8).Equals(Properties.Settings.Default.MyVersion))
-                {
-
-                }
-                else if (e.Data.Nick.StartsWith("[VHost]"))
-                {
-                    AddChatMessage("#General", e.Data.Nick + " is hosting a new game lobby!");
-                    if (Properties.Settings.Default.BeepNew && Game == null)
-                    {
-                        System.Media.SystemSounds.Beep.Play();
-                    }
-                    if (Properties.Settings.Default.FlashNew && Game == null)
-                    {
-                        FlashWindow.Flash(this, 1);
-                    }
-                }
-                else
-                {
-                    AddChatMessage("#General", e.Data.Nick + " is hosting a new game lobby.");
-                    if (Properties.Settings.Default.BeepNew && Game == null)
-                    {
-                        System.Media.SystemSounds.Beep.Play();
-                    }
-                    if (Properties.Settings.Default.FlashNew && Game == null)
-                    {
-                        FlashWindow.Flash(this, 1);
-                    }
-                }
-            }
-
-            if (Game != null && Game.Channel == e.Data.Channel)
-            {
-                Game.ReceiveChannelNotice(e.Data.Channel, e.Data.Nick, e.Data.Message);
-            }
-            //if (e.Data.Channel.ToLowerInvariant() == GameChannel.ToLowerInvariant())
-            //{
-            //    if (e.Data.Message.Contains("READY?"))
-            //    {
-            //        ircClient.SendMessage(SendType.Notice, e.Data.Nick, (Self.Ready ? "READY!" : "NOTREADYYET!"));
-            //    }
-            //    if (e.Data.Message.Contains("SIDE?"))
-            //    {
-            //        ircClient.SendMessage(SendType.Notice, e.Data.Nick, Self.Side.ToString());
-            //    }
-            if (e.Data.Message == "READY!")
-            {
-                PlayerStatus(e.Data.Nick, true);
-            }
-            if (e.Data.Message == "NOTREADYYET!")
-            {
-                PlayerStatus(e.Data.Nick, false);
-            }
-            //    if (Enum.IsDefined(typeof(PlayerSide), e.Data.Message) == true)
-            //    {
-            //        SwitchSide(e.Data.Nick, e.Data.Message);
-            //    }
-            //    if (e.Data.Message.StartsWith("HEROPICK"))
-            //    {
-            //        int Time = 30000;
-            //        foreach (string Section in e.Data.MessageArray)
-            //        {
-            //            if (Section.StartsWith("RND"))
-            //            {
-            //                int SeedValue = int.Parse(Section.Split('=')[1]);
-            //                //File.WriteAllText("DEBUG rnd.txt", SeedValue.ToString());
-            //                TimedDraft.SharedRandom = new Random(SeedValue);
-            //            }
-            //            else if (Section.StartsWith("TIMELEFT"))
-            //            {
-            //                Time = DetermineDraftTime(int.Parse(Section.Split('=')[1]));
-            //            }
-            //        }
-            //        StartGame(Time);
-            //    }
-            //    if (e.Data.Message.StartsWith("HERO="))
-            //    {
-            //        foreach (string Section in e.Data.MessageArray)
-            //        {
-            //            if (Section.StartsWith("TIMELEFT"))
-            //            {
-            //                if (HeroDraft != null)
-            //                {
-            //                    HeroDraft.TimeRemaining = DetermineDraftTime(int.Parse(Section.Split('=')[1]));;
-            //                }
-            //            }
-            //        }
-            //        HeroDraft.VoluntaryPick(e.Data.MessageArray[0].Substring(5).Replace("_", " "));
-            //    }
-            //    if (e.Data.Message.StartsWith("SKILL="))
-            //    {
-            //        foreach (string Section in e.Data.MessageArray)
-            //        {
-            //            if (Section.StartsWith("TIMELEFT"))
-            //            {
-            //                if (SkillDraft != null)
-            //                {
-            //                    SkillDraft.TimeRemaining = DetermineDraftTime(int.Parse(Section.Split('=')[1])); ;
-            //                }
-            //            }
-            //        }
-            //        SkillDraft.VoluntaryPick(e.Data.MessageArray[0].Substring(6).Replace("_", " "));
-            //    }
-            if (e.Data.Message.StartsWith("STARTDOTA="))
-            {
-                HostConnection = e.Data.Message.Substring(10);
-                ServerReady = false;
-            }
-            if (e.Data.Message == "SERVERREADY")
-            {
-                //if (SetupGame != null)
-                //{
-                //    SetupGame.ServerIsReady();
-                //}
-                ServerReady = true;
-            }
-            //    //if (e.Data.Message == "PLAYERJOINED")
-            //    //{
-            //    //    PlayersJoined++;
-            //    //}
-            //}
-        }
-        List<String[]> channelsstuff = new List<String[]>();
-
-        void ircClient_OnChannelMessage(object sender, IrcEventArgs e)
-        {
-            if (e.Data.Message.StartsWith("!!!") && e.Data.Nick.StartsWith("[CR]"))
-            {
-                MessageBox.Show(e.Data.Message.Substring(4),"Announcement");
-            }
-            else
-            {
-                AddChatMessage(e.Data.Channel, e.Data.Nick + ": " + e.Data.Message);
-                bool contains = e.Data.Message.IndexOf(ServerConnection.Nickname, StringComparison.OrdinalIgnoreCase) >= 0;
-                if (contains)
-                {
-                    if (Properties.Settings.Default.BeepName)
-                        System.Media.SystemSounds.Beep.Play();
-                    if (Properties.Settings.Default.FlashName)
-                        FlashWindow.Flash(this, 1);
-                }
-            }
-        }
-
-        void ircClient_OnNames(object sender, NamesEventArgs e)
-        {
-            /* if (e.Channel.ToUpperInvariant() == GameChannel.ToUpperInvariant())
-             {
-                 foreach (string Name in e.UserList)
-                 {
-
-                 }
-             }*/
-        }
-
-        void ircClient_OnJoin(object sender, JoinEventArgs e)
-        {
-            if (e.Data.Nick == ServerConnection.Nickname)
-            {
-
-
-                if (!ChatChannels.ContainsKey(e.Channel))
-                {
-                    ChatChannels.Add(e.Channel, new TabPage());
-                }
-                if (!gbxGameSize.Controls.Contains(ChatChannels[e.Channel]))
-                {
-                    gbxGameSize.Controls.Add(ChatChannels[e.Channel]);
-                }
-
-                bool SwitchTo = true;
-                if (e.Channel.ToUpperInvariant().StartsWith("#G_"))
-                {
-                    ChatChannels[e.Channel].Text = "Lobby";
-                    if (Game != null && Game.IsHost)
-                    {
-                        string gamemodes = "";
-                        foreach (string mode in Game.AdditionalModes)
-                        {
-                            gamemodes += mode + "/";
-                        }
-                        string topicstr = "MODE=" + Game.GameMode + " SIZE=" + Game.MaxLobbySize + " HOST=" + ServerConnection.Nickname + " PASS=" + Game.Password + " MAP=" + Game.Dotamap + " VER=" + Properties.Settings.Default.MyVersion + " ADD=" + gamemodes;//+ " IP=" + DetermineExternalIP().Substring(1));
-                        if (Game.CustomMod != null && Game.CustomMod.Length > 0)
-                        {
-                            topicstr += " CUSTOMMOD=" + Game.CustomMod;
-                        }
-                        //ircClient.RfcTopic(e.Channel, topicstr); 
-                    }
-                    else if (Game != null)
-                    {
-                        tabUISections.SelectedTab = tabLobby;
-                        //ircClient.SendMessage(SendType.Notice, e.Channel, Game.GAME_SYNC_PLAYERLIST);
-                        //SendPlayerNotice(this, new SendMessageEventArgs(HostName, GAME_SYNC_PLAYERLIST_REQUEST));
-
-                    }
-                }
-                else if (e.Channel.ToUpperInvariant().StartsWith("#R_"))
-                {
-                    ChatChannels[e.Channel].Text = "Radiant";
-                    SwitchTo = false;
-                }
-                else if (e.Channel.ToUpperInvariant().StartsWith("#D_"))
-                {
-                    ChatChannels[e.Channel].Text = "Dire";
-                    SwitchTo = false;
-                }
-                else if (e.Channel.ToUpperInvariant().StartsWith("#S_"))
-                {
-                    ChatChannels[e.Channel].Text = "Spectators";
-                    SwitchTo = false;
-                }
-                else
-                {
-                    ChatChannels[e.Channel].Text = e.Channel.Replace("#", "");
-                }
-                ChatChannels[e.Channel].Tag = e.Channel;
-                RichTextBox rtxChannelChat = new RichTextBox();
-                rtxChannelChat.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(Link_Clicked);
-
-                rtxChannelChat.Text = "";
-                rtxChannelChat.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang5129{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}}" + CHAT_COLOURS + "\r\n\\viewkind4\\uc1\\pard\\f0\\fs17\\par\r\n}";
-
-
-                rtxChannelChat.Parent = ChatChannels[e.Channel];
-                rtxChannelChat.Dock = DockStyle.Fill;
-                rtxChannelChat.WordWrap = true;
-                rtxChannelChat.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
-                rtxChannelChat.ReadOnly = true;
-                if (SwitchTo)
-                {
-                    gbxGameSize.SelectedTab = ChatChannels[e.Channel];
-                }
-            }
-            else
-            {
-                if (Game != null && Game.IsHost && e.Channel == Game.Channel)
-                {
-                    Player Player = new Player();
-                    Player.Name = e.Who;
-                    Game.Players.Add(e.Who, Player);
-                }
-                AddChatMessage(e.Channel, e.Data.Nick + " has connected");
-            }
-        }
-
+  
  
         
         void ServerConnection_OnAuthenticationSuccess(object sender, ServerResponse e)
@@ -803,11 +341,10 @@ namespace Dota2CustomRealms
 
             gbxConnect.Enabled = true;
 
-            ircListener.Enabled = true;
-            ircListener.Interval = 50;
-            timerPlayers.Enabled = true;
-            timerPlayers.Interval = 2000;
 
+            ChatController = new Dota2CustomRealms.ChatController(gbxChat);
+            ChatController.Username = ServerConnection.Nickname;
+            ChatController.SendChatMessage += ChatController_SendChatMessage;
             gbxChat.Visible = true;
 
             lblMessageLeft.Text = "Welcome, " + e.Target + "!";
@@ -818,37 +355,20 @@ namespace Dota2CustomRealms
             gbxChat.Visible = true;
             gbxConnect.Enabled = true;
 
-            //ircListener.Enabled = true;
-            //ircListener.Interval = 50;
-            //timerPlayers.Enabled = true;
-            //timerPlayers.Interval = 2000;
-
-            //gbxChat.Visible = true;
-
 
 
 
             lblMessageLeft.Text = "Welcome!";
             tabUISections.SelectedTab = tabConnected;
 
-            ChatChannels.Add("Realm", new TabPage());
-            gbxGameSize.Controls.Add(ChatChannels["Realm"]);
-            ChatChannels["Realm"].Tag = "Realm";
-            RichTextBox rtxChannelChat = new RichTextBox();
-            rtxChannelChat.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(Link_Clicked);
-
-            rtxChannelChat.Text = "";
-            rtxChannelChat.Rtf = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang5129{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}}" + CHAT_COLOURS + "\r\n\\viewkind4\\uc1\\pard\\f0\\fs17\\par\r\n}";
 
 
-            rtxChannelChat.Parent = ChatChannels["Realm"];
-            rtxChannelChat.Dock = DockStyle.Fill;
-            rtxChannelChat.WordWrap = true;
-            rtxChannelChat.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
-            rtxChannelChat.ReadOnly = true;
-            gbxGameSize.SelectedTab = ChatChannels["Realm"];
+        }
 
-
+        void ChatController_SendChatMessage(object sender, ChatController.SendChatMessageArgs e)
+        {
+            ServerConnection.SendChatMessage(e.Message, e.Channel);
+            ChatController.AddMessage(ServerConnection.Nickname, e.Message, e.Channel);
         }
         void ServerConnection_OnError(object sender, ClockwerkError e)
         {
@@ -864,67 +384,6 @@ namespace Dota2CustomRealms
             tabUISections.SelectedTab = tabPreConnect;
 
             // TODO: Cleanup rest of UI
-        }
-
-        private void ircListener_Tick(object sender, EventArgs e)
-        {
-            //ircClient.Listen(false);
-
-
-            if (Game != null)
-            {
-                Game.CheckCustomModStatus();
-            }
-
-            if (GotKnownIssues && ChatChannels.ContainsKey("#General"))
-            {
-                GotKnownIssues = false;
-                AddChatMessage("#General", "KNOWN ISSUES:\n" + KnownIssues.ToString().Replace("\\n", "\n"));
-            }
-
-            foreach (RichTextBox Box in RichTextBoxesThatNeedScrolling)
-            {
-                Box.SelectionStart = Box.Text.Length;
-                Box.ScrollToCaret();
-            }
-
-            foreach (object Timer in ActionSpamPrevention.Keys.ToList())
-            {
-                ActionSpamPrevention[Timer]++;
-                if (ActionSpamPrevention[Timer] > 20)
-                {
-                    ActionSpamPrevention.Remove(Timer);
-                }
-            }
-
-            RichTextBoxesThatNeedScrolling.Clear();
-
-        }
-
-        private void timerPlayers_Tick(object sender, EventArgs e)
-        {
-            int playersingame = 0;
-            if (channelsstuff != null)
-            {
-                foreach (string[] chan in channelsstuff)
-                {
-                    if (chan[3].StartsWith("#G_"))
-                    {
-                        playersingame += int.Parse(chan[4]);
-                    }
-                }
-            }
-            try
-            {
-                //lblPlayersOnline.Text = "Players Online: " + ircClient.GetChannel("#General").Users.Count;
-                lblPlayersOnline.Enabled = true;
-                lblPlayersInGame.Text = "Players Ingame: " + playersingame;
-                lblPlayersInGame.Enabled = true;
-            }
-            catch
-            {
-                // We don't really care if this causes errors (Jeez aren't we awful developers!)
-            }
         }
 
         private void btnHostLobby_Click(object sender, EventArgs e)
@@ -959,11 +418,6 @@ namespace Dota2CustomRealms
             }
         }
 
-        private void tbxChatMessage_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void chkConDebug_CheckedChanged(object sender, EventArgs e)
         {
             if (chkConDebug.Checked)
@@ -992,56 +446,12 @@ namespace Dota2CustomRealms
             }
         }
 
-        private void tbxChatMessage_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyData == Keys.Enter)
-            {
-                btnSendMessage_Click(sender, e);
-            }
-        }
-
-
-        private void btnSendMessage_Click(object sender, EventArgs e)
-        {
-            tbxChatMessage.Text = tbxChatMessage.Text.Replace("\r", "").Replace("\n", "");
-            if (tbxChatMessage.Text.Trim().Length > 0)
-            {
-                //AddChatMessage((string)gbxGameSize.SelectedTab.Tag, ServerConnection.Nickname + ": " + tbxChatMessage.Text);
-                //ircClient.SendMessage(SendType.Message, (string)gbxGameSize.SelectedTab.Tag, tbxChatMessage.Text);
-                AddChatMessage("Realm", ServerConnection.Nickname + ": " + tbxChatMessage.Text);
-                ServerConnection.SendChatMessage(tbxChatMessage.Text);
-                tbxChatMessage.Clear();
-                tbxChatMessage.Select();
-            }
-        }
 
         private void btnCancelHosting_Click(object sender, EventArgs e)
         {
             tabUISections.SelectedTab = tabConnected;
         }
 
-        /// <summary>
-        /// Helper function for joining an IRC Channel
-        /// </summary>
-        /// <param name="Channel"></param>
-        private void ircJoin(string Channel)
-        {
-            //ircClient.JoinedChannels.Add(Channel);
-            //ircClient.RfcJoin(Channel); // channel syncing isn't implemented in meeby irc yet, so we need to manually call this
-        }
-
-        private void ircPart(string Channel)
-        {
-            //ircClient.JoinedChannels.Remove(Channel);
-            //ircClient.RfcPart(Channel);
-
-            if (ChatChannels.ContainsKey(Channel))
-            {
-                gbxGameSize.Controls.Remove(ChatChannels[Channel]);
-                ChatChannels.Remove(Channel);
-            }
-
-        }
 
         Stopwatch ircListTimeout = new Stopwatch();
 
@@ -1163,7 +573,7 @@ namespace Dota2CustomRealms
             Game.Channel = Game.Channel.Replace(" ", ReplaceChars.Substring(i, 1));
 
 
-            ircJoin(Game.Channel);
+//            ircJoin(Game.Channel);
 
             //JoinGame(GameChannel);
             Game.IsHost = true;
@@ -1562,13 +972,13 @@ namespace Dota2CustomRealms
         private void LeaveGame()
         {
             if (Game != null)
-            {
+            {/*
 
-                ircPart(Game.Channel);
+               // ircPart(Game.Channel);
 
                 if (Game.DireChannel != null && ChatChannels.ContainsKey(Game.DireChannel))
                 {
-                    ircPart(Game.DireChannel);
+                   // ircPart(Game.DireChannel);
                     //tabChatrooms.TabPages.Remove(ChatChannels[Game.DireChannel]);
                     //ChatChannels[Game.DireChannel].Dispose();
                     //ChatChannels.Remove(Game.DireChannel);
@@ -1576,7 +986,7 @@ namespace Dota2CustomRealms
 
                 if (Game.RadiantChannel != null && ChatChannels.ContainsKey(Game.RadiantChannel))
                 {
-                    ircPart(Game.RadiantChannel);
+                   // ircPart(Game.RadiantChannel);
                     //tabChatrooms.TabPages.Remove(ChatChannels[Game.RadiantChannel]);
                     //ChatChannels[Game.RadiantChannel].Dispose();
                     //ChatChannels.Remove(Game.RadiantChannel);
@@ -1584,12 +994,12 @@ namespace Dota2CustomRealms
 
                 if (Game.SpectatorChannel != null && ChatChannels.ContainsKey(Game.SpectatorChannel))
                 {
-                    ircPart(Game.SpectatorChannel);
+                    //ircPart(Game.SpectatorChannel);
                     //tabChatrooms.TabPages.Remove(ChatChannels[Game.SpectatorChannel]);
                     //ChatChannels[Game.SpectatorChannel].Dispose();
                     //ChatChannels.Remove(Game.SpectatorChannel);
                 }
-
+            */
 
                 tabUISections.SelectedTab = tabConnected;
 
@@ -1743,7 +1153,7 @@ namespace Dota2CustomRealms
             {
                 case Game.GAME_JOIN_ACCEPTED:
                     {
-                        ircJoin(Game.Channel);
+                        //ircJoin(Game.Channel);
                         break;
                     }
                 case Game.GAME_JOIN_REFUSE_STARTED:
@@ -1977,7 +1387,7 @@ namespace Dota2CustomRealms
             {
                 if (Channel != null)
                 {
-                    AddChatMessage(Channel, e.Message);
+                    //AddChatMessage(Channel, e.Message);
                 }
             }
         }
@@ -2001,7 +1411,7 @@ namespace Dota2CustomRealms
                 Player Player = Game.Players[PlayerName];
                 if (Ready != Player.Ready)
                 {
-                    AddChatMessage(Game.Channel, PlayerName + " is " + (Ready ? "now ready!" : "no longer ready."));
+                   // AddChatMessage(Game.Channel, PlayerName + " is " + (Ready ? "now ready!" : "no longer ready."));
                 }
                 Player.Ready = Ready;
             }
@@ -2207,7 +1617,7 @@ namespace Dota2CustomRealms
             Game.SyncPlayerList();
             Game_UpdateUI(Game, new EventArgs());
             //ircClient.SendMessage(SendType.Message, Game.Channel, "Teams have been scrambled!");
-            AddChatMessage(Game.Channel, "Teams have been scrambled!");
+         //   AddChatMessage(Game.Channel, "Teams have been scrambled!");
         }
 
         /// <summary>
@@ -2598,7 +2008,7 @@ namespace Dota2CustomRealms
                 catch { }
             }
 
-            ircPart(Game.Channel);
+           /* ircPart(Game.Channel);
             //try
             //{
                 if (Game.Players[ServerConnection.Nickname].Side == PlayerSide.Dire)
@@ -2609,7 +2019,7 @@ namespace Dota2CustomRealms
                     ircPart(Game.SpectatorChannel);
             //}
             //catch { }
-
+            */
             RevertMods();
 
 
