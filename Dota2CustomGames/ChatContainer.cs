@@ -104,7 +104,7 @@ namespace Dota2CustomRealms
         {
             if (input.Text.Replace("\n", "").Replace("\r", "").Trim().Length > 0)
             {
-                if (SendChatMessage != null) SendChatMessage(this, new SendChatMessageArgs(input.Text.Replace("\n", "").Replace("\r", ""), ""));
+                if (SendChatMessage != null) SendChatMessage(this, new SendChatMessageArgs(input.Text.Replace("\n", "").Replace("\r", ""), container.SelectedTab.Tag.ToString()));
                 input.Clear();
                 input.Select();
             }
@@ -147,6 +147,8 @@ namespace Dota2CustomRealms
             chan.TextContainer.WordWrap = true;
             chan.TextContainer.ScrollBars = RichTextBoxScrollBars.ForcedVertical;
             chan.TextContainer.ReadOnly = true;
+
+            chan.Page.Tag = name;
 
             container.TabPages.Add(chan.Page);
             container.SelectedTab = chan.Page;
