@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
+using Microsoft.VisualBasic;
 
 namespace Dota2CustomRealms
 {
@@ -21,6 +22,7 @@ namespace Dota2CustomRealms
 
         private TextBox input = new TextBox();
         private Button send = new Button();
+        private Button join = new Button();
 
         public class SendChatMessageArgs : EventArgs
         {
@@ -32,7 +34,17 @@ namespace Dota2CustomRealms
             }
         }
 
+        public class JoinChannelEventArgs : EventArgs
+        {
+            public string Channel;
+            public JoinChannelEventArgs(string Channel)
+            {
+                this.Channel = Channel;
+            }
+        }
+
         public event EventHandler<SendChatMessageArgs> SendChatMessage;
+        public event EventHandler<JoinChannelEventArgs> JoinChannel;
 
         public ChatController(Control Container)
         {
@@ -45,13 +57,18 @@ namespace Dota2CustomRealms
 
             send.Text = ">";
             send.Size = new Size(22, 22);
+            send.Font = new Font("Arial", 8, FontStyle.Bold);
             send.TabIndex = 1;
+
+
+            join.Text = "+";
 
             send.Click += send_Click;
 
             parent.Controls.Add(container);
             parent.Controls.Add(input);
             parent.Controls.Add(send);
+            parent.Controls.Add(join);
 
             container.Location = new Point(0, 0);
             container.Size = new Size(parent.Width - parent.Padding.Left - parent.Padding.Right, parent.Height - parent.Padding.Top - parent.Padding.Bottom - 25);
@@ -64,6 +81,23 @@ namespace Dota2CustomRealms
             send.Location = new Point(parent.Width - parent.Padding.Right - 24, parent.Height - parent.Padding.Bottom - 24);
             send.Size = new Size(22, 22);
             send.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+
+            join.Location = new Point(0, 0);
+            join.Size = new Size(14, 20);
+            join.FlatStyle = FlatStyle.Popup;
+            join.Font = new Font("Arial", 8, FontStyle.Bold);
+            join.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            join.Click += join_Click;
+            join.BringToFront();
+        }
+
+        void join_Click(object sender, EventArgs e)
+        {
+            string Channel = Microsoft.VisualBasic.Interaction.InputBox("Name of channel to join:", "Chat","");
+
+            if (Channel == "") return;
+
+            if (JoinChannel != null) JoinChannel(this, new JoinChannelEventArgs(Channel));
         }
 
         void send_Click(object sender, EventArgs e)

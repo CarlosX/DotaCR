@@ -125,6 +125,36 @@ namespace Clockwerk
             }
         }
 
+        public void JoinChannel(string Target)
+        {
+            Dictionary<string, string> Output = new Dictionary<string, string>();
+            Output.Add("Type", ServerRequestType.Join.ToString());
+            Output.Add("To", Target);
+            try
+            {
+                client.Send(JsonConvert.SerializeObject(Output));
+            }
+            catch (Exception ex)
+            {
+                if (OnError != null) OnError(this, new ClockwerkError(ex));
+            }
+        }
+
+        public void LeaveChannel(string Target)
+        {
+            Dictionary<string, string> Output = new Dictionary<string, string>();
+            Output.Add("Type", ServerRequestType.Join.ToString());
+            Output.Add("To", Target);
+            try
+            {
+                client.Send(JsonConvert.SerializeObject(Output));
+            }
+            catch (Exception ex)
+            {
+                if (OnError != null) OnError(this, new ClockwerkError(ex));
+            }
+        }
+
         public void Connect(string Name)
         {
             this.Nickname = Name;
@@ -153,7 +183,9 @@ namespace Clockwerk
         enum ServerRequestType
         {
             RequestNick,
-            Chat
+            Chat,
+            Join,
+            Part
         }
     }
 

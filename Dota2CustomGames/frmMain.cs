@@ -29,7 +29,7 @@ namespace Dota2CustomRealms
     public partial class frmMain : Form
     {
 
-
+        const string GLOBAL_CHANNEL_NAME = "  <Realm>";
         public const string UPDATE_SERVER = "http://dota2cr.com"; //"http://dota.windrunner.mx/frota";
 
 
@@ -193,7 +193,7 @@ namespace Dota2CustomRealms
         {
             if (e.Source == ServerConnection.Nickname)
             {
-                if (e.Target == "") ChatController.AddChannel(e.Target, "<Global>");  else ChatController.AddChannel(e.Target);
+                if (e.Target == "") ChatController.AddChannel(e.Target, GLOBAL_CHANNEL_NAME); else ChatController.AddChannel(e.Target);
             }
             else
             {
@@ -203,13 +203,13 @@ namespace Dota2CustomRealms
 
         void ServerConnection_OnUserDisconnect(object sender, ServerResponse e)
         {
-            ChatController.AddChannel(e.Target, "<Global>");
+            ChatController.AddChannel(e.Target, GLOBAL_CHANNEL_NAME);
             ChatController.AddMessage(e.Source, "has disconnected.", e.Target);
         }
 
         void ServerConnection_OnUserConnect(object sender, ServerResponse e)
         {
-            ChatController.AddChannel(e.Target, "<Global>");
+            ChatController.AddChannel(e.Target, GLOBAL_CHANNEL_NAME);
             ChatController.AddMessage(e.Source, "has connected.", e.Target);
         }
 
@@ -345,6 +345,7 @@ namespace Dota2CustomRealms
             ChatController = new Dota2CustomRealms.ChatController(gbxChat);
             ChatController.Username = ServerConnection.Nickname;
             ChatController.SendChatMessage += ChatController_SendChatMessage;
+            ChatController.JoinChannel += ChatController_JoinChannel;
             gbxChat.Visible = true;
 
             lblMessageLeft.Text = "Welcome, " + e.Target + "!";
@@ -363,6 +364,11 @@ namespace Dota2CustomRealms
 
 
 
+        }
+
+        void ChatController_JoinChannel(object sender, ChatController.JoinChannelEventArgs e)
+        {
+            ServerConnection.JoinChannel(e.Channel);
         }
 
         void ChatController_SendChatMessage(object sender, ChatController.SendChatMessageArgs e)
