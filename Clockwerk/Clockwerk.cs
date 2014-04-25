@@ -27,10 +27,9 @@ namespace Clockwerk
         public event EventHandler<ServerResponse> OnUserConnect;
         public event EventHandler<ServerResponse> OnUserDisconnect;
 
-        public event EventHandler<ServerResponse> OnDeprecatedNotice;
-
         public event EventHandler OnDisconnect;
-        public event EventHandler<ClockwerkError> OnError;
+        public event EventHandler<ClockwerkException> OnException;
+        public event EventHandler<ServerResponse> OnError;
         
         private WebSocket client;
 
@@ -72,11 +71,6 @@ namespace Clockwerk
                         if (OnAuthenticationSuccess != null) OnAuthenticationSuccess(this, resp);
                         break;
                     }
-                case ServerResponse.ServerResponseType.DeprecatedNoticeSignalling:
-                    {
-                        if (OnDeprecatedNotice != null) OnDeprecatedNotice(this, resp);
-                        break;
-                    }
                 case ServerResponse.ServerResponseType.Join:
                     {
                         if (resp.Target == RealmConnector.GLOBAL_CHANNEL)
@@ -101,6 +95,11 @@ namespace Clockwerk
                         }
                         break;
                     }
+                case ServerResponse.ServerResponseType.Err:
+                    {
+                        if (OnError != null) OnError(this, resp);
+                        break;
+                    }
                 default:
                     {
                         throw new NotImplementedException("Server Response Not Implemented: " + resp.Type.ToString());
@@ -121,7 +120,7 @@ namespace Clockwerk
             }
             catch(Exception ex)
             {
-                if (OnError != null) OnError(this, new ClockwerkError(ex));
+                if (OnException != null) OnException(this, new ClockwerkException(ex));
             }
         }
 
@@ -136,14 +135,14 @@ namespace Clockwerk
             }
             catch (Exception ex)
             {
-                if (OnError != null) OnError(this, new ClockwerkError(ex));
+                if (OnException != null) OnException(this, new ClockwerkException(ex));
             }
         }
 
-        public void LeaveChannel(string Target)
+        public void PartChannel(string Target)
         {
             Dictionary<string, string> Output = new Dictionary<string, string>();
-            Output.Add("Type", ServerRequestType.Join.ToString());
+            Output.Add("Type", ServerRequestType.Part.ToString());
             Output.Add("To", Target);
             try
             {
@@ -151,7 +150,7 @@ namespace Clockwerk
             }
             catch (Exception ex)
             {
-                if (OnError != null) OnError(this, new ClockwerkError(ex));
+                if (OnException != null) OnException(this, new ClockwerkException(ex));
             }
         }
 
@@ -163,7 +162,7 @@ namespace Clockwerk
 
         void client_Error(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
-            if (OnError != null) OnError(this, new ClockwerkError(e.Exception));
+            if (OnException != null) OnException(this, new ClockwerkException(e.Exception));
         }
 
         void client_Closed(object sender, EventArgs e)
@@ -189,11 +188,11 @@ namespace Clockwerk
         }
     }
 
-    public class ClockwerkError : EventArgs
+    public class ClockwerkException : EventArgs
     {
         public Exception Error;
 
-        public ClockwerkError(Exception Err)
+        public ClockwerkException(Exception Err)
         {
             Error = Err;
         }

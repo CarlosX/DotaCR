@@ -23,6 +23,7 @@ namespace Dota2CustomRealms
         private TextBox input = new TextBox();
         private Button send = new Button();
         private Button join = new Button();
+        private Button part = new Button();
 
         public class SendChatMessageArgs : EventArgs
         {
@@ -34,17 +35,18 @@ namespace Dota2CustomRealms
             }
         }
 
-        public class JoinChannelEventArgs : EventArgs
+        public class ChannelEventArgs : EventArgs
         {
             public string Channel;
-            public JoinChannelEventArgs(string Channel)
+            public ChannelEventArgs(string Channel)
             {
                 this.Channel = Channel;
             }
         }
 
         public event EventHandler<SendChatMessageArgs> SendChatMessage;
-        public event EventHandler<JoinChannelEventArgs> JoinChannel;
+        public event EventHandler<ChannelEventArgs> JoinChannel;
+        public event EventHandler<ChannelEventArgs> PartChannel;
 
         public ChatController(Control Container)
         {
@@ -63,16 +65,20 @@ namespace Dota2CustomRealms
 
             join.Text = "+";
 
+            part.Text = "X";
+
             send.Click += send_Click;
 
             parent.Controls.Add(container);
             parent.Controls.Add(input);
             parent.Controls.Add(send);
             parent.Controls.Add(join);
+            parent.Controls.Add(part);
 
             container.Location = new Point(0, 0);
             container.Size = new Size(parent.Width - parent.Padding.Left - parent.Padding.Right, parent.Height - parent.Padding.Top - parent.Padding.Bottom - 25);
             container.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            container.Multiline = true;
 
             input.Location = new Point(0, parent.Height - parent.Padding.Bottom - 24);
             input.Size = new Size(parent.Width - parent.Padding.Left - parent.Padding.Right - 25, 20);
@@ -89,6 +95,19 @@ namespace Dota2CustomRealms
             join.Anchor = AnchorStyles.Top | AnchorStyles.Left;
             join.Click += join_Click;
             join.BringToFront();
+
+            part.Location = new Point(container.Width - 14, 0);
+            part.Size = new Size(14, 20);
+            part.FlatStyle = FlatStyle.Popup;
+            part.Font = new Font("Arial", 8, FontStyle.Bold);
+            part.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            part.Click += part_Click;
+            part.BringToFront();
+        }
+
+        void part_Click(object sender, EventArgs e)
+        {
+            if (PartChannel != null) PartChannel(this, new ChannelEventArgs(container.SelectedTab.Tag.ToString()));
         }
 
         void join_Click(object sender, EventArgs e)
@@ -97,7 +116,7 @@ namespace Dota2CustomRealms
 
             if (Channel == "") return;
 
-            if (JoinChannel != null) JoinChannel(this, new JoinChannelEventArgs(Channel));
+            if (JoinChannel != null) JoinChannel(this, new ChannelEventArgs(Channel));
         }
 
         void send_Click(object sender, EventArgs e)
@@ -173,6 +192,7 @@ namespace Dota2CustomRealms
 
             ChatChannel chan = channels[name];
             container.Controls.Remove(chan.Page);
+            channels.Remove(name);
 
         }
 

@@ -151,7 +151,7 @@ namespace Dota2CustomRealms
                 Properties.Settings.Default.NickName = tbxChooseNick.Text;
 
                 ServerConnection = new RealmConnector();
-                ServerConnection.OnError += ServerConnection_OnError;
+                ServerConnection.OnException += ServerConnection_OnException;
                 ServerConnection.OnAuthenticationSuccess += ServerConnection_OnAuthenticationSuccess;
                 ServerConnection.OnChatMessage += ServerConnection_OnChatMessage;
                 ServerConnection.OnAuthenticationFailure += ServerConnection_OnAuthenticationFailure;
@@ -159,6 +159,7 @@ namespace Dota2CustomRealms
                 ServerConnection.OnUserDisconnect += ServerConnection_OnUserDisconnect;
                 ServerConnection.OnUserJoinChannel += ServerConnection_OnUserJoinChannel;
                 ServerConnection.OnUserPartChannel += ServerConnection_OnUserPartChannel;
+                ServerConnection.OnError += ServerConnection_OnError;
 
                 //ircClient.Connect("localhost", 6667);
                 try
@@ -175,6 +176,11 @@ namespace Dota2CustomRealms
                     MessageBox.Show("Before you are able to join or host games, you need to go to the settings interface and set up some options.");
                 }
             }
+        }
+
+        void ServerConnection_OnError(object sender, ServerResponse e)
+        {
+            MessageBox.Show(e.Message, "Error");
         }
 
         void ServerConnection_OnUserPartChannel(object sender, ServerResponse e)
@@ -288,46 +294,7 @@ namespace Dota2CustomRealms
             }
         }
 
-        bool VersionCheckSuccess = false;
-        StringBuilder KnownIssues = new StringBuilder();
-        /// <summary>
-        /// True once all known issues have been retrieved
-        /// </summary>
-        bool GotKnownIssues = false;
 
-        void ircClient_OnMotd(object sender, MotdEventArgs e)
-        {
-            if (e.MotdMessage.Contains(Properties.Settings.Default.MyVersion + " ") || (e.MotdMessage.ToLowerInvariant().Contains("other clients") && !VersionCheckSuccess))
-            {
-                if (e.MotdMessage.Contains(" COMPATIBLE"))
-                {
-                    Properties.Settings.Default.VersionStatus = "COMPATIBLE";
-                    Properties.Settings.Default.Save();
-                }
-                else if (e.MotdMessage.Contains(" INCOMPATIBLE"))
-                {
-                    Properties.Settings.Default.VersionStatus = "INCOMPATIBLE";
-                    Properties.Settings.Default.Save();
-                }
-
-                VersionCheckSuccess = true;
-                VersionCheck();
-            }
-            else if (e.MotdMessage.Contains("ISSUES: "))
-            {
-                KnownIssues.Append(e.MotdMessage.Substring(e.MotdMessage.IndexOf(":") + 2));
-            }
-            else if (e.MotdMessage.Contains("END OF KNOWN ISSUES"))
-            {
-                GotKnownIssues = true;
-            }
-        }
-
-
-
-
-  
- 
         
         void ServerConnection_OnAuthenticationSuccess(object sender, ServerResponse e)
         {
@@ -346,6 +313,7 @@ namespace Dota2CustomRealms
             ChatController.Username = ServerConnection.Nickname;
             ChatController.SendChatMessage += ChatController_SendChatMessage;
             ChatController.JoinChannel += ChatController_JoinChannel;
+            ChatController.PartChannel += ChatController_PartChannel;
             gbxChat.Visible = true;
 
             lblMessageLeft.Text = "Welcome, " + e.Target + "!";
@@ -366,7 +334,12 @@ namespace Dota2CustomRealms
 
         }
 
-        void ChatController_JoinChannel(object sender, ChatController.JoinChannelEventArgs e)
+        void ChatController_PartChannel(object sender, ChatController.ChannelEventArgs e)
+        {
+            if(e.Channel != "") ServerConnection.PartChannel(e.Channel);
+        }
+
+        void ChatController_JoinChannel(object sender, ChatController.ChannelEventArgs e)
         {
             ServerConnection.JoinChannel(e.Channel);
         }
@@ -376,11 +349,11 @@ namespace Dota2CustomRealms
             ServerConnection.SendChatMessage(e.Message, e.Channel);
             ChatController.AddMessage(ServerConnection.Nickname, e.Message, e.Channel);
         }
-        void ServerConnection_OnError(object sender, ClockwerkError e)
+        void ServerConnection_OnException(object sender, ClockwerkException e)
         {
             if (gbxConnect.InvokeRequired)
             {
-                gbxConnect.Invoke(new EventHandler<ClockwerkError>(ServerConnection_OnError), new object[]{sender, e});
+                gbxConnect.Invoke(new EventHandler<ClockwerkException>(ServerConnection_OnException), new object[]{sender, e});
                 return;
             }
 

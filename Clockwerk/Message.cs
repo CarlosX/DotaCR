@@ -66,9 +66,9 @@ namespace Clockwerk
             /// </summary>
             Part,
             /// <summary>
-            /// Deprecated IRC Notice signals
+            /// Errors
             /// </summary>
-            DeprecatedNoticeSignalling
+            Err
         }
 
         protected ServerResponse()
@@ -98,9 +98,9 @@ namespace Clockwerk
                         break;
                     }
                 case ServerResponseType.Chat:
-                case ServerResponseType.DeprecatedNoticeSignalling:
                 case ServerResponseType.Join:
                 case ServerResponseType.Part:
+                case ServerResponseType.Err:
                     {
                         res.Source = resp.From;
                         res.Target = resp.To;
