@@ -52,6 +52,7 @@
             this.tbxChooseNick = new System.Windows.Forms.TextBox();
             this.lblChooseNick = new System.Windows.Forms.Label();
             this.tabConnected = new System.Windows.Forms.TabPage();
+            this.btnCreateLobby = new System.Windows.Forms.Button();
             this.btnSettings = new System.Windows.Forms.Button();
             this.btnFindLobby = new System.Windows.Forms.Button();
             this.btnHostLobby = new System.Windows.Forms.Button();
@@ -76,15 +77,9 @@
             this.btnCancelJoining = new System.Windows.Forms.Button();
             this.btnGameListRefresh = new System.Windows.Forms.Button();
             this.grdGamesList = new System.Windows.Forms.DataGridView();
-            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AddonType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AddonMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabLobby = new System.Windows.Forms.TabPage();
             this.gbxGameInfo = new System.Windows.Forms.GroupBox();
+            this.labelServer = new System.Windows.Forms.Label();
             this.labelAddon = new System.Windows.Forms.Label();
             this.labelMaxPlayers = new System.Windows.Forms.Label();
             this.labelMap = new System.Windows.Forms.Label();
@@ -106,6 +101,10 @@
             this.lbxLobbyRadiantPlayers = new System.Windows.Forms.ListBox();
             this.lblLobbyName = new System.Windows.Forms.Label();
             this.tabDraftSummary = new System.Windows.Forms.TabPage();
+            this.consoleConnectionGroupBox = new System.Windows.Forms.GroupBox();
+            this.ipClipboardBtn = new System.Windows.Forms.Button();
+            this.manualconnectTxt = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.gbxConfiguringMod = new System.Windows.Forms.GroupBox();
             this.btnManualConnect = new System.Windows.Forms.Button();
             this.btnDone = new System.Windows.Forms.Button();
@@ -164,8 +163,33 @@
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.logText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.tabCreateLobby = new System.Windows.Forms.TabPage();
+            this.btnCancelLobby = new System.Windows.Forms.Button();
+            this.btndCreateLobby = new System.Windows.Forms.Button();
+            this.btnServerListRefresh = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.dServerList = new System.Windows.Forms.ListView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dMap = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.dAddon = new System.Windows.Forms.ComboBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.dSize = new System.Windows.Forms.ComboBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.dPassword = new System.Windows.Forms.TextBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.dGameName = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.timerPlayers = new System.Windows.Forms.Timer(this.components);
+            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colServerHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AddonType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AddonMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).BeginInit();
             this.gbxChat.SuspendLayout();
             this.tabUISections.SuspendLayout();
@@ -186,6 +210,7 @@
             this.gbxLobbyDire.SuspendLayout();
             this.gbxLobbyRadiant.SuspendLayout();
             this.tabDraftSummary.SuspendLayout();
+            this.consoleConnectionGroupBox.SuspendLayout();
             this.gbxConfiguringMod.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.gbxSettingsServer.SuspendLayout();
@@ -199,6 +224,13 @@
             this.gbxSettingsConsoleKey.SuspendLayout();
             this.gbxSettingsClientLocation.SuspendLayout();
             this.tabServerWizard.SuspendLayout();
+            this.tabCreateLobby.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.pnlMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -364,6 +396,7 @@
             this.tabUISections.Controls.Add(this.tabDraftSummary);
             this.tabUISections.Controls.Add(this.tabSettings);
             this.tabUISections.Controls.Add(this.tabServerWizard);
+            this.tabUISections.Controls.Add(this.tabCreateLobby);
             this.tabUISections.ItemSize = new System.Drawing.Size(0, 1);
             this.tabUISections.Location = new System.Drawing.Point(0, 0);
             this.tabUISections.Name = "tabUISections";
@@ -424,6 +457,7 @@
             // tabConnected
             // 
             this.tabConnected.BackColor = System.Drawing.SystemColors.Control;
+            this.tabConnected.Controls.Add(this.btnCreateLobby);
             this.tabConnected.Controls.Add(this.btnSettings);
             this.tabConnected.Controls.Add(this.btnFindLobby);
             this.tabConnected.Controls.Add(this.btnHostLobby);
@@ -434,33 +468,43 @@
             this.tabConnected.TabIndex = 1;
             this.tabConnected.Text = "Connected";
             // 
+            // btnCreateLobby
+            // 
+            this.btnCreateLobby.Location = new System.Drawing.Point(337, 167);
+            this.btnCreateLobby.Name = "btnCreateLobby";
+            this.btnCreateLobby.Size = new System.Drawing.Size(191, 72);
+            this.btnCreateLobby.TabIndex = 2;
+            this.btnCreateLobby.Text = "Create Lobby";
+            this.btnCreateLobby.UseVisualStyleBackColor = true;
+            this.btnCreateLobby.Click += new System.EventHandler(this.btnCreateLobby_Click);
+            // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(335, 298);
+            this.btnSettings.Location = new System.Drawing.Point(337, 323);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(191, 72);
-            this.btnSettings.TabIndex = 3;
+            this.btnSettings.TabIndex = 4;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = true;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnFindLobby
             // 
-            this.btnFindLobby.Location = new System.Drawing.Point(335, 220);
+            this.btnFindLobby.Location = new System.Drawing.Point(337, 89);
             this.btnFindLobby.Name = "btnFindLobby";
             this.btnFindLobby.Size = new System.Drawing.Size(191, 72);
-            this.btnFindLobby.TabIndex = 2;
+            this.btnFindLobby.TabIndex = 1;
             this.btnFindLobby.Text = "Find Lobby";
             this.btnFindLobby.UseVisualStyleBackColor = true;
             this.btnFindLobby.Click += new System.EventHandler(this.btnFindLobby_Click);
             // 
             // btnHostLobby
             // 
-            this.btnHostLobby.Location = new System.Drawing.Point(335, 142);
+            this.btnHostLobby.Location = new System.Drawing.Point(337, 245);
             this.btnHostLobby.Name = "btnHostLobby";
             this.btnHostLobby.Size = new System.Drawing.Size(191, 72);
-            this.btnHostLobby.TabIndex = 1;
-            this.btnHostLobby.Text = "Host Lobby";
+            this.btnHostLobby.TabIndex = 3;
+            this.btnHostLobby.Text = "Host Lobby (Server)";
             this.btnHostLobby.UseVisualStyleBackColor = true;
             this.btnHostLobby.Click += new System.EventHandler(this.btnHostLobby_Click);
             // 
@@ -716,6 +760,7 @@
             this.colPass,
             this.colGameName,
             this.colHost,
+            this.colServerHost,
             this.colPlayers,
             this.AddonType,
             this.AddonMap});
@@ -731,53 +776,6 @@
             this.grdGamesList.Size = new System.Drawing.Size(855, 441);
             this.grdGamesList.TabIndex = 0;
             this.grdGamesList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdGamesList_CellContentClick);
-            // 
-            // colChannel
-            // 
-            this.colChannel.HeaderText = "Channel";
-            this.colChannel.Name = "colChannel";
-            this.colChannel.ReadOnly = true;
-            this.colChannel.Visible = false;
-            // 
-            // colPass
-            // 
-            this.colPass.FillWeight = 25F;
-            this.colPass.HeaderText = "Lock";
-            this.colPass.Name = "colPass";
-            this.colPass.ReadOnly = true;
-            // 
-            // colGameName
-            // 
-            this.colGameName.FillWeight = 123F;
-            this.colGameName.HeaderText = "Game Name";
-            this.colGameName.Name = "colGameName";
-            this.colGameName.ReadOnly = true;
-            // 
-            // colHost
-            // 
-            this.colHost.FillWeight = 85.44905F;
-            this.colHost.HeaderText = "Host";
-            this.colHost.Name = "colHost";
-            this.colHost.ReadOnly = true;
-            // 
-            // colPlayers
-            // 
-            this.colPlayers.FillWeight = 50F;
-            this.colPlayers.HeaderText = "Players";
-            this.colPlayers.Name = "colPlayers";
-            this.colPlayers.ReadOnly = true;
-            // 
-            // AddonType
-            // 
-            this.AddonType.HeaderText = "Addon";
-            this.AddonType.Name = "AddonType";
-            this.AddonType.ReadOnly = true;
-            // 
-            // AddonMap
-            // 
-            this.AddonMap.HeaderText = "Map";
-            this.AddonMap.Name = "AddonMap";
-            this.AddonMap.ReadOnly = true;
             // 
             // tabLobby
             // 
@@ -803,6 +801,7 @@
             // 
             // gbxGameInfo
             // 
+            this.gbxGameInfo.Controls.Add(this.labelServer);
             this.gbxGameInfo.Controls.Add(this.labelAddon);
             this.gbxGameInfo.Controls.Add(this.labelMaxPlayers);
             this.gbxGameInfo.Controls.Add(this.labelMap);
@@ -813,6 +812,15 @@
             this.gbxGameInfo.TabIndex = 12;
             this.gbxGameInfo.TabStop = false;
             this.gbxGameInfo.Text = "Game Info";
+            // 
+            // labelServer
+            // 
+            this.labelServer.AutoSize = true;
+            this.labelServer.Location = new System.Drawing.Point(7, 70);
+            this.labelServer.Name = "labelServer";
+            this.labelServer.Size = new System.Drawing.Size(66, 13);
+            this.labelServer.TabIndex = 6;
+            this.labelServer.Text = "Server Host:";
             // 
             // labelAddon
             // 
@@ -1033,6 +1041,7 @@
             // tabDraftSummary
             // 
             this.tabDraftSummary.BackColor = System.Drawing.SystemColors.Control;
+            this.tabDraftSummary.Controls.Add(this.consoleConnectionGroupBox);
             this.tabDraftSummary.Controls.Add(this.gbxConfiguringMod);
             this.tabDraftSummary.Location = new System.Drawing.Point(4, 5);
             this.tabDraftSummary.Name = "tabDraftSummary";
@@ -1040,6 +1049,45 @@
             this.tabDraftSummary.Size = new System.Drawing.Size(864, 513);
             this.tabDraftSummary.TabIndex = 7;
             this.tabDraftSummary.Text = "Draft Summary";
+            // 
+            // consoleConnectionGroupBox
+            // 
+            this.consoleConnectionGroupBox.Controls.Add(this.ipClipboardBtn);
+            this.consoleConnectionGroupBox.Controls.Add(this.manualconnectTxt);
+            this.consoleConnectionGroupBox.Controls.Add(this.label4);
+            this.consoleConnectionGroupBox.Location = new System.Drawing.Point(508, 130);
+            this.consoleConnectionGroupBox.Name = "consoleConnectionGroupBox";
+            this.consoleConnectionGroupBox.Size = new System.Drawing.Size(342, 129);
+            this.consoleConnectionGroupBox.TabIndex = 7;
+            this.consoleConnectionGroupBox.TabStop = false;
+            this.consoleConnectionGroupBox.Text = "Manual Connection";
+            // 
+            // ipClipboardBtn
+            // 
+            this.ipClipboardBtn.Location = new System.Drawing.Point(14, 78);
+            this.ipClipboardBtn.Name = "ipClipboardBtn";
+            this.ipClipboardBtn.Size = new System.Drawing.Size(97, 23);
+            this.ipClipboardBtn.TabIndex = 2;
+            this.ipClipboardBtn.Text = "Copy to clipboard";
+            this.ipClipboardBtn.UseVisualStyleBackColor = true;
+            this.ipClipboardBtn.Click += new System.EventHandler(this.ipClipboardBtn_Click);
+            // 
+            // manualconnectTxt
+            // 
+            this.manualconnectTxt.Location = new System.Drawing.Point(14, 51);
+            this.manualconnectTxt.Name = "manualconnectTxt";
+            this.manualconnectTxt.ReadOnly = true;
+            this.manualconnectTxt.Size = new System.Drawing.Size(308, 20);
+            this.manualconnectTxt.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(11, 16);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(311, 31);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "If Dota 2 does not connect to the server, you can try to connect manually by ente" +
+    "ring the following command to the console:";
             // 
             // gbxConfiguringMod
             // 
@@ -1708,6 +1756,202 @@
             this.label1.Text = "Custom Realms Server Wizard";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // tabCreateLobby
+            // 
+            this.tabCreateLobby.Controls.Add(this.btnCancelLobby);
+            this.tabCreateLobby.Controls.Add(this.btndCreateLobby);
+            this.tabCreateLobby.Controls.Add(this.btnServerListRefresh);
+            this.tabCreateLobby.Controls.Add(this.groupBox6);
+            this.tabCreateLobby.Controls.Add(this.groupBox1);
+            this.tabCreateLobby.Controls.Add(this.groupBox2);
+            this.tabCreateLobby.Controls.Add(this.groupBox3);
+            this.tabCreateLobby.Controls.Add(this.groupBox4);
+            this.tabCreateLobby.Controls.Add(this.groupBox5);
+            this.tabCreateLobby.Controls.Add(this.label3);
+            this.tabCreateLobby.Location = new System.Drawing.Point(4, 5);
+            this.tabCreateLobby.Name = "tabCreateLobby";
+            this.tabCreateLobby.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCreateLobby.Size = new System.Drawing.Size(864, 513);
+            this.tabCreateLobby.TabIndex = 10;
+            this.tabCreateLobby.Text = "Create Lobby";
+            // 
+            // btnCancelLobby
+            // 
+            this.btnCancelLobby.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancelLobby.Location = new System.Drawing.Point(556, 467);
+            this.btnCancelLobby.Name = "btnCancelLobby";
+            this.btnCancelLobby.Size = new System.Drawing.Size(119, 38);
+            this.btnCancelLobby.TabIndex = 21;
+            this.btnCancelLobby.Text = "Back";
+            this.btnCancelLobby.UseVisualStyleBackColor = true;
+            this.btnCancelLobby.Click += new System.EventHandler(this.btnCancelLobby_Click);
+            // 
+            // btndCreateLobby
+            // 
+            this.btndCreateLobby.Location = new System.Drawing.Point(681, 433);
+            this.btndCreateLobby.Name = "btndCreateLobby";
+            this.btndCreateLobby.Size = new System.Drawing.Size(177, 73);
+            this.btndCreateLobby.TabIndex = 20;
+            this.btndCreateLobby.Text = "Create Lobby";
+            this.btndCreateLobby.UseVisualStyleBackColor = true;
+            this.btndCreateLobby.Click += new System.EventHandler(this.btndCreateLobby_Click);
+            // 
+            // btnServerListRefresh
+            // 
+            this.btnServerListRefresh.Location = new System.Drawing.Point(572, 227);
+            this.btnServerListRefresh.Name = "btnServerListRefresh";
+            this.btnServerListRefresh.Size = new System.Drawing.Size(97, 23);
+            this.btnServerListRefresh.TabIndex = 19;
+            this.btnServerListRefresh.Text = "Refresh Servers";
+            this.btnServerListRefresh.UseVisualStyleBackColor = true;
+            this.btnServerListRefresh.Click += new System.EventHandler(this.btnServerListRefresh_Click);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.dServerList);
+            this.groupBox6.Location = new System.Drawing.Point(379, 70);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(290, 151);
+            this.groupBox6.TabIndex = 18;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Select Dedicated Server";
+            // 
+            // dServerList
+            // 
+            this.dServerList.Location = new System.Drawing.Point(6, 19);
+            this.dServerList.Name = "dServerList";
+            this.dServerList.Size = new System.Drawing.Size(278, 126);
+            this.dServerList.TabIndex = 21;
+            this.dServerList.UseCompatibleStateImageBehavior = false;
+            this.dServerList.View = System.Windows.Forms.View.List;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.dMap);
+            this.groupBox1.Location = new System.Drawing.Point(11, 303);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(362, 51);
+            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Map";
+            // 
+            // dMap
+            // 
+            this.dMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dMap.FormattingEnabled = true;
+            this.dMap.Location = new System.Drawing.Point(7, 19);
+            this.dMap.Name = "dMap";
+            this.dMap.Size = new System.Drawing.Size(349, 21);
+            this.dMap.Sorted = true;
+            this.dMap.TabIndex = 3;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.dAddon);
+            this.groupBox2.Location = new System.Drawing.Point(11, 246);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(362, 51);
+            this.groupBox2.TabIndex = 15;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Addon";
+            // 
+            // dAddon
+            // 
+            this.dAddon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dAddon.FormattingEnabled = true;
+            this.dAddon.Items.AddRange(new object[] {
+            "frostivus",
+            "Frota",
+            "nian"});
+            this.dAddon.Location = new System.Drawing.Point(7, 19);
+            this.dAddon.Name = "dAddon";
+            this.dAddon.Size = new System.Drawing.Size(349, 21);
+            this.dAddon.Sorted = true;
+            this.dAddon.TabIndex = 3;
+            this.dAddon.SelectedIndexChanged += new System.EventHandler(this.dAddon_SelectedIndexChanged);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.dSize);
+            this.groupBox3.Location = new System.Drawing.Point(11, 189);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(362, 51);
+            this.groupBox3.TabIndex = 14;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Game Lobby Size";
+            // 
+            // dSize
+            // 
+            this.dSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.dSize.FormattingEnabled = true;
+            this.dSize.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"});
+            this.dSize.Location = new System.Drawing.Point(7, 19);
+            this.dSize.Name = "dSize";
+            this.dSize.Size = new System.Drawing.Size(349, 21);
+            this.dSize.TabIndex = 3;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.dPassword);
+            this.groupBox4.Location = new System.Drawing.Point(11, 127);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(362, 51);
+            this.groupBox4.TabIndex = 13;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Game Password";
+            // 
+            // dPassword
+            // 
+            this.dPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dPassword.Location = new System.Drawing.Point(6, 19);
+            this.dPassword.Name = "dPassword";
+            this.dPassword.Size = new System.Drawing.Size(350, 20);
+            this.dPassword.TabIndex = 1;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.dGameName);
+            this.groupBox5.Location = new System.Drawing.Point(11, 70);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(362, 51);
+            this.groupBox5.TabIndex = 12;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Game Name";
+            // 
+            // dGameName
+            // 
+            this.dGameName.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dGameName.Location = new System.Drawing.Point(6, 19);
+            this.dGameName.Name = "dGameName";
+            this.dGameName.Size = new System.Drawing.Size(350, 20);
+            this.dGameName.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(692, 3);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(166, 25);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Create a lobby";
+            // 
             // pnlMain
             // 
             this.pnlMain.Controls.Add(this.tabUISections);
@@ -1721,6 +1965,59 @@
             // timerPlayers
             // 
             this.timerPlayers.Tick += new System.EventHandler(this.timerPlayers_Tick);
+            // 
+            // colChannel
+            // 
+            this.colChannel.HeaderText = "Channel";
+            this.colChannel.Name = "colChannel";
+            this.colChannel.ReadOnly = true;
+            this.colChannel.Visible = false;
+            // 
+            // colPass
+            // 
+            this.colPass.FillWeight = 25F;
+            this.colPass.HeaderText = "Lock";
+            this.colPass.Name = "colPass";
+            this.colPass.ReadOnly = true;
+            // 
+            // colGameName
+            // 
+            this.colGameName.FillWeight = 123F;
+            this.colGameName.HeaderText = "Game Name";
+            this.colGameName.Name = "colGameName";
+            this.colGameName.ReadOnly = true;
+            // 
+            // colHost
+            // 
+            this.colHost.FillWeight = 85.44905F;
+            this.colHost.HeaderText = "Host";
+            this.colHost.Name = "colHost";
+            this.colHost.ReadOnly = true;
+            // 
+            // colServerHost
+            // 
+            this.colServerHost.HeaderText = "Server Host";
+            this.colServerHost.Name = "colServerHost";
+            this.colServerHost.ReadOnly = true;
+            // 
+            // colPlayers
+            // 
+            this.colPlayers.FillWeight = 50F;
+            this.colPlayers.HeaderText = "Players";
+            this.colPlayers.Name = "colPlayers";
+            this.colPlayers.ReadOnly = true;
+            // 
+            // AddonType
+            // 
+            this.AddonType.HeaderText = "Addon";
+            this.AddonType.Name = "AddonType";
+            this.AddonType.ReadOnly = true;
+            // 
+            // AddonMap
+            // 
+            this.AddonMap.HeaderText = "Map";
+            this.AddonMap.Name = "AddonMap";
+            this.AddonMap.ReadOnly = true;
             // 
             // frmMain
             // 
@@ -1770,6 +2067,8 @@
             this.gbxLobbyDire.ResumeLayout(false);
             this.gbxLobbyRadiant.ResumeLayout(false);
             this.tabDraftSummary.ResumeLayout(false);
+            this.consoleConnectionGroupBox.ResumeLayout(false);
+            this.consoleConnectionGroupBox.PerformLayout();
             this.gbxConfiguringMod.ResumeLayout(false);
             this.tabSettings.ResumeLayout(false);
             this.tabSettings.PerformLayout();
@@ -1789,6 +2088,16 @@
             this.gbxSettingsClientLocation.ResumeLayout(false);
             this.tabServerWizard.ResumeLayout(false);
             this.tabServerWizard.PerformLayout();
+            this.tabCreateLobby.ResumeLayout(false);
+            this.tabCreateLobby.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.pnlMain.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1925,13 +2234,37 @@
         private System.Windows.Forms.ComboBox cbxAddonMap;
         private System.Windows.Forms.GroupBox gbxAddonType;
         private System.Windows.Forms.ComboBox cbxAddonType;
+        private System.Windows.Forms.Label labelAddon;
+        private System.Windows.Forms.Button btnCreateLobby;
+        private System.Windows.Forms.TabPage tabCreateLobby;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox dMap;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox dAddon;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox dSize;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox dPassword;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox dGameName;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button btnServerListRefresh;
+        private System.Windows.Forms.Button btndCreateLobby;
+        private System.Windows.Forms.ListView dServerList;
+        private System.Windows.Forms.Label labelServer;
+        private System.Windows.Forms.Button btnCancelLobby;
+        private System.Windows.Forms.GroupBox consoleConnectionGroupBox;
+        private System.Windows.Forms.Button ipClipboardBtn;
+        private System.Windows.Forms.TextBox manualconnectTxt;
+        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridViewTextBoxColumn colChannel;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPass;
         private System.Windows.Forms.DataGridViewTextBoxColumn colGameName;
         private System.Windows.Forms.DataGridViewTextBoxColumn colHost;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colServerHost;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPlayers;
         private System.Windows.Forms.DataGridViewTextBoxColumn AddonType;
         private System.Windows.Forms.DataGridViewTextBoxColumn AddonMap;
-        private System.Windows.Forms.Label labelAddon;
     }
 }

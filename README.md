@@ -8,6 +8,7 @@ Will hopefully make it easy to host and join Frota games.
 Made by
 
 * Stealth107
+* ilian000
 * Cheese
 * DeadCake
 * TheBloodSeeker
@@ -25,4 +26,4 @@ Thanks to the following testers:
 * KiloSierra
 * The Disaster
 
-Also thanks to all the users who host games using DotaCR, and submitted bug reports. You know who you are!
+Also thanks to all the users who host games using DotaCR or host a dedicated server, and submitted bug reports. You know who you are!

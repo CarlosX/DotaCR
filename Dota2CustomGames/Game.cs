@@ -220,6 +220,8 @@ namespace Dota2CustomRealms
         bool isHost = false;
         int maxLobbySize = 10;
         string password = "";
+        string dedicatedHost = null;
+        string dedicatedChannel = null;
         string dotamap = "dota";
         bool diretide = false;
 
@@ -229,6 +231,16 @@ namespace Dota2CustomRealms
             set { password = value; }
         }
 
+        public string DedicatedHost
+        {
+            get { return dedicatedHost; }
+            set { dedicatedHost = value; }
+        }
+        public string DedicatedChannel
+        {
+            get { return dedicatedChannel; }
+            set { dedicatedChannel = value; }
+        }
         public int MaxLobbySize
         {
             get { return maxLobbySize; }

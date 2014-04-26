@@ -22,6 +22,7 @@ using Gibbed.Valve.FileFormats;
 using Microsoft.VisualBasic;
 using System.Net.NetworkInformation;
 
+
 namespace Dota2CustomRealms
 {
     public partial class frmMain : Form
@@ -89,6 +90,7 @@ namespace Dota2CustomRealms
         
         Player SelectedPlayer = null;
 
+        String SelectedServer = null;
 
         volatile bool ServerReady = false;
 
@@ -545,6 +547,123 @@ namespace Dota2CustomRealms
             {
                 Game.ReceivePlayerNotice(e.Data.Nick, e.Data.Message);
             }
+            if (e.Data.Message.StartsWith("JOIN") && e.Data.Nick == SelectedServer && tabUISections.SelectedTab == tabCreateLobby)
+            {
+
+                string serverChannel = e.Data.Message.Substring(5);
+                // Server request accepted, joining channel of server
+                ircJoin(serverChannel);
+
+
+
+                chkLobbyPlayerReady.Checked = false;
+
+                Game = new Game();
+
+                Game.DedicatedChannel = serverChannel;
+
+                Game.LobbyName = dGameName.Text;
+                lblLobbyName.Text = dGameName.Text;
+
+                Game.IsHost = true;
+                Game.HostName = ircClient.Nickname;
+                Game.DedicatedHost = e.Data.Nick;
+                Game.MyName = ircClient.Nickname;
+                Game.Password = dPassword.Text;
+                Game.MaxLobbySize = int.Parse(dSize.Text);
+
+                Game.Dotamap = dMap.Text;
+                Game.CustomMod = dAddon.Text;
+
+                Player Self = new Player();
+                Self.Name = ircClient.Nickname;
+
+                Game.Channel = "#G_ " + dGameName.Text;
+                string ReplaceChars = "01234567890qwertyuiopasdfghjklzxcvbnm";
+
+                // Reduce the chance of two users simultaneously creating identical channels by randomising where in the ReplaceChars to begin
+                Random rnd = new Random();
+                int ShuffleLoc = rnd.Next(0, ReplaceChars.Length);
+                ReplaceChars = ReplaceChars.Substring(ShuffleLoc) + ReplaceChars.Substring(0, ShuffleLoc);
+
+                int i = 0;
+
+                ircList();
+
+                bool Unique = true;
+
+                do
+                {
+                    Unique = true;
+                    string ChannelAttempt = Game.Channel.Replace(" ", ReplaceChars.Substring(i, 1)).ToLowerInvariant();
+                    foreach (KeyValuePair<string, int> Channel in ChannelList)
+                    {
+                        if (ChannelAttempt == Channel.Key.ToLowerInvariant())
+                        {
+                            Unique = false;
+                            break;
+                        }
+                    }
+                    i++;
+                }
+                while (Unique == false && i < ReplaceChars.Length);
+
+                if (i >= ReplaceChars.Length)
+                {
+                    MessageBox.Show("Too many channels with this name, please try a different name.");
+                    Game.Channel = "";
+                    return;
+                }
+
+                Game.Channel = Game.Channel.Replace(" ", ReplaceChars.Substring(i, 1));
+
+
+                ircJoin(Game.Channel);
+
+                Game.IsHost = true;
+
+                btnStart.Enabled = Game.IsHost;
+                btnLobbyKick.Enabled = Game.IsHost;
+                btnLobbyRandomiseTeams.Enabled = Game.IsHost;
+                btnStart.Text = "Start Game";
+                btnStart.Enabled = true;
+                btnJoinRadiant.Enabled = true;
+                chkLobbyPlayerReady.Enabled = true;
+                btnJoinDire.Enabled = true;
+                btnLobbyKick.Text = "Kick Player";
+                btnLobbyRandomiseTeams.Text = "Scramble Teams";
+                btnLobbyKick.Show();
+                btnLobbyRandomiseTeams.Show();
+                labelHost.Text = "Host: " + ircClient.Nickname;
+                labelMaxPlayers.Text = "Max Players: " + Game.MaxLobbySize.ToString();
+                labelMap.Text = "Map: " + dMap.Text;
+                labelAddon.Text = "Addon: " + dAddon.Text;
+                labelServer.Text = "Server Host: " + e.Data.Nick;
+                AttachGameEvents(Game);
+                Game.Players.Add(ircClient.Nickname, Self);
+                tabUISections.SelectedTab = tabLobby;
+                if (tbxGamePassword.Text == "")
+                {
+                    ircClient.SendMessage(SendType.Notice, "#General", "NEWLOBBY" + Properties.Settings.Default.MyVersion);
+                }
+            }
+            if (e.Data.Message.StartsWith("STARTDOTA") && tabUISections.SelectedTab == tabDraftSummary)
+            {
+                ircClient.SendMessage(SendType.Notice, Game.Channel, e.Data.Message);
+                HostConnection = e.Data.Message.Substring(10);
+                ServerReady = false;
+            }
+            if (e.Data.Message.StartsWith("SERVERREADY") && tabUISections.SelectedTab == tabDraftSummary)
+            {
+                ircClient.SendMessage(SendType.Notice, Game.Channel, e.Data.Message);
+
+                Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk");
+
+                Thread.Sleep(5000);
+
+                Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/" + HostConnection);
+            }
+
         }
 
         void ircClient_OnChannelNotice(object sender, IrcEventArgs e)
@@ -741,7 +860,10 @@ namespace Dota2CustomRealms
         {
             if (e.Data.Nick == ircClient.Nickname)
             {
-
+                if (e.Channel.StartsWith("#SERVER"))
+                {
+                    return;
+                }
 
                 if (!ChatChannels.ContainsKey(e.Channel))
                 {
@@ -764,6 +886,10 @@ namespace Dota2CustomRealms
                             gamemodes += mode + "/";
                         }
                         string topicstr = "MODE=" + Game.GameMode + " SIZE=" + Game.MaxLobbySize + " HOST=" + ircClient.Nickname + " PASS=" + Game.Password + " MAP=" + Game.Dotamap + " VER=" + Properties.Settings.Default.MyVersion + " ADD=" + gamemodes;//+ " IP=" + DetermineExternalIP().Substring(1));
+                        if (Game.DedicatedHost != null)
+                        {
+                            topicstr += " DHOST=" + Game.DedicatedHost;
+                        }
                         if (Game.CustomMod != null && Game.CustomMod.Length > 0)
                         {
                             topicstr += " CUSTOMMOD=" + Game.CustomMod;
@@ -1185,6 +1311,7 @@ namespace Dota2CustomRealms
                 btnLobbyKick.Show();
                 btnLobbyRandomiseTeams.Show();
                 labelHost.Text = "Host: " + ircClient.Nickname;
+                labelServer.Text = null;
                 labelMaxPlayers.Text = "Max Players: " + Game.MaxLobbySize.ToString();
                 labelMap.Text = "Map: " + cbxAddonMap.Text;
                 labelAddon.Text = "Addon: " + cbxAddonType.Text;
@@ -1304,6 +1431,7 @@ namespace Dota2CustomRealms
                 try
                 {
                     string Host = null;
+                    string DedicatedHost = null;
                     string Lock = "No";
                     int MaxPlayers = 0;
                     string pass = "";
@@ -1320,6 +1448,10 @@ namespace Dota2CustomRealms
                         if (GameProp.StartsWith("HOST="))
                         {
                             Host = GameProp.Substring(5);
+                        }
+                        if (GameProp.StartsWith("DHOST="))
+                        {
+                            DedicatedHost = GameProp.Substring(6);
                         }
                         if (GameProp.StartsWith("SIZE="))
                         {
@@ -1351,6 +1483,10 @@ namespace Dota2CustomRealms
                         //    ip = IPAddress.Parse(GameProp.Substring(3));
                         //}
                     }
+                    if (DedicatedHost == null)
+                    {
+                        DedicatedHost = Host;
+                    }
                     if (Properties.Settings.Default.MyVersion == version)
                     {
                         if (pass != "" && cbxLocked.Checked == true)
@@ -1363,7 +1499,7 @@ namespace Dota2CustomRealms
                         }
                         else
                         {
-                            int rowid = grdGamesList.Rows.Add(new object[] { Game.Key, Lock, Game.Key.Substring(4).Replace("_", " "), Host, Game.Value + "/" + MaxPlayers, addon, map});
+                            int rowid = grdGamesList.Rows.Add(new object[] { Game.Key, Lock, Game.Key.Substring(4).Replace("_", " "), Host, DedicatedHost,  Game.Value + "/" + MaxPlayers, addon, map});
                         }
                    }
                 }
@@ -1375,6 +1511,58 @@ namespace Dota2CustomRealms
             lblGameListRefresh.Visible = false;
             btnGamesListRefreshWait = true;
             t.Start();
+        }
+        private void btnServerListRefresh_Click(object sender, EventArgs e)
+        {
+            dServerList.Items.Clear();
+            Dictionary<string, int> Servers = new Dictionary<string, int>();
+            ircList();
+            foreach (KeyValuePair<string, int> Server in ChannelList)
+            {
+                if (Server.Key.StartsWith("#SERVER_"))
+                {
+                    Servers.Add(Server.Key, Server.Value);
+                }
+            }
+            foreach (KeyValuePair<string, int> Server in Servers)
+            {
+                try
+                {
+                    string Host = null;
+                    int MaxServers = 0;
+                    int freeSpace = 0;
+                    string[] ServerProperties = Topics[Server.Key].Split(' ');
+
+                    foreach (string ServerProp in ServerProperties)
+                    {
+                        if (ServerProp.StartsWith("HOST="))
+                        {
+                            Host = ServerProp.Substring(5);
+                        }
+                        if (ServerProp.StartsWith("SIZE="))
+                        {
+                            MaxServers = int.Parse(ServerProp.Substring(5));
+                            freeSpace = MaxServers - Server.Value + 1;
+                        }
+                    }
+                    if (!(Host == null))
+                    {
+                        ListViewItem item = new ListViewItem();
+                        item.Text = Host + "'s Server (" + (freeSpace) + " Servers availible)";
+                        item.Tag = new Object[] { Host, freeSpace };
+                        dServerList.Items.Add(item);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid Server encountered!");
+                }
+            }
+            if (dServerList.Items.Count == 0)
+            {
+                dServerList.Items.Add("No servers online :(");
+            }
+
         }
 
         /*private int PingTest(IPAddress ip)
@@ -1477,6 +1665,7 @@ namespace Dota2CustomRealms
             {
 
                 string Host = null;
+                string DedicatedHost = null;
                 string Addon = "", Map = "";
 
                 string[] GameProperties = Topics[Channel].Split(' ');
@@ -1489,6 +1678,10 @@ namespace Dota2CustomRealms
                     if (GameProp.StartsWith("HOST="))
                     {
                         Host = GameProp.Substring(5);
+                    }
+                    if (GameProp.StartsWith("DHOST="))
+                    {
+                        DedicatedHost = GameProp.Substring(6);
                     }
                     if (GameProp.StartsWith("SIZE="))
                     {
@@ -1526,6 +1719,7 @@ namespace Dota2CustomRealms
                     Game.Channel = Channel;
                     Game.LobbyName = Channel.Substring(3);
                     Game.HostName = Host;
+                    Game.DedicatedHost = DedicatedHost;
                     Game.CustomMod = Addon;
                     Game.Dotamap = Map;
                     labelMap.Text = "Map: " + Map ;
@@ -1537,6 +1731,14 @@ namespace Dota2CustomRealms
                     btnLobbyRandomiseTeams.Enabled = false;
                     chkLobbyPlayerReady.Checked = false;
                     labelHost.Text = "Host: " + Host;
+                    if (DedicatedHost == null)
+                    {
+                        labelServer.Text = "";
+                    }
+                    else
+                    {
+                        labelServer.Text = "Server Host: " + DedicatedHost;
+                    }
                     labelMap.Text = "Map: " + map;
                     labelMaxPlayers.Text = "Max Players: " + MaxPlayers.ToString();
                     btnStart.Text = "Host Starts";
@@ -1555,6 +1757,10 @@ namespace Dota2CustomRealms
             {
 
                 ircPart(Game.Channel);
+                if (Game.DedicatedChannel != null)
+                {
+                    ircPart(Game.DedicatedChannel);
+                }
 
                 if (Game.DireChannel != null && ChatChannels.ContainsKey(Game.DireChannel))
                 {
@@ -1770,6 +1976,7 @@ namespace Dota2CustomRealms
                 case Game.GAME_PREGAME:
                     {
                         tabUISections.SelectedTab = tabDraftSummary;
+                        consoleConnectionGroupBox.Visible = false;
 
                         if (!bgwGenerateNpcHeroesAutoexec.IsBusy)
                         {
@@ -2314,9 +2521,14 @@ namespace Dota2CustomRealms
         #region Dota 2 Modding
 
         private void bgwGenerateNpcHeroesAutoexec_DoWork(object sender, DoWorkEventArgs e)
-        {         
+        {
             if (Game.IsHost)
             {
+                if (Game.DedicatedHost != null)
+                {
+                    ircClient.SendMessage(SendType.Notice, Game.DedicatedHost, "START MAXPLAYERS=" + Game.Players.Count + " ADDON=" + Game.CustomMod + " MAP=" + Game.Dotamap);
+                    return;
+                }
                 if (File.Exists(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\\autoexec.cfg")) // Delete server autoexec
                 {
                     File.Delete(Properties.Settings.Default.Dota2ServerPath + "dota\\cfg\\autoexec.cfg");
@@ -2485,6 +2697,10 @@ namespace Dota2CustomRealms
             {
                 Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk +connect " + HostConnection);
             }
+            consoleConnectionGroupBox.Visible = true;
+            manualconnectTxt.Text = HostConnection;
+
+
         }
 
         private void timerManualConnect()
@@ -2588,6 +2804,10 @@ namespace Dota2CustomRealms
             }
 
             ircPart(Game.Channel);
+            if (Game.DedicatedChannel != null)
+            {
+                ircPart(Game.DedicatedChannel);
+            }
             //try
             //{
                 if (Game.Players[ircClient.Nickname].Side == PlayerSide.Dire)
@@ -3687,5 +3907,97 @@ namespace Dota2CustomRealms
                 cbxAddonType.SelectedIndex = 0;
             }
         }
+
+        private void btnCreateLobby_Click(object sender, EventArgs e)
+        {
+            tabUISections.SelectedTab = tabCreateLobby;
+            btnServerListRefresh_Click(sender, e);
+        }
+
+        private void dAddon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (dAddon.SelectedIndex == 0)
+            {
+                dMap.Items.Clear();
+                dMap.Items.Add("frostivus");
+            }
+            else if (dAddon.SelectedIndex == 1)
+            {
+                dMap.Items.Clear();
+                dMap.Items.Add("arenaotdr");
+                dMap.Items.Add("deadlock");
+                dMap.Items.Add("evergreen_crossing");
+                dMap.Items.Add("frostivus");
+                dMap.Items.Add("geminus_b01");
+                dMap.Items.Add("keeperofthekotol");
+                dMap.Items.Add("labyrinth0");
+                dMap.Items.Add("riverofsouls");
+                dMap.Items.Add("runehill");
+
+            }
+            else if (dAddon.SelectedIndex == 2)
+            {
+                dMap.Items.Clear();
+                dMap.Items.Add("nian");
+                dMap.Items.Add("nian2");
+                dMap.Items.Add("nian3");
+
+            }
+        }
+
+        private void btndCreateLobby_Click(object sender, EventArgs e)
+        {
+
+            dGameName.Text = Regex.Replace(dGameName.Text.Replace(" ", "_"), "[^A-Za-z0-9_]", "");
+            if (dGameName.Text.Length == 0)
+            {
+                MessageBox.Show("You need to enter a Game Name!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (dGameName.Text.Length > 25)
+            {
+                MessageBox.Show("Game Names can't be over 25 characters in length!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (dPassword.Text.Length > 12)
+            {
+                MessageBox.Show("Game Password cannot be long than 12 characters in length!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (dAddon.SelectedIndex == -1)
+            {
+                MessageBox.Show("You need to select an addon to use!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (dMap.SelectedIndex == -1)
+            {
+                MessageBox.Show("You need to select a map to use!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            if (dServerList.SelectedItems.Count == 0 || dServerList.SelectedItems[0].Tag == null)
+            {
+                MessageBox.Show("You need to select a server to use!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Send a server request
+            var Server = (Object[])dServerList.SelectedItems[0].Tag;
+            SelectedServer = Server[0].ToString();
+            ircClient.SendMessage(SendType.Notice, SelectedServer, "REQ_S");
+
+        }
+
+        private void btnCancelLobby_Click(object sender, EventArgs e)
+        {
+            tabUISections.SelectedTab = tabConnected;
+        }
+
+        private void ipClipboardBtn_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Clipboard.SetText(HostConnection);
+            MessageBox.Show("Copied to Clipboard!");
+        }
+
     }
 }
