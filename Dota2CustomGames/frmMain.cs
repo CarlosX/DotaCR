@@ -2152,7 +2152,7 @@ namespace Dota2CustomRealms
                     }
                 case Dota2CustomRealms.Game.GameStage.ServerSetup:
                     {
-                        
+                        lblDedicatedServerNotice.Visible = Game.DedicatedChannel != null || Game.DedicatedHost != null;
                         tabUISections.SelectedTab = tabDraftSummary;
 
                         break;
@@ -2703,7 +2703,7 @@ namespace Dota2CustomRealms
                 Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk +connect " + HostConnection);
             }
             consoleConnectionGroupBox.Visible = true;
-            manualconnectTxt.Text = HostConnection;
+            manualconnectTxt.Text = "connect " + HostConnection;
 
 
         }

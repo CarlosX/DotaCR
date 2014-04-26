@@ -77,6 +77,14 @@
             this.btnCancelJoining = new System.Windows.Forms.Button();
             this.btnGameListRefresh = new System.Windows.Forms.Button();
             this.grdGamesList = new System.Windows.Forms.DataGridView();
+            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colServerHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AddonType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AddonMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabLobby = new System.Windows.Forms.TabPage();
             this.gbxGameInfo = new System.Windows.Forms.GroupBox();
             this.labelServer = new System.Windows.Forms.Label();
@@ -182,14 +190,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.timerPlayers = new System.Windows.Forms.Timer(this.components);
-            this.colChannel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colGameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colServerHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPlayers = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AddonType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AddonMap = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblDedicatedServerNotice = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).BeginInit();
             this.gbxChat.SuspendLayout();
             this.tabUISections.SuspendLayout();
@@ -777,6 +778,59 @@
             this.grdGamesList.TabIndex = 0;
             this.grdGamesList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdGamesList_CellContentClick);
             // 
+            // colChannel
+            // 
+            this.colChannel.HeaderText = "Channel";
+            this.colChannel.Name = "colChannel";
+            this.colChannel.ReadOnly = true;
+            this.colChannel.Visible = false;
+            // 
+            // colPass
+            // 
+            this.colPass.FillWeight = 25F;
+            this.colPass.HeaderText = "Lock";
+            this.colPass.Name = "colPass";
+            this.colPass.ReadOnly = true;
+            // 
+            // colGameName
+            // 
+            this.colGameName.FillWeight = 123F;
+            this.colGameName.HeaderText = "Game Name";
+            this.colGameName.Name = "colGameName";
+            this.colGameName.ReadOnly = true;
+            // 
+            // colHost
+            // 
+            this.colHost.FillWeight = 85.44905F;
+            this.colHost.HeaderText = "Host";
+            this.colHost.Name = "colHost";
+            this.colHost.ReadOnly = true;
+            // 
+            // colServerHost
+            // 
+            this.colServerHost.HeaderText = "Server Host";
+            this.colServerHost.Name = "colServerHost";
+            this.colServerHost.ReadOnly = true;
+            // 
+            // colPlayers
+            // 
+            this.colPlayers.FillWeight = 50F;
+            this.colPlayers.HeaderText = "Players";
+            this.colPlayers.Name = "colPlayers";
+            this.colPlayers.ReadOnly = true;
+            // 
+            // AddonType
+            // 
+            this.AddonType.HeaderText = "Addon";
+            this.AddonType.Name = "AddonType";
+            this.AddonType.ReadOnly = true;
+            // 
+            // AddonMap
+            // 
+            this.AddonMap.HeaderText = "Map";
+            this.AddonMap.Name = "AddonMap";
+            this.AddonMap.ReadOnly = true;
+            // 
             // tabLobby
             // 
             this.tabLobby.BackColor = System.Drawing.SystemColors.Control;
@@ -1041,6 +1095,7 @@
             // tabDraftSummary
             // 
             this.tabDraftSummary.BackColor = System.Drawing.SystemColors.Control;
+            this.tabDraftSummary.Controls.Add(this.lblDedicatedServerNotice);
             this.tabDraftSummary.Controls.Add(this.consoleConnectionGroupBox);
             this.tabDraftSummary.Controls.Add(this.gbxConfiguringMod);
             this.tabDraftSummary.Location = new System.Drawing.Point(4, 5);
@@ -1966,58 +2021,14 @@
             // 
             this.timerPlayers.Tick += new System.EventHandler(this.timerPlayers_Tick);
             // 
-            // colChannel
+            // lblDedicatedServerNotice
             // 
-            this.colChannel.HeaderText = "Channel";
-            this.colChannel.Name = "colChannel";
-            this.colChannel.ReadOnly = true;
-            this.colChannel.Visible = false;
-            // 
-            // colPass
-            // 
-            this.colPass.FillWeight = 25F;
-            this.colPass.HeaderText = "Lock";
-            this.colPass.Name = "colPass";
-            this.colPass.ReadOnly = true;
-            // 
-            // colGameName
-            // 
-            this.colGameName.FillWeight = 123F;
-            this.colGameName.HeaderText = "Game Name";
-            this.colGameName.Name = "colGameName";
-            this.colGameName.ReadOnly = true;
-            // 
-            // colHost
-            // 
-            this.colHost.FillWeight = 85.44905F;
-            this.colHost.HeaderText = "Host";
-            this.colHost.Name = "colHost";
-            this.colHost.ReadOnly = true;
-            // 
-            // colServerHost
-            // 
-            this.colServerHost.HeaderText = "Server Host";
-            this.colServerHost.Name = "colServerHost";
-            this.colServerHost.ReadOnly = true;
-            // 
-            // colPlayers
-            // 
-            this.colPlayers.FillWeight = 50F;
-            this.colPlayers.HeaderText = "Players";
-            this.colPlayers.Name = "colPlayers";
-            this.colPlayers.ReadOnly = true;
-            // 
-            // AddonType
-            // 
-            this.AddonType.HeaderText = "Addon";
-            this.AddonType.Name = "AddonType";
-            this.AddonType.ReadOnly = true;
-            // 
-            // AddonMap
-            // 
-            this.AddonMap.HeaderText = "Map";
-            this.AddonMap.Name = "AddonMap";
-            this.AddonMap.ReadOnly = true;
+            this.lblDedicatedServerNotice.Location = new System.Drawing.Point(8, 15);
+            this.lblDedicatedServerNotice.Name = "lblDedicatedServerNotice";
+            this.lblDedicatedServerNotice.Size = new System.Drawing.Size(494, 226);
+            this.lblDedicatedServerNotice.TabIndex = 8;
+            this.lblDedicatedServerNotice.Text = resources.GetString("lblDedicatedServerNotice.Text");
+            this.lblDedicatedServerNotice.Visible = false;
             // 
             // frmMain
             // 
@@ -2266,5 +2277,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colPlayers;
         private System.Windows.Forms.DataGridViewTextBoxColumn AddonType;
         private System.Windows.Forms.DataGridViewTextBoxColumn AddonMap;
+        private System.Windows.Forms.Label lblDedicatedServerNotice;
     }
 }

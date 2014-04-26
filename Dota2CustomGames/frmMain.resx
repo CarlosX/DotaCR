@@ -503,6 +503,11 @@
   <metadata name="AddonMap.UserAddedColumn" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="lblDedicatedServerNotice.Text" xml:space="preserve">
+    <value>Please be patient, if you are using a dedicated server it may take 10-20 seconds for it to load up before DotaCR can start Dota 2 and connect you to the server.
+
+If the dedicated server isn't responding, it may have crashed or failed to load the map, and you will need to rehost.</value>
+  </data>
   <data name="lblSettingServerOptions.Text" xml:space="preserve">
     <value>The Dota 2 Server directory must be different from the Dota 2 directory!
 
