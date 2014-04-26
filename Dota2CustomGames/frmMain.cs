@@ -187,7 +187,12 @@ namespace Dota2CustomRealms
         {
             if (Game != null)
             {
+                if (e.Who == Game.DedicatedHost)
+                {
+                    btnLobbyLeave_Click(sender, e);
+                    MessageBox.Show("The dedicated server disconnected, therefore this lobby has been disbanned.");
 
+                }
                 if (Game != null && Game.Players.ContainsKey(e.Who))
                 {
                     Game_DisplayUserMessage(Game, new Game.SendMessageEventArgs(null, e.Who + " has disconnected"));
@@ -1607,7 +1612,7 @@ namespace Dota2CustomRealms
                 return;
             }
 
-            string[] Players = grdGamesList.Rows[e.RowIndex].Cells[4].Value.ToString().Split('/');
+            string[] Players = grdGamesList.Rows[e.RowIndex].Cells[5].Value.ToString().Split('/');
             int players = int.Parse(Players[0]);
             int maxplayers = int.Parse(Players[1]);
             if (grdGamesList.Rows[e.RowIndex].Cells[0].Value != null)
@@ -3157,6 +3162,7 @@ namespace Dota2CustomRealms
 
 
             btnFindLobby.Enabled = Client;
+            btnCreateLobby.Enabled = Client;
             btnHostLobby.Enabled = Server;
 
 

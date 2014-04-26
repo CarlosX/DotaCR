@@ -134,7 +134,7 @@ namespace DedicatedServer
         static void ircClient_OnConnected(object sender, EventArgs e)
         {
 
-            ircClient.Login("ilian000_dedi", "Dedicated server");
+            ircClient.Login(Properties.Settings.Default.Nickname, "Dedicated server");
             ircJoin(serverprefix + ircClient.Nickname);
             Console.WriteLine("Connected. Listening for server requests...");
             // List channels
@@ -149,7 +149,7 @@ namespace DedicatedServer
             {
                 if (e.Channel.ToUpperInvariant().StartsWith(serverprefix))
                 {
-                    ircClient.RfcTopic(e.Channel, "SIZE=" + Properties.Settings.Default.MaxServers + " HOST=" + Properties.Settings.Default.Nickname); 
+                    ircClient.RfcTopic(e.Channel, "SIZE=" + Properties.Settings.Default.MaxServers + " HOST=" + ircClient.Nickname); 
                 }
             }
 
@@ -347,7 +347,7 @@ namespace DedicatedServer
                     }
                     catch
                     {
-                        Console.WriteLine("Unable to kill server with pid " + monitor.processid + ". Server probably crashed?");
+                        Console.WriteLine("Unable to kill server with pid " + monitor.processid + ". Server probably crashed/quit.");
                     }
                     availablePorts.Add(monitor.port);
                     //monitors.Remove(monitor); - Causes "Collection was modified; enumeration operation may not execute" error
