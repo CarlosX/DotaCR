@@ -652,6 +652,10 @@ namespace Dota2CustomRealms
                     ircClient.SendMessage(SendType.Notice, "#General", "NEWLOBBY" + Properties.Settings.Default.MyVersion);
                 }
             }
+            if (e.Data.Message.StartsWith("JOIN") && e.Data.Nick == SelectedServer && tabUISections.SelectedTab == tabCreateLobby)
+            {
+                MessageBox.Show("Dedicated Server is full! Please select another dedicated server instead.");
+            }
             if (e.Data.Message.StartsWith("STARTDOTA") && tabUISections.SelectedTab == tabDraftSummary)
             {
                 ircClient.SendMessage(SendType.Notice, Game.Channel, e.Data.Message);

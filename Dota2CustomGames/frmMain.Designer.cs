@@ -109,6 +109,7 @@
             this.lbxLobbyRadiantPlayers = new System.Windows.Forms.ListBox();
             this.lblLobbyName = new System.Windows.Forms.Label();
             this.tabDraftSummary = new System.Windows.Forms.TabPage();
+            this.lblDedicatedServerNotice = new System.Windows.Forms.Label();
             this.consoleConnectionGroupBox = new System.Windows.Forms.GroupBox();
             this.ipClipboardBtn = new System.Windows.Forms.Button();
             this.manualconnectTxt = new System.Windows.Forms.TextBox();
@@ -190,7 +191,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.timerPlayers = new System.Windows.Forms.Timer(this.components);
-            this.lblDedicatedServerNotice = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).BeginInit();
             this.gbxChat.SuspendLayout();
             this.tabUISections.SuspendLayout();
@@ -1104,6 +1104,15 @@
             this.tabDraftSummary.Size = new System.Drawing.Size(864, 513);
             this.tabDraftSummary.TabIndex = 7;
             this.tabDraftSummary.Text = "Draft Summary";
+            // 
+            // lblDedicatedServerNotice
+            // 
+            this.lblDedicatedServerNotice.Location = new System.Drawing.Point(8, 32);
+            this.lblDedicatedServerNotice.Name = "lblDedicatedServerNotice";
+            this.lblDedicatedServerNotice.Size = new System.Drawing.Size(494, 226);
+            this.lblDedicatedServerNotice.TabIndex = 8;
+            this.lblDedicatedServerNotice.Text = resources.GetString("lblDedicatedServerNotice.Text");
+            this.lblDedicatedServerNotice.Visible = false;
             // 
             // consoleConnectionGroupBox
             // 
@@ -2020,15 +2029,6 @@
             // timerPlayers
             // 
             this.timerPlayers.Tick += new System.EventHandler(this.timerPlayers_Tick);
-            // 
-            // lblDedicatedServerNotice
-            // 
-            this.lblDedicatedServerNotice.Location = new System.Drawing.Point(8, 15);
-            this.lblDedicatedServerNotice.Name = "lblDedicatedServerNotice";
-            this.lblDedicatedServerNotice.Size = new System.Drawing.Size(494, 226);
-            this.lblDedicatedServerNotice.TabIndex = 8;
-            this.lblDedicatedServerNotice.Text = resources.GetString("lblDedicatedServerNotice.Text");
-            this.lblDedicatedServerNotice.Visible = false;
             // 
             // frmMain
             // 
