@@ -4005,7 +4005,7 @@ namespace Dota2CustomRealms
 
         private void ipClipboardBtn_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Clipboard.SetText(HostConnection);
+            System.Windows.Forms.Clipboard.SetText("connect " + HostConnection);
             MessageBox.Show("Copied to Clipboard!");
         }
 
