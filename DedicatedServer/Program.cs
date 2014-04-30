@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using Meebey.SmartIrc4net;
 using System.Net;
+using System.Xml;
 
 namespace DedicatedServer
 {
@@ -113,14 +114,14 @@ namespace DedicatedServer
             }
             ircClient.ActiveChannelSyncing = true;
             ircClient.SendDelay = 200;
-            ircClient.AutoRetry = false; // TODO: Maybe turn back on?
+            ircClient.AutoRetry = true;
 
             ircClient.OnConnected += new EventHandler(ircClient_OnConnected);
             ircClient.OnJoin += new JoinEventHandler(ircClient_OnJoin);
             ircClient.OnRawMessage += new IrcEventHandler(ircClient_OnRawMessage);
             ircClient.OnChannelMessage += new IrcEventHandler(ircClient_OnChannelMessage);
             ircClient.OnQueryNotice += new IrcEventHandler(ircClient_OnQueryNotice);
-            ircClient.OnPart += new PartEventHandler(ircClient_OnPart);
+            ircClient.OnQuit += new QuitEventHandler(ircClient_OnQuit);
             try
             {
                 Console.WriteLine("Connecting to Dota 2 Custom Realms server...");
@@ -185,12 +186,6 @@ namespace DedicatedServer
         static List<String[]> channelsstuff = new List<String[]>();
         static void ircClient_OnRawMessage(object sender, IrcEventArgs e)
         {
-
-            if (e.Data.Type == ReceiveType.QueryNotice)
-            {
-                
-            }
-
             //File.AppendAllText("irc.log", e.Data.RawMessage + "\r\n");
 
             if (e.Data.Type == ReceiveType.List)
@@ -282,6 +277,8 @@ namespace DedicatedServer
             {
                 if (Whitelist.Contains(e.Data.Nick))
                 {
+                    // Check for updates on steam.inf
+                    updateInf();
                     // Delete autoexec.cfg
                     if (File.Exists(Properties.Settings.Default.ServerPath + "dota\\cfg\\autoexec.cfg"))
                     {
@@ -329,7 +326,7 @@ namespace DedicatedServer
                 }
             }
         }
-        static void ircClient_OnPart(object sender, PartEventArgs e)
+        static void ircClient_OnQuit(object sender, QuitEventArgs e)
         {
             Console.WriteLine("Player '" + e.Who + "' left the server channel.");
             // We can't remove an item in a list which we are enumerating, so we use another temporary list
@@ -361,6 +358,44 @@ namespace DedicatedServer
                 monitors.Remove(monitor);
             }
             Whitelist.Remove(e.Who);
+        }
+        static void updateInf()
+        {
+            string oldversion, newversion = "";
+
+            using (StreamReader reader = new StreamReader(Properties.Settings.Default.ServerPath + "\\dota\\steam.inf"))
+            {
+                oldversion = reader.ReadLine();
+                oldversion = oldversion.Substring(14);
+            }
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load("http://api.steampowered.com/IGCVersion_570/GetServerVersion/v1?format=xml");
+                XmlNode node = doc.SelectSingleNode("result/active_version");
+                newversion = node.InnerText;
+            }
+            catch
+            {
+                return;
+            }
+            if (int.Parse(oldversion) != int.Parse(newversion))
+            {
+                StringBuilder blank = new StringBuilder();
+                string[] file = File.ReadAllLines(Properties.Settings.Default.ServerPath + "\\dota\\steam.inf");
+                foreach (string line in file)
+                {
+                    if (line.Contains(oldversion))
+                    {
+                        string temp = line.Replace(oldversion, newversion);
+                        blank.Append(temp + "\r\n");
+                        continue;
+                    }
+                    blank.Append(line + "\r\n");
+                    File.WriteAllText(Properties.Settings.Default.ServerPath + "\\dota\\steam.inf", blank.ToString());
+                }
+                Console.WriteLine("Your Dota 2 Server version (" + oldversion + ") has been updated to match the Dota 2 Client (" + newversion + ").");
+            }
         }
     }
 }
