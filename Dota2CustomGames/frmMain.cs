@@ -2585,7 +2585,8 @@ namespace Dota2CustomRealms
                     debugcommand = " -condebug";
                 }
                 // FIXED: Make srcds bind to all available IPs on computer
-                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_custom_enable 1 +dota_local_custom_game " + Game.CustomMod + " +dota_local_custom_map " + Game.CustomMod + " +dota_force_gamemode 15 +update_addon_paths +map " + Game.Dotamap);
+                // TODO: Fetch from addon instead of hardcoding
+                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_addon_enable 1 +dota_local_addon_game " + Game.CustomMod + " +dota_local_addon_map " + Game.CustomMod + " +dota_force_gamemode 15 +update_addon_paths +map " + Game.Dotamap);
                 //ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " -maxplayers " + Math.Max(10, Game.Players.Count));
 
                 serverStart.WorkingDirectory = Properties.Settings.Default.Dota2ServerPath.Substring(0, Properties.Settings.Default.Dota2ServerPath.Length - 1);

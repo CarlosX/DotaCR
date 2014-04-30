@@ -314,8 +314,8 @@ namespace DedicatedServer
                             map = ServerProp.Substring(4);
                         }
                     }
-
-                    ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.ServerPath + "srcds.exe", "-console -game dota -port " + serverPort.ToString() + " +maxplayers " + Math.Max(10, int.Parse(maxplayers)) + " +dota_local_custom_enable 1 +dota_local_custom_game " + addon + " +dota_local_custom_map " + addon + " +dota_force_gamemode 15 +update_addon_paths +map " + map);
+                    // TODO: Fetch from addon instead of hardcoding
+                    ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.ServerPath + "srcds.exe", "-console -game dota -port " + serverPort.ToString() + " +maxplayers " + Math.Max(10, int.Parse(maxplayers)) + " +dota_local_addon_enable 1 +dota_local_addon_game " + addon + " +dota_local_addon_map " + addon + " +dota_force_gamemode 15 +update_addon_paths +map " + map);
                     ServerMonitor monitor = new ServerMonitor(e.Data.Nick, serverPort);
                     monitor.MonitorProcess(serverStart, Dota2ServerName, ircClient);
                     monitors.Add(monitor);
