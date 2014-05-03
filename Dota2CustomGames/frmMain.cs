@@ -1910,7 +1910,14 @@ namespace Dota2CustomRealms
         {
             if (Properties.Settings.Default.MyVersion != Application.ProductVersion)
             {
-                Properties.Settings.Default.MyVersion = Application.ProductVersion;
+                if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+                {
+                    Properties.Settings.Default.MyVersion = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+                }
+                else
+                {
+                    Properties.Settings.Default.MyVersion = Application.ProductVersion;
+                }
                 Properties.Settings.Default.VersionStatus = "UNKNOWN";
                 Properties.Settings.Default.Save();
             }
@@ -2643,7 +2650,7 @@ namespace Dota2CustomRealms
                 }
                 // FIXED: Make srcds bind to all available IPs on computer
                 // TODO: Fetch from addon instead of hardcoding
-                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_addon_enable 1 +dota_local_addon_game " + Game.CustomMod + " +dota_local_addon_map " + Game.CustomMod + " +dota_force_gamemode 15 +update_addon_paths +map " + Game.Dotamap);
+                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_addon_enable 1 +dota_local_addon_game " + Game.CustomMod + " +dota_local_addon_map " + Game.CustomMod + " +dota_force_gamemode 15 +update_addon_paths +map " + Game.Dotamap + debugcommand);
                 //ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " -maxplayers " + Math.Max(10, Game.Players.Count));
 
                 serverStart.WorkingDirectory = Properties.Settings.Default.Dota2ServerPath.Substring(0, Properties.Settings.Default.Dota2ServerPath.Length - 1);
@@ -2651,7 +2658,7 @@ namespace Dota2CustomRealms
                 Dota2Server = Process.Start(serverStart);
 
                 Dota2ServerWindow = IntPtr.Zero;
-                bool GameModeSent = false;
+                // bool GameModeSent = false; Unused variable. Is this depreciated?
 
                 //Dota2Server.StandardInput.WriteLine("sv_cheats 1");
                 IntPtr ServerWindow = IntPtr.Zero;
@@ -3089,7 +3096,7 @@ namespace Dota2CustomRealms
                     ClientFrota = version.ReadLine().Trim() == CurrentFrota;
                     Client = Client && ClientFrota;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ClientFrota = false;
                     Client = false;
@@ -3107,7 +3114,7 @@ namespace Dota2CustomRealms
                     ServerFrota = version.ReadLine().Trim() == CurrentFrota;
                     Server = Server && ServerFrota;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ServerFrota = false;
                     Server = false;
@@ -3121,7 +3128,7 @@ namespace Dota2CustomRealms
                     Server = Server && HasValidServerFiles;
                     if (!HasValidServerFiles) File.Delete("Data\\serverfiles.zip");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ServerFrota = false;
                     Server = false;
@@ -3701,16 +3708,6 @@ namespace Dota2CustomRealms
             }
         }
 
-        private string IPCheck()
-        {
-            string _LocalIPAddress = "x";
-            IPHostEntry host = Dns.GetHostByName(Dns.GetHostName());
-            if (host.AddressList.Length > 0)
-            {
-                _LocalIPAddress = host.AddressList[0].ToString();
-            }
-            return _LocalIPAddress;
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -3759,8 +3756,8 @@ namespace Dota2CustomRealms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string check = IPCheck();
-            if (check == "x")
+            string check = LocalIPAddress();
+            if (check == "")
             {
                 MessageBox.Show("Cannot detect your local IP address, please go into Command Prompt and type \"ipconfig\" without the quotes and write your IPv4 address in the IP field.");
                 return;
