@@ -265,7 +265,6 @@ namespace Dota2CustomRealms
             }
         }
 
-        bool VersionCheckSuccess = false;
         StringBuilder KnownIssues = new StringBuilder();
         /// <summary>
         /// True once all known issues have been retrieved
@@ -274,23 +273,7 @@ namespace Dota2CustomRealms
 
         void ircClient_OnMotd(object sender, MotdEventArgs e)
         {
-            if (e.MotdMessage.Contains(Properties.Settings.Default.MyVersion + " ") || (e.MotdMessage.ToLowerInvariant().Contains("other clients") && !VersionCheckSuccess))
-            {
-                if (e.MotdMessage.Contains(" COMPATIBLE"))
-                {
-                    Properties.Settings.Default.VersionStatus = "COMPATIBLE";
-                    Properties.Settings.Default.Save();
-                }
-                else if (e.MotdMessage.Contains(" INCOMPATIBLE"))
-                {
-                    Properties.Settings.Default.VersionStatus = "INCOMPATIBLE";
-                    Properties.Settings.Default.Save();
-                }
-
-                VersionCheckSuccess = true;
-                VersionCheck();
-            }
-            else if (e.MotdMessage.Contains("ISSUES: "))
+            if (e.MotdMessage.Contains("ISSUES: "))
             {
                 KnownIssues.Append(e.MotdMessage.Substring(e.MotdMessage.IndexOf(":") + 2));
             }
@@ -1906,40 +1889,6 @@ namespace Dota2CustomRealms
             catch { }
         }
 
-        private void VersionCheck()
-        {
-            if (Properties.Settings.Default.MyVersion != Application.ProductVersion)
-            {
-                if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
-                {
-                    Properties.Settings.Default.MyVersion = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
-                }
-                else
-                {
-                    Properties.Settings.Default.MyVersion = Application.ProductVersion;
-                }
-                Properties.Settings.Default.VersionStatus = "UNKNOWN";
-                Properties.Settings.Default.Save();
-            }
-            else if (Properties.Settings.Default.VersionStatus == "INCOMPATIBLE")
-            {
-                DialogResult result = MessageBox.Show("Your version is no longer supported. Please click YES to download the latest version","Out of Date",MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    MessageBox.Show("The client will now exit and the updater will start.");
-                    Properties.Settings.Default.VersionStatus = "UNKNOWN";
-                    Properties.Settings.Default.Save();
-                    Process.Start("updater.exe");
-                    Application.Exit();
-                }
-                else
-                {
-                    MessageBox.Show("This version of Dota 2 Custom Realms is not supported. Please run the program again and update to continue.");
-                    Application.Exit();
-                }
-            }
-        }
-
         private void frmMain_Load(object sender, EventArgs e)
         {
             lblPlayersOnline.Enabled = false;
@@ -1985,8 +1934,6 @@ namespace Dota2CustomRealms
             //Hide the progress bar and game state messages. Re-enable when they are functioning better.
             //stsGameState.Hide();
             //pgbGameStateProgress.Height = 0;
-
-            VersionCheck();
 
             tabUISections.SizeMode = TabSizeMode.Fixed;
             tabUISections.SelectedTab = tabPreConnect;
