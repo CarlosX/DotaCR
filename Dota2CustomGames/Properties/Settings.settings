@@ -20,9 +20,6 @@
     <Setting Name="ServerPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5500</Value>
     </Setting>
-    <Setting Name="VersionStatus" Type="System.String" Scope="User">
-      <Value Profile="(Default)">UNKNOWN</Value>
-    </Setting>
     <Setting Name="MyVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

@@ -97,18 +97,6 @@ namespace Dota2CustomRealms.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("UNKNOWN")]
-        public string VersionStatus {
-            get {
-                return ((string)(this["VersionStatus"]));
-            }
-            set {
-                this["VersionStatus"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string MyVersion {
             get {

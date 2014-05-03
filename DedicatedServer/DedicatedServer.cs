@@ -10,6 +10,7 @@ using Meebey.SmartIrc4net;
 using System.Net;
 using System.Xml;
 using System.Reflection;
+using System.Net.Sockets;
 
 namespace DedicatedServer
 {
@@ -44,7 +45,6 @@ namespace DedicatedServer
         static void firstSetup()
         {
             Console.WriteLine("================================ Edit Settings ================================\n\nPlease enter the path of your Dota 2 Server (e.g. C:\\dotaserver\\):");
-            Console.WriteLine("Yeh You can write stuff :D");
             Properties.Settings.Default.ServerPath = Console.ReadLine();
 
             Console.WriteLine("\nWhat is your nickname?");
@@ -108,6 +108,7 @@ namespace DedicatedServer
             for (int i = Properties.Settings.Default.PortStart; i < (Properties.Settings.Default.PortStart + Properties.Settings.Default.MaxServers); i++)
             {
                 availablePorts.Add(i);
+                checkPort(i);
             }
             ircClient.ActiveChannelSyncing = true;
             ircClient.SendDelay = 200;
@@ -129,6 +130,47 @@ namespace DedicatedServer
             {
                 Console.WriteLine("There was an error connecting to the server: {0}", e);
             }
+        }
+        static TcpListener tcpListener;
+        static Thread listenThread;
+        static void checkPort(int port)
+        {
+            try
+            {
+                // Set the listener on the local IP address 
+                // and specify the port.
+                tcpListener = new TcpListener(IPAddress.Any, port);
+                listenThread = new Thread(new ThreadStart(Listen));
+                listenThread.Start();
+                Console.WriteLine("Checking port {0}", port.ToString());
+                string checkUrl = "http://ports.yougetsignal.com/check-port.php?portNumber=" + port.ToString();
+                string result;
+                using (WebClient client = new WebClient())
+                {
+                    result = client.DownloadString(checkUrl);
+                }
+                if (result.Contains("open"))
+                {
+                    tcpListener.Stop();
+                    listenThread.Abort();
+                }
+                else
+                {
+                    Console.WriteLine("Port {0} is closed. Please forward the port first before running. Press any key to exit...", port);
+                    Console.ReadKey();
+                    Environment.Exit(1);
+                }
+            }
+            catch (Exception e)
+            {
+               Console.WriteLine("Error: " + e.ToString());
+               Environment.Exit(2);
+            }
+
+        }
+        static private void Listen()
+        {
+            tcpListener.Start();
         }
         static void ircClient_OnConnected(object sender, EventArgs e)
         {

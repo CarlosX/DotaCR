@@ -25,7 +25,7 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
     <TargetFrameworkProfile />
-    <PublishUrl>C:\Users\ilian\Documents\DotaCR FTP\</PublishUrl>
+    <PublishUrl>X:\public_html\dotacr\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>

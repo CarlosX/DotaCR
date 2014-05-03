@@ -164,7 +164,6 @@ namespace Dota2CustomRealms
                 ircClient.OnQueryNotice += new IrcEventHandler(ircClient_OnQueryNotice);
                 ircClient.OnPart += new PartEventHandler(ircClient_OnPart);
                 ircClient.OnQuit += new QuitEventHandler(ircClient_OnQuit);
-
                 ircClient.OnKick += new KickEventHandler(ircClient_OnKick);
                 //ircClient.Connect("localhost", 6667);
                 try
