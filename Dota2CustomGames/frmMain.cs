@@ -21,6 +21,7 @@ using Ionic.Zlib;
 using Gibbed.Valve.FileFormats;
 using Microsoft.VisualBasic;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 
 
 namespace Dota2CustomRealms
@@ -672,7 +673,46 @@ namespace Dota2CustomRealms
 
                 Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://connect/" + HostConnection);
             }
+            if (e.Data.Message == "IPREADY")
+            {
+                ipready++;
+            }
 
+            if (e.Data.Message == "REQLOCALIP")
+            {
+                ircClient.SendMessage(SendType.Notice, e.Data.Nick, "ADDRESS=" + LocalIPAddress() + ":" + Properties.Settings.Default.ServerPort);
+            }
+            if (e.Data.Message.StartsWith("ADDRESS="))
+            {
+                HostConnection = e.Data.Message.Substring(8);
+                Console.WriteLine("Server replied to us with his LAN ip. Our ip we will be connecting to is {0}", HostConnection);
+                ircClient.SendMessage(SendType.Notice, e.Data.Nick, "IPREADY");
+            }
+        }
+        public string LocalIPAddress()
+        {
+            IPHostEntry host;
+            string localIP = "";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIP = ip.ToString();
+                    break;
+                }
+            }
+            return localIP;
+        }
+        int ipready;
+        void waitPlayersIP(int players)
+        {
+            ipready = 0;
+
+            while (players > ipready)
+            {
+                Thread.Sleep(500);
+            }
         }
 
         void ircClient_OnChannelNotice(object sender, IrcEventArgs e)
@@ -784,6 +824,16 @@ namespace Dota2CustomRealms
             if (e.Data.Message.StartsWith("STARTDOTA="))
             {
                 HostConnection = e.Data.Message.Substring(10);
+                if (HostConnection.Contains(DetermineExternalIP()))
+                {
+                    Console.WriteLine("Server is located in our own LAN. Asking for local ip.");
+                    ircClient.SendMessage(SendType.Notice, e.Data.Nick, "REQLOCALIP");
+                }
+                else
+                {
+                    Console.WriteLine("Server is not located in our own LAN.");
+                    ircClient.SendMessage(SendType.Notice, e.Data.Nick, "IPREADY");
+                }
                 ServerReady = false;
             }
             if (e.Data.Message == "SERVERREADY")
@@ -1860,7 +1910,14 @@ namespace Dota2CustomRealms
         {
             if (Properties.Settings.Default.MyVersion != Application.ProductVersion)
             {
-                Properties.Settings.Default.MyVersion = Application.ProductVersion;
+                if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
+                {
+                    Properties.Settings.Default.MyVersion = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+                }
+                else
+                {
+                    Properties.Settings.Default.MyVersion = Application.ProductVersion;
+                }
                 Properties.Settings.Default.VersionStatus = "UNKNOWN";
                 Properties.Settings.Default.Save();
             }
@@ -2533,6 +2590,7 @@ namespace Dota2CustomRealms
         {
             if (Game.IsHost)
             {
+                // Send required information to dedicated server to let it launch a server process
                 if (Game.DedicatedHost != null)
                 {
                     ircClient.SendMessage(SendType.Notice, Game.DedicatedHost, "START MAXPLAYERS=" + Game.Players.Count + " ADDON=" + Game.CustomMod + " MAP=" + Game.Dotamap);
@@ -2549,6 +2607,12 @@ namespace Dota2CustomRealms
                 //Properties.Settings.Default.Save();
 
                 ircClient.SendMessage(SendType.Notice, Game.Channel, "STARTDOTA=" + HostConnection);
+
+                HostConnection = "localhost:" + Properties.Settings.Default.ServerPort;
+
+                // Wait for clients to tell if they are on same network.
+                bgwGenerateNpcHeroesAutoexec.ReportProgress(30, "Waiting for players...");
+                waitPlayersIP(Game.Players.Count - 1);
 
                 // TODO: Apply below fix by determining computer's IP
                 //Dota2ConfigModder.AutoExecConnect(HostConnection);
@@ -2586,7 +2650,7 @@ namespace Dota2CustomRealms
                 }
                 // FIXED: Make srcds bind to all available IPs on computer
                 // TODO: Fetch from addon instead of hardcoding
-                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_addon_enable 1 +dota_local_addon_game " + Game.CustomMod + " +dota_local_addon_map " + Game.CustomMod + " +dota_force_gamemode 15 +update_addon_paths +map " + Game.Dotamap);
+                ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + " +maxplayers " + Math.Max(10, Game.Players.Count) + " +dota_local_addon_enable 1 +dota_local_addon_game " + Game.CustomMod + " +dota_local_addon_map " + Game.CustomMod + " +dota_force_gamemode 15 +update_addon_paths +map " + Game.Dotamap + debugcommand);
                 //ProcessStartInfo serverStart = new ProcessStartInfo(Properties.Settings.Default.Dota2ServerPath + "srcds.exe", "-console -game dota -port " + Properties.Settings.Default.ServerPort.ToString() + gamemodecommand + " -maxplayers " + Math.Max(10, Game.Players.Count));
 
                 serverStart.WorkingDirectory = Properties.Settings.Default.Dota2ServerPath.Substring(0, Properties.Settings.Default.Dota2ServerPath.Length - 1);
@@ -2594,7 +2658,7 @@ namespace Dota2CustomRealms
                 Dota2Server = Process.Start(serverStart);
 
                 Dota2ServerWindow = IntPtr.Zero;
-                bool GameModeSent = false;
+                // bool GameModeSent = false; Unused variable. Is this depreciated?
 
                 //Dota2Server.StandardInput.WriteLine("sv_cheats 1");
                 IntPtr ServerWindow = IntPtr.Zero;
@@ -3037,7 +3101,7 @@ namespace Dota2CustomRealms
                     ClientFrota = version.ReadLine().Trim() == CurrentFrota;
                     Client = Client && ClientFrota;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ClientFrota = false;
                     Client = false;
@@ -3055,7 +3119,7 @@ namespace Dota2CustomRealms
                     ServerFrota = version.ReadLine().Trim() == CurrentFrota;
                     Server = Server && ServerFrota;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ServerFrota = false;
                     Server = false;
@@ -3069,7 +3133,7 @@ namespace Dota2CustomRealms
                     Server = Server && HasValidServerFiles;
                     if (!HasValidServerFiles) File.Delete("Data\\serverfiles.zip");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ServerFrota = false;
                     Server = false;
@@ -3649,16 +3713,6 @@ namespace Dota2CustomRealms
             }
         }
 
-        private string IPCheck()
-        {
-            string _LocalIPAddress = "x";
-            IPHostEntry host = Dns.GetHostByName(Dns.GetHostName());
-            if (host.AddressList.Length > 0)
-            {
-                _LocalIPAddress = host.AddressList[0].ToString();
-            }
-            return _LocalIPAddress;
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -3707,8 +3761,8 @@ namespace Dota2CustomRealms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string check = IPCheck();
-            if (check == "x")
+            string check = LocalIPAddress();
+            if (check == "")
             {
                 MessageBox.Show("Cannot detect your local IP address, please go into Command Prompt and type \"ipconfig\" without the quotes and write your IPv4 address in the IP field.");
                 return;

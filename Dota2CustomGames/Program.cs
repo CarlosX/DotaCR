@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Specialized;
 using System.Net;
+using System.Reflection;
 
 namespace Dota2CustomRealms
 {
@@ -18,7 +19,26 @@ namespace Dota2CustomRealms
             Application.EnableVisualStyles();
             Application.ThreadException += Application_ThreadException;
             Application.SetCompatibleTextRenderingDefault(false);
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
             Application.Run(new frmMain());
+        }
+
+        static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            // Returns assembly which is required by the application
+            switch (args.Name)
+            {
+                case "Meebey.SmartIrc4net, Version=0.4.0.34161, Culture=neutral, PublicKeyToken=null":
+                    using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Dota2CustomRealms.Meebey.SmartIrc4net.dll"))
+                    {
+                        byte[] assemblyData = new byte[stream.Length];
+                        stream.Read(assemblyData, 0, assemblyData.Length);
+                        return Assembly.Load(assemblyData);
+                    }
+                default:
+                    return null;
+            }
+
         }
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
