@@ -2645,6 +2645,9 @@ namespace Dota2CustomRealms
                                 SendKeys.SendWait("sv_alltalk 1");
                                 SendKeys.SendWait("{ENTER}");
                             }
+
+                            Dota2ConfigModder.UpdateAutoexec();
+
                             Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "steam://rungameid/570");
 
                             Thread.Sleep(5000);
@@ -2673,7 +2676,9 @@ namespace Dota2CustomRealms
                 }
 
                 ServerReady = false;
-              
+
+                Dota2ConfigModder.UpdateAutoexec();
+
                 Dota2 = Process.Start(Properties.Settings.Default.SteamPath + "steam.exe", "-applaunch 570 -novid -console -sw -noborder -override_vpk");
 
                 Thread.Sleep(5000);

@@ -64,7 +64,28 @@ namespace Dota2CustomRealms
             }
         }
 
-  
+       private const string DOTACR_AUTOEXEC = "\r\n\r\n//Required for DotaCR Frota compatibility\r\nupdate_addon_paths\r\n//End of DotaCR compatibility stuff\r\n";
+
+        public static void UpdateAutoexec()
+        {
+            string file_path = Properties.Settings.Default.Dota2Path + "\\dota\\cfg\\autoexec.cfg";
+
+            if (File.Exists(file_path))
+            {
+                string[] lines = File.ReadAllLines(file_path);
+
+                if (!lines.Contains("update_addon_paths"))
+                {
+                    File.AppendAllText(file_path, DOTACR_AUTOEXEC);
+                }
+            }
+            else
+            {
+                File.AppendAllText(file_path, DOTACR_AUTOEXEC);
+            }
+        }
 
     }
+
+   
 }
