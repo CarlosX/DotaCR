@@ -191,6 +191,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.timerPlayers = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnSettingsClientLocationDetect = new System.Windows.Forms.Button();
+            this.btnSettingsSteamPathDetect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxBanner)).BeginInit();
             this.gbxChat.SuspendLayout();
             this.tabUISections.SuspendLayout();
@@ -1563,6 +1566,7 @@
             // 
             // gbxSettingsClientSteamDir
             // 
+            this.gbxSettingsClientSteamDir.Controls.Add(this.btnSettingsSteamPathDetect);
             this.gbxSettingsClientSteamDir.Controls.Add(this.btnSettingSteamPath);
             this.gbxSettingsClientSteamDir.Controls.Add(this.lblSettingSteamPath);
             this.gbxSettingsClientSteamDir.Location = new System.Drawing.Point(6, 138);
@@ -1574,23 +1578,25 @@
             // 
             // btnSettingSteamPath
             // 
-            this.btnSettingSteamPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSettingSteamPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnSettingSteamPath.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btnSettingSteamPath.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnSettingSteamPath.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnSettingSteamPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettingSteamPath.Location = new System.Drawing.Point(6, 19);
+            this.btnSettingSteamPath.Location = new System.Drawing.Point(322, 19);
             this.btnSettingSteamPath.Name = "btnSettingSteamPath";
-            this.btnSettingSteamPath.Size = new System.Drawing.Size(60, 23);
+            this.btnSettingSteamPath.Size = new System.Drawing.Size(80, 23);
             this.btnSettingSteamPath.TabIndex = 3;
-            this.btnSettingSteamPath.Text = "Change...";
+            this.btnSettingSteamPath.Text = "Set Manually";
             this.btnSettingSteamPath.UseVisualStyleBackColor = false;
+            this.btnSettingSteamPath.Visible = false;
             this.btnSettingSteamPath.Click += new System.EventHandler(this.btnSettingSteamPath_Click);
             // 
             // lblSettingSteamPath
             // 
             this.lblSettingSteamPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSettingSteamPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSettingSteamPath.Location = new System.Drawing.Point(72, 24);
             this.lblSettingSteamPath.Name = "lblSettingSteamPath";
             this.lblSettingSteamPath.Size = new System.Drawing.Size(330, 18);
@@ -1646,7 +1652,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSettingDota2ConsoleKeybind.Location = new System.Drawing.Point(72, 24);
             this.lblSettingDota2ConsoleKeybind.Name = "lblSettingDota2ConsoleKeybind";
-            this.lblSettingDota2ConsoleKeybind.Size = new System.Drawing.Size(330, 18);
+            this.lblSettingDota2ConsoleKeybind.Size = new System.Drawing.Size(244, 18);
             this.lblSettingDota2ConsoleKeybind.TabIndex = 2;
             this.lblSettingDota2ConsoleKeybind.Text = "DEL";
             // 
@@ -1664,6 +1670,7 @@
             // 
             // gbxSettingsClientLocation
             // 
+            this.gbxSettingsClientLocation.Controls.Add(this.btnSettingsClientLocationDetect);
             this.gbxSettingsClientLocation.Controls.Add(this.btnSettingsClientLocationChange);
             this.gbxSettingsClientLocation.Controls.Add(this.lblDota2ClientLocation);
             this.gbxSettingsClientLocation.Location = new System.Drawing.Point(6, 24);
@@ -1675,23 +1682,25 @@
             // 
             // btnSettingsClientLocationChange
             // 
-            this.btnSettingsClientLocationChange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSettingsClientLocationChange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnSettingsClientLocationChange.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btnSettingsClientLocationChange.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnSettingsClientLocationChange.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnSettingsClientLocationChange.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettingsClientLocationChange.Location = new System.Drawing.Point(6, 19);
+            this.btnSettingsClientLocationChange.Location = new System.Drawing.Point(322, 19);
             this.btnSettingsClientLocationChange.Name = "btnSettingsClientLocationChange";
-            this.btnSettingsClientLocationChange.Size = new System.Drawing.Size(60, 23);
+            this.btnSettingsClientLocationChange.Size = new System.Drawing.Size(80, 23);
             this.btnSettingsClientLocationChange.TabIndex = 3;
-            this.btnSettingsClientLocationChange.Text = "Change...";
+            this.btnSettingsClientLocationChange.Text = "Set Manually";
             this.btnSettingsClientLocationChange.UseVisualStyleBackColor = false;
+            this.btnSettingsClientLocationChange.Visible = false;
             this.btnSettingsClientLocationChange.Click += new System.EventHandler(this.btnSettingsClientLocationChange_Click);
             // 
             // lblDota2ClientLocation
             // 
             this.lblDota2ClientLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDota2ClientLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDota2ClientLocation.Location = new System.Drawing.Point(72, 24);
             this.lblDota2ClientLocation.Name = "lblDota2ClientLocation";
             this.lblDota2ClientLocation.Size = new System.Drawing.Size(330, 18);
@@ -1822,6 +1831,7 @@
             // 
             // tabCreateLobby
             // 
+            this.tabCreateLobby.Controls.Add(this.button1);
             this.tabCreateLobby.Controls.Add(this.btnCancelLobby);
             this.tabCreateLobby.Controls.Add(this.btndCreateLobby);
             this.tabCreateLobby.Controls.Add(this.btnServerListRefresh);
@@ -2029,6 +2039,46 @@
             // timerPlayers
             // 
             this.timerPlayers.Tick += new System.EventHandler(this.timerPlayers_Tick);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(439, 227);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(127, 23);
+            this.button1.TabIndex = 22;
+            this.button1.Text = "Host Dedicated Server";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // btnSettingsClientLocationDetect
+            // 
+            this.btnSettingsClientLocationDetect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSettingsClientLocationDetect.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnSettingsClientLocationDetect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnSettingsClientLocationDetect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnSettingsClientLocationDetect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSettingsClientLocationDetect.Location = new System.Drawing.Point(6, 19);
+            this.btnSettingsClientLocationDetect.Name = "btnSettingsClientLocationDetect";
+            this.btnSettingsClientLocationDetect.Size = new System.Drawing.Size(60, 23);
+            this.btnSettingsClientLocationDetect.TabIndex = 5;
+            this.btnSettingsClientLocationDetect.Text = "Detect...";
+            this.btnSettingsClientLocationDetect.UseVisualStyleBackColor = false;
+            this.btnSettingsClientLocationDetect.Click += new System.EventHandler(this.btnSettingsClientLocationDetect_Click);
+            // 
+            // btnSettingsSteamPathDetect
+            // 
+            this.btnSettingsSteamPathDetect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSettingsSteamPathDetect.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnSettingsSteamPathDetect.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnSettingsSteamPathDetect.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnSettingsSteamPathDetect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSettingsSteamPathDetect.Location = new System.Drawing.Point(6, 19);
+            this.btnSettingsSteamPathDetect.Name = "btnSettingsSteamPathDetect";
+            this.btnSettingsSteamPathDetect.Size = new System.Drawing.Size(60, 23);
+            this.btnSettingsSteamPathDetect.TabIndex = 5;
+            this.btnSettingsSteamPathDetect.Text = "Detect...";
+            this.btnSettingsSteamPathDetect.UseVisualStyleBackColor = false;
+            this.btnSettingsSteamPathDetect.Click += new System.EventHandler(this.btnSettingsSteamPathDetect_Click);
             // 
             // frmMain
             // 
@@ -2278,5 +2328,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn AddonType;
         private System.Windows.Forms.DataGridViewTextBoxColumn AddonMap;
         private System.Windows.Forms.Label lblDedicatedServerNotice;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSettingsClientLocationDetect;
+        private System.Windows.Forms.Button btnSettingsSteamPathDetect;
     }
 }

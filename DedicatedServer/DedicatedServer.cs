@@ -44,12 +44,29 @@ namespace DedicatedServer
         }
         static void firstSetup()
         {
-            Console.WriteLine("================================ Edit Settings ================================\n\nPlease enter the path of your Dota 2 Server (e.g. C:\\dotaserver\\):");
-            Properties.Settings.Default.ServerPath = Console.ReadLine();
+            Console.WriteLine("================================ Edit Settings ================================");
+            bool retry = true;
+            while (retry)
+            {
+
+                Console.WriteLine("\nPlease enter the path of your Dota 2 Server (e.g. C:\\dotaserver\\):");
+                string serverPath = Console.ReadLine();
+                if (File.Exists(serverPath + "srcds.exe"))
+                {
+                    Properties.Settings.Default.ServerPath = serverPath;
+                    retry = false;
+                }
+                else
+                {
+                    Console.WriteLine("Path does not contain srcds.exe. Please enter a valid path instead.");
+                }
+
+            }
+            
 
             Console.WriteLine("\nWhat is your nickname?");
             Properties.Settings.Default.Nickname = Console.ReadLine();
-            bool retry = true;
+            retry = true;
             while (retry)
             {
                 try
@@ -58,9 +75,9 @@ namespace DedicatedServer
                     Properties.Settings.Default.MaxServers = Convert.ToInt16(Console.ReadLine());
                     retry = false;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine("Input is not valid: " + e);
+                    Console.WriteLine("Input is not valid.");
                 }
             }
             retry = true;

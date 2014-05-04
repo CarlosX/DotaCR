@@ -2950,6 +2950,7 @@ namespace Dota2CustomRealms
                     return;
                 }
                 Properties.Settings.Default.Save();
+                this.Visible = false;
 
                 btnSettingDota2ConsoleKeybindDetect_Click(sender, e);
 
@@ -3765,6 +3766,7 @@ namespace Dota2CustomRealms
                 Properties.Settings.Default["SteamPath"] = ofdFindSteam.FileName.Substring(0, ofdFindSteam.FileName.Length - 9);
                 Properties.Settings.Default.Save();
                 RefreshSettingsTab();
+                this.Visible = false;
             }
         }
 
@@ -4013,6 +4015,61 @@ namespace Dota2CustomRealms
         {
             System.Windows.Forms.Clipboard.SetText("connect " + HostConnection);
             MessageBox.Show("Copied to Clipboard!");
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Process.Start("http://dota2cr.com/#dedicated");
+        }
+
+        private void btnSettingsClientLocationDetect_Click(object sender, EventArgs e)
+        {
+            Process.Start("steam://rungameid/570");
+            int tries = 0;
+            while (tries < 20)
+            {
+                Process[] processes = Process.GetProcessesByName("DOTA");
+                if (processes.Length > 0)
+                {
+                    Properties.Settings.Default["Dota2Path"] = processes[0].MainModule.FileName.Substring(0, processes[0].MainModule.FileName.Length - 8);
+                    processes[0].Kill();
+                    Properties.Settings.Default.Save();
+                    btnSettingDota2ConsoleKeybindDetect_Click(sender, e);
+                    RefreshSettingsTab();
+                    return;
+                }
+                else
+                {
+                    Thread.Sleep(500);
+                    tries++;
+                }
+            }
+            btnSettingsClientLocationChange.Visible = true;
+            MessageBox.Show("Unable to find executable. Please make sure Steam and Dota 2 are installed.");
+        }
+
+        private void btnSettingsSteamPathDetect_Click(object sender, EventArgs e)
+        {
+            Process.Start("steam://");
+            int tries = 0;
+            while (tries < 20)
+            {
+                Process[] processes = Process.GetProcessesByName("STEAM");
+                if (processes.Length > 0)
+                {
+                    Properties.Settings.Default["SteamPath"] = processes[0].MainModule.FileName.Substring(0, processes[0].MainModule.FileName.Length - 9);
+                    Properties.Settings.Default.Save();
+                    RefreshSettingsTab();
+                    return;
+                }
+                else
+                {
+                    Thread.Sleep(500);
+                    tries++;
+                }
+            }
+            btnSettingSteamPath.Visible = true;
+            MessageBox.Show("Unable to find executable. Please make sure Steam and Dota 2 are installed.");
         }
 
     }

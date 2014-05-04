@@ -17,7 +17,7 @@ namespace Dota2CustomRealms
         static void Main()
         {
             Application.EnableVisualStyles();
-            Application.ThreadException += Application_ThreadException;
+            //Application.ThreadException += Application_ThreadException;
             Application.SetCompatibleTextRenderingDefault(false);
             AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
             Application.Run(new frmMain());
