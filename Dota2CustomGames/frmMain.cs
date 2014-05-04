@@ -1933,7 +1933,16 @@ namespace Dota2CustomRealms
             //Hide the progress bar and game state messages. Re-enable when they are functioning better.
             //stsGameState.Hide();
             //pgbGameStateProgress.Height = 0;
+            if (System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed)
 
+            {
+                Properties.Settings.Default.MyVersion = System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            }
+            else
+            {
+                Properties.Settings.Default.MyVersion = Application.ProductVersion;
+            }
+            Properties.Settings.Default.Save();
             tabUISections.SizeMode = TabSizeMode.Fixed;
             tabUISections.SelectedTab = tabPreConnect;
 
