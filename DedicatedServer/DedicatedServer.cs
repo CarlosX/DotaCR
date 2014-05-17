@@ -160,7 +160,7 @@ namespace DedicatedServer
                 listenThread = new Thread(new ThreadStart(Listen));
                 listenThread.Start();
                 Console.WriteLine("Checking port {0}", port.ToString());
-                string checkUrl = "http://ports.yougetsignal.com/check-port.php?portNumber=" + port.ToString();
+                string checkUrl = "http://ports.yougetsignal.com/check-port.php?remoteAddress=" + DetermineExternalIP() + "&portNumber=" + port.ToString();
                 string result;
                 using (WebClient client = new WebClient())
                 {

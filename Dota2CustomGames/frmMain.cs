@@ -178,7 +178,12 @@ namespace Dota2CustomRealms
                 ircClient.OnMotd += new MotdEventHandler(ircClient_OnMotd);
                 if (!Properties.Settings.Default.ClientSetupComplete)
                 {
-                    MessageBox.Show("Before you are able to join or host games, you need to go to the settings interface and set up some options.");
+                    DialogResult d = MessageBox.Show("Before you are able to join or host games, you need to go to the settings interface and set up some options.\nDo you want me to autodetect your Steam configuration?", "First time setup", MessageBoxButtons.YesNo);
+
+                    if (d == DialogResult.Yes)
+                    {
+                        btnSettingsClientLocationDetect_Click(sender, e);
+                    }
                 }
             }
         }
